@@ -10,21 +10,24 @@ import NativeSelect from '@material-ui/core/NativeSelect';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import 'react-datepicker/dist/react-datepicker.css';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import DateFnsUtils from '@date-io/date-fns';
 import {MuiPickersUtilsProvider,KeyboardDatePicker,KeyboardTimePicker } from '@material-ui/pickers'
 import moment from "moment";
-
+import Input from '@material-ui/core/Input';
 
 
 export class ChooseActivity extends React.Component {
 
   constructor(props){
     super(props); 
-    this.state = {activity:"", date: moment(), time:  Date.now(), city:"",bet:0};
+    this.state = {activity:"", date: moment(), time:  Date.now(), location:"",bet:0,stateBet: false};
     this.handleChangeActivity = this.handleChangeActivity.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
     this.handleTimeChange = this.handleTimeChange.bind(this);
-    this.handleChangeCity = this.handleChangeCity.bind(this);
+    this.handleChangeLocation = this.handleChangeLocation.bind(this);
+    this.handleChangeBet = this.handleChangeBet.bind(this);
+    this.handleChangeStateBet = this.handleChangeStateBet.bind(this);
   }  
 
   handleChangeActivity(e){
@@ -39,12 +42,16 @@ export class ChooseActivity extends React.Component {
     this.setState({time: datee})
   }
 
-  handleChangeCity(e){
-    this.setState({city: e.target.value})
+  handleChangeLocation(e){
+    this.setState({location: e.target.value})
   }
 
   handleChangeBet(e){
     this.setState({bet:e.target.value})
+  }
+
+  handleChangeStateBet(){
+    this.setState({stateBet:!(this.state.stateBet)})
   }
 
   render(){
@@ -89,6 +96,17 @@ export class ChooseActivity extends React.Component {
             </Grid>
             <Grid item xs={4} sm={6}>
             <FormControl required fullWidth>
+            <TextField
+              id="descripcion"
+              name="descripcion"
+              label="Descripcion de la actividad"
+              multiline
+              rowsMax="2"
+            />
+            </FormControl>
+            
+            </Grid>
+            <Grid item xs={12} sm={6}>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardTimePicker
                 id="time-picker"
@@ -100,47 +118,38 @@ export class ChooseActivity extends React.Component {
                 }}
                 />
             </MuiPickersUtilsProvider>
-            </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
-                <FormControl  required fullWidth>
-                <InputLabel htmlFor="age-native-helper">Ciudad</InputLabel>
-                <NativeSelect
-                value={this.state.city}
-                onChange={this.handleChangeCity}
-                >
-
-                <option value="" />
-                <option value={"futbol"}>opcion 1</option>
-                <option value={"basketball"}>opcion 2</option>
-                <option value={"volleyball"}>opcion 3</option>
-                </NativeSelect>
-                <FormHelperText>Elija el lugar donde se realizara la actividad</FormHelperText>
-                </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={6}>
+            
             <FormControl  required fullWidth>
-            <TextField  id="standard-disabled" label="Apuesta" defaultValue="Ingrese su apuesta" />
+                <InputLabel htmlFor="age-native-helper">Ubicacion</InputLabel>
+                <Input
+                label="Ubicacion"
+                value={this.state.location}
+                onChange={this.handleChangeLocation}
+                id="ubicacion" />   
+                <FormHelperText>Ingrese link google maps de la ubicacion deseada</FormHelperText>
             </FormControl>
+
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                id="city"
-                name="city"
-                label="City"
-                fullWidth
-                autoComplete="billing address-level2"
-              />
+            <FormControl  margin="normal" fullWidth>
+                { this.state.stateBet ? 
+                      <Input 
+                      label="Cantidad"
+                      value={this.state.bet}
+                      onChange={this.handleChangeBet}
+                      id="CantidadApuesta"
+                      startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                      />  
+                  : null }  
+              </FormControl>
+          
+            <FormControlLabel className="checkbox"
+                control={<Checkbox size="medium" color="secondary" onChange={this.handleChangeStateBet} name="saveAddress" value="yes" />}
+                label="¿Desea apostar?" labelPlacement ="start" 
+            />
             </Grid>
-           
-            <Grid item xs={12}>
-            <FormControlLabel
-                control={<Checkbox color="secondary" name="saveAddress" value="yes" />}
-                label="¿Desea apostar?"
-          />
-        </Grid>
-           
           </Grid>
         </React.Fragment>
       );

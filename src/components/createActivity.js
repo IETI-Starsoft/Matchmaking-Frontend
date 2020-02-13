@@ -1,5 +1,4 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -11,6 +10,8 @@ import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import { ChooseActivity } from './chooseActivity';
+import { Participants } from './participants';
+import {Verify} from './verify';
 import './createActivity.css'
 
 export class CreateActivity extends React.Component{
@@ -116,9 +117,9 @@ export class CreateActivity extends React.Component{
           case 0:
             return <ChooseActivity />;
           case 1:
-            return <ChooseActivity />;    
+            return <Participants />;    
           case 2: 
-            return <ChooseActivity />;       
+            return <Verify />;       
           default:
             throw new Error('Unknown step');
         }
