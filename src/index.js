@@ -5,7 +5,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import  PerfilUsuario  from './components/Perfil/PerfilUsuario';
 
-ReactDOM.render(<PerfilUsuario desc="Usuario interesado en competencias" stars={2.5}/>, document.getElementById('root'));
+ReactDOM.render(<PerfilUsuario />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
