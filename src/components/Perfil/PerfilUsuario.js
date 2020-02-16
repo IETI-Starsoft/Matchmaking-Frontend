@@ -5,7 +5,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Rating from '@material-ui/lab/Rating';
 import { borders } from '@material-ui/system';
-import { Card, CardContent } from '@material-ui/core';
+import { Card, CardContent, Container } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import SwipeableViews from 'react-swipeable-views';
 import Tabs from '@material-ui/core/Tabs';
@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import Tab from '@material-ui/core/Tab';
 import {useTheme} from '@material-ui/core';
 import TabPanel from './TabPanel';
+import { AmigoList } from './AmigoList';
 
 const userProfileStyles = makeStyles(theme => ({
     top: {
@@ -57,6 +58,17 @@ export default function PerfilUsuario(props) {
 
         const name = "USER"; //props.name
         const stars = 4; //props.stars
+        const friends = [{
+            name: "amigo 1",
+            image: tmpImage,
+            stars: 4
+        },
+        {
+            name: "amigo 2",
+            image: tmpImage,
+            stars: 2
+        }
+        ]; //props.friends
 
         const handleChange = (event, newValue) => {
             setValue(newValue);
@@ -80,37 +92,39 @@ export default function PerfilUsuario(props) {
                             <Rating value={stars} readOnly/>
                         </Box>
                 </Box>
-                <Box p={1}>
-                    <Card>
-                        <CardContent>  
-                        <AppBar position="static" color="default">
-                                <Tabs
-                                    value={value}
-                                    onChange={handleChange}
-                                    indicatorColor="primary"
-                                    textColor="primary"
-                                    variant="fullWidth"
-                                    aria-label="full width tabs example"
+                <Container>
+                    <Box p={1}>
+                        <Card>
+                            <CardContent>  
+                                <AppBar position="static" color="default">
+                                    <Tabs
+                                        value={value}
+                                        onChange={handleChange}
+                                        indicatorColor="primary"
+                                        textColor="primary"
+                                        variant="fullWidth"
+                                        aria-label="full width tabs example"
+                                    >
+                                        <Tab label="Amigos" {...a11yProps(0)} />
+                                        <Tab label="Equipos" {...a11yProps(1)} />
+                                    </Tabs>
+                                </AppBar>
+                                <SwipeableViews
+                                    axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+                                    index={value}
+                                    onChangeIndex={handleChangeIndex}
                                 >
-                                    <Tab label="Amigos" {...a11yProps(0)} />
-                                    <Tab label="Equipos" {...a11yProps(1)} />
-                                </Tabs>
-                            </AppBar>
-                            <SwipeableViews
-                                axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-                                index={value}
-                                onChangeIndex={handleChangeIndex}
-                            >
-                                <TabPanel value={value} index={0} dir={theme.direction}>
-                                    Amigos TAB
-                                </TabPanel>
-                                <TabPanel value={value} index={1} dir={theme.direction}>
-                                    Equipos TAB
-                                </TabPanel>
-                            </SwipeableViews>
-                        </CardContent>
-                    </Card>
-                </Box>
+                                    <TabPanel value={value} index={0} dir={theme.direction}>
+                                        <AmigoList friends={friends}/>
+                                    </TabPanel>
+                                    <TabPanel value={value} index={1} dir={theme.direction}>
+                                        Equipos TAB
+                                    </TabPanel>
+                                </SwipeableViews>
+                            </CardContent>
+                        </Card>
+                    </Box>
+                </Container>
             </Box>
         );
     
