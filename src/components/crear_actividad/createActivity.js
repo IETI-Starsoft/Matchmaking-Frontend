@@ -19,7 +19,7 @@ export class CreateActivity extends React.Component{
 
     constructor(props){
         super(props)
-        this.state = {activity: "", date: moment(),time:Date.now(), location:"",bet:"",stateBet: false,checkParticipants:false, checkTeams: false , checked: [],count:0};
+        this.state = {activity: "", date: moment(),time:Date.now(), location:"",bet:"",stateBet: false,checkParticipants:false, checkTeams: false , checked: [],count:0, checkIndividual: false};
         //metodos para chooseActivity 
         this.handleChangeActivity = this.handleChangeActivity.bind(this);
         this.handleDateChange = this.handleDateChange.bind(this);
@@ -31,6 +31,7 @@ export class CreateActivity extends React.Component{
         this.handlecheckParticipants = this.handlecheckParticipants.bind(this);
         this.handlecheckTeams = this.handlecheckTeams.bind(this);
         this.handleToggle = this.handleToggle.bind(this);
+        this.handlecheckIndividual = this.handlecheckIndividual.bind(this);
         //metodos para createActivity 
         this.handleNext = this.handleNext.bind(this);
         this.handleBack = this.handleBack.bind(this);
@@ -139,13 +140,28 @@ export class CreateActivity extends React.Component{
       this.setState({checked:newChecked});
       this.setState({checkParticipants:!(this.state.checkParticipants)})
       if (this.state.checkTeams) this.setState({checkTeams:false})
-  
+      if (this.state.checkIndividual) this.setState({checkIndividual:false})
     }
   
     handlecheckTeams(){
       const newChecked = [];
       this.setState({checked:newChecked});
       this.setState({checkTeams:!(this.state.checkTeams)})
+      if (this.state.checkParticipants) this.setState({checkParticipants:false})
+      if (this.state.checkIndividual) this.setState({checkIndividual:false})
+    }
+
+    handlecheckIndividual(){
+      if (!this.state.checkIndividual){
+        const newChecked = ["user"];
+        this.setState({checked:newChecked});
+      }
+      else {
+        const newChecked = [];
+        this.setState({checked:newChecked});
+      }
+      this.setState({checkIndividual:!(this.state.checkIndividual)})
+      if (this.state.checkTeams) this.setState({checkTeams:false})
       if (this.state.checkParticipants) this.setState({checkParticipants:false})
     }
   
@@ -222,15 +238,22 @@ export class CreateActivity extends React.Component{
             location={this.state.location} changeLocation={this.handleChangeLocation}
             bet={this.state.bet} changeBet={this.handleChangeBet}
             stateBet={this.state.stateBet} changeStateBet={this.handleChangeStateBet}/>; 
+    
           
           case 1:   
-            return <Participants checkParticipants={this.state.checkParticipants} changeCheckParticipants={this.handlecheckParticipants}
-                checkTeams={this.state.checkTeams} changeCheckTeams={this.handlecheckTeams}
-                checked={this.state.checked} changeChecked={this.handleToggle}/>; 
+            return  <Participants checkParticipants={this.state.checkParticipants} changeCheckParticipants={this.handlecheckParticipants}
+            checkTeams={this.state.checkTeams} changeCheckTeams={this.handlecheckTeams}
+            checkIndividual={this.state.checkIndividual} changeCheckIndividual={this.handlecheckIndividual}
+            checked={this.state.checked} changeChecked={this.handleToggle}/>; 
+
+           
           case 2: 
             return  <Verify checkParticipants={this.state.checkParticipants} checked={this.state.checked}
+            checkIndividual={this.state.checkIndividual}
             time={this.state.time} date={this.state.date} activity={this.state.activity}
-            location={this.state.location}  bet={this.state.bet}  stateBet={this.state.stateBet} />;
+            location={this.state.location}  bet={this.state.bet}  stateBet={this.state.stateBet}
+            
+            />;
             
                 
           default:

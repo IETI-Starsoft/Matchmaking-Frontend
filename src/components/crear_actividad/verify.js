@@ -41,7 +41,6 @@ export class Verify extends React.Component {
               Participantes 
             </Typography>
           </center>
-          { this.props.checkParticipants ? 
                       <List   className="list" >
                       {this.props.checked.map(value => {
                         const labelId = `checkbox-list-secondary-label-${value}`;
@@ -53,29 +52,11 @@ export class Verify extends React.Component {
                                     src={`/static/images/avatar/${value + 1}.jpg`}
                               />
                             </ListItemAvatar>
-                            <ListItemText id={labelId} primary={`Amigo ${value + 1}`} />
+                            <ListItemText id={labelId} primary={this.props.checkIndividual || this.props.checkParticipants ? `User ${value + 1}`: `Equipo ${value + 1}`}  />
                           </ListItem>
                         );
                       })}
                     </List> 
-                    :
-                    <List   className="list" >
-                      {this.props.checked.map(value => {
-                        const labelId = `checkbox-list-secondary-label-${value}`;
-                        return (
-                          <ListItem key={value} button>
-                            <ListItemAvatar>
-                              <Avatar
-                                alt={`Avatar n°${value + 1}`}
-                                    src={`/static/images/avatar/${value + 1}.jpg`}
-                              />
-                            </ListItemAvatar>
-                            <ListItemText id={labelId} primary={`Equipo ${value + 1}`} />
-                          </ListItem>
-                        );
-                      })}
-                    </List> 
-                    }  
           </Grid>
           <Grid item xs={6}>            
                   <center>
@@ -96,6 +77,7 @@ export class Verify extends React.Component {
                   <Typography gutterBottom>Hora</Typography>
                         </Grid>
                         <Grid item xs={7} className="casilla">
+                        <FormControl required fullWidth>
                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
                           <KeyboardTimePicker disabled
                               id="time-picker"
@@ -107,6 +89,7 @@ export class Verify extends React.Component {
                               }}
                               />
                           </MuiPickersUtilsProvider>
+                          </FormControl>
                         </Grid>
                         <Grid item xs={5} className="casilla">
                   <Typography gutterBottom>Fecha</Typography>

@@ -89,6 +89,7 @@ export class ChooseActivity extends React.Component {
             
             </Grid>
             <Grid item xs={12} sm={6}>
+            <FormControl required fullWidth>  
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardTimePicker 
                 id="time-picker"
@@ -100,6 +101,7 @@ export class ChooseActivity extends React.Component {
                 }}
                 />
             </MuiPickersUtilsProvider>
+            </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
             <FormControl required fullWidth>

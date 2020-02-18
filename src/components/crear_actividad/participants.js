@@ -20,91 +20,97 @@ import './participants.css'
 
 export class Participants extends React.Component {
 
-  constructor(props){
-    super(props); 
-  }  
-
-  render(){
-    return (
-        <React.Fragment>
-          <Typography variant="h6" gutterBottom>
-            
-          </Typography>
-          <Grid container spacing={3}> 
-            <Grid item xs={12} sm={6}>
-               
-                 <FormControlLabel className="checkbox"
-                    control={<Checkbox checked={this.props.checkParticipants} size="medium" color="secondary" onChange={this.props.changeCheckParticipants} name="participantes" value="yes" />}
-                    label="Agregar Participantes" labelPlacement ="start" 
-                 /> 
-                  <FormControl  margin="normal" fullWidth>
-                    { this.props.checkParticipants ? 
-                      <List   className="list" >
-                      {[0,1,2].map(value => {
-                        const labelId = `checkbox-list-secondary-label-${value}`;
-                        return (
-                          <ListItem key={value} button>
-                            <ListItemAvatar>
-                              <Avatar
-                                alt={`Avatar n°${value + 1}`}
-                                    src={`/static/images/avatar/${value + 1}.jpg`}
-                              />
-                            </ListItemAvatar>
-                            <ListItemText id={labelId} primary={`Amigo ${value + 1}`} />
-                            <ListItemSecondaryAction>
-                              <Checkbox
-                                edge="end"
-                                onChange={() => this.props.changeChecked(value)}
-                                checked={this.props.checked.indexOf(value) != -1} 
-                                inputProps={{ 'aria-labelledby': labelId }}
-                              />
-                            </ListItemSecondaryAction>
-                          </ListItem>
-                        );
-                      })}
-                    </List> 
-                    : null }  
-                </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-                
-                 <FormControlLabel className="checkbox"
-                    control={<Checkbox  checked={this.props.checkTeams} size="medium" color="secondary" onChange={this.props.changeCheckTeams} name="Equipo" value="yes" />}
-                    label="Agregar Equipo" labelPlacement ="start" 
-                 />
-                
-                 <FormControl  margin="normal" fullWidth>
-                    { this.props.checkTeams ? 
-                      <List   className="list" >
-                      {[0,1,2].map(value => {
-                        const labelId = `checkbox-list-secondary-label-${value}`;
-                        return (
-                          <ListItem key={value} >
-                            <ListItemAvatar>
-                              <Avatar
-                                alt={`Avatar n°${value + 1}`}
-                                    src={`/static/images/avatar/${value + 1}.jpg`}
-                              />
-                            </ListItemAvatar>
-                            <ListItemText id={labelId} primary={`Equipo ${value + 1}`} />
-                            <ListItemSecondaryAction>
-                              <Checkbox
-                                edge="end"
-                                onChange={() => this.props.changeChecked(value)}
-                                checked={this.props.checked.indexOf(value) != -1} 
-                                inputProps={{ 'aria-labelledby': labelId }}
-                              />
-                            </ListItemSecondaryAction>
-                          </ListItem>
-                        );
-                      })}
-                    </List>
-                    : null }  
-                </FormControl>
-          
-            </Grid>
-          </Grid>
-        </React.Fragment>
-      );
-  }  
+  constructor(props) {
+    super(props);
   }
+
+  render() {
+    return (
+      <React.Fragment>
+        <Typography variant="h6" gutterBottom>
+
+        </Typography>
+        <Grid container spacing={1}>
+          <Grid item sm={4}>
+
+            <FormControlLabel className="checkbox"
+              control={<Checkbox checked={this.props.checkParticipants} size="medium" color="secondary" onChange={this.props.changeCheckParticipants} name="participantes" value="yes" />}
+              label="Agregar Participantes" labelPlacement="start"
+            />
+            <FormControl margin="normal" fullWidth>
+              {this.props.checkParticipants ?
+                <List className="list" >
+                  {[0, 1, 2].map(value => {
+                    const labelId = `checkbox-list-secondary-label-${value}`;
+                    return (
+                      <ListItem key={value} button>
+                        <ListItemAvatar>
+                          <Avatar
+                            alt={`Avatar n°${value + 1}`}
+                            src={`/static/images/avatar/${value + 1}.jpg`}
+                          />
+                        </ListItemAvatar>
+                        <ListItemText id={labelId} primary={`Amigo ${value + 1}`} />
+                        <ListItemSecondaryAction>
+                          <Checkbox
+                            edge="end"
+                            onChange={() => this.props.changeChecked(value)}
+                            checked={this.props.checked.indexOf(value) != -1}
+                            inputProps={{ 'aria-labelledby': labelId }}
+                          />
+                        </ListItemSecondaryAction>
+                      </ListItem>
+                    );
+                  })}
+                </List>
+                : null}
+            </FormControl>
+          </Grid>
+          <Grid item sm={4}>
+
+            <FormControlLabel className="checkbox"
+              control={<Checkbox checked={this.props.checkTeams} size="medium" color="secondary" onChange={this.props.changeCheckTeams} name="Equipo" value="yes" />}
+              label="Agregar Equipo" labelPlacement="start"
+            />
+
+            <FormControl margin="normal" fullWidth>
+              {this.props.checkTeams ?
+                <List className="list" >
+                  {[0, 1, 2].map(value => {
+                    const labelId = `checkbox-list-secondary-label-${value}`;
+                    return (
+                      <ListItem key={value} >
+                        <ListItemAvatar>
+                          <Avatar
+                            alt={`Avatar n°${value + 1}`}
+                            src={`/static/images/avatar/${value + 1}.jpg`}
+                          />
+                        </ListItemAvatar>
+                        <ListItemText id={labelId} primary={`Equipo ${value + 1}`} />
+                        <ListItemSecondaryAction>
+                          <Checkbox
+                            edge="end"
+                            onChange={() => this.props.changeChecked(value)}
+                            checked={this.props.checked.indexOf(value) != -1}
+                            inputProps={{ 'aria-labelledby': labelId }}
+                          />
+                        </ListItemSecondaryAction>
+                      </ListItem>
+                    );
+                  })}
+                </List>
+                : null}
+            </FormControl>
+           
+          </Grid>
+          <Grid item sm={4}>
+            <FormControlLabel className="checkbox"
+              control={<Checkbox checked={this.props.checkIndividual} size="medium" color="secondary" onChange={this.props.changeCheckIndividual} name="Individual" value="yes" />}
+              label="Individual" labelPlacement="start"
+            />
+          </Grid>
+        </Grid>
+      </React.Fragment>
+    );
+  }
+}
