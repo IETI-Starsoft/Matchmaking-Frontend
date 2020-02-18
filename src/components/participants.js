@@ -22,36 +22,7 @@ export class Participants extends React.Component {
 
   constructor(props){
     super(props); 
-    this.state = {checkParticipants:false, checkTeams: false , checked: []};
-    this.handlecheckParticipants = this.handlecheckParticipants.bind(this);
-    this.handlecheckTeams = this.handlecheckTeams.bind(this);
-    this.handleToggle = this.handleToggle.bind(this);
   }  
-
-  handlecheckParticipants(){
-    this.setState({checkParticipants:!(this.state.checkParticipants)})
-    if (this.state.checkTeams) this.setState({checkTeams:false})
-
-  }
-
-  handlecheckTeams(){
-    this.setState({checkTeams:!(this.state.checkTeams)})
-    if (this.state.checkParticipants) this.setState({checkParticipants:false})
-  }
-
-  handleToggle(value) {
-    const currentIndex = this.state.checked.indexOf(value);
-    const newChecked = [...this.state.checked];
-
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-    this.setState({checked:newChecked});
-    console.log(this.state.checked);
-  };
- 
 
   render(){
     return (
@@ -63,11 +34,11 @@ export class Participants extends React.Component {
             <Grid item xs={12} sm={6}>
                
                  <FormControlLabel className="checkbox"
-                    control={<Checkbox checked={this.state.checkParticipants} size="medium" color="secondary" onChange={this.handlecheckParticipants} name="participantes" value="yes" />}
+                    control={<Checkbox checked={this.props.checkParticipants} size="medium" color="secondary" onChange={this.props.changeCheckParticipants} name="participantes" value="yes" />}
                     label="Agregar Participantes" labelPlacement ="start" 
                  /> 
                   <FormControl  margin="normal" fullWidth>
-                    { this.state.checkParticipants ? 
+                    { this.props.checkParticipants ? 
                       <List   className="list" >
                       {[0,1,2].map(value => {
                         const labelId = `checkbox-list-secondary-label-${value}`;
@@ -83,7 +54,8 @@ export class Participants extends React.Component {
                             <ListItemSecondaryAction>
                               <Checkbox
                                 edge="end"
-                                onChange={() => this.handleToggle(value)}
+                                onChange={() => this.props.changeChecked(value)}
+                                checked={this.props.checked.indexOf(value) != -1} 
                                 inputProps={{ 'aria-labelledby': labelId }}
                               />
                             </ListItemSecondaryAction>
@@ -97,12 +69,12 @@ export class Participants extends React.Component {
             <Grid item xs={12} sm={6}>
                 
                  <FormControlLabel className="checkbox"
-                    control={<Checkbox  checked={this.state.checkTeams} size="medium" color="secondary" onChange={this.handlecheckTeams} name="Equipo" value="yes" />}
+                    control={<Checkbox  checked={this.props.checkTeams} size="medium" color="secondary" onChange={this.props.changeCheckTeams} name="Equipo" value="yes" />}
                     label="Agregar Equipo" labelPlacement ="start" 
                  />
                 
                  <FormControl  margin="normal" fullWidth>
-                    { this.state.checkTeams ? 
+                    { this.props.checkTeams ? 
                       <List   className="list" >
                       {[0,1,2].map(value => {
                         const labelId = `checkbox-list-secondary-label-${value}`;
@@ -118,7 +90,8 @@ export class Participants extends React.Component {
                             <ListItemSecondaryAction>
                               <Checkbox
                                 edge="end"
-                                onChange={() => this.handleToggle(value)}
+                                onChange={() => this.props.changeChecked(value)}
+                                checked={this.props.checked.indexOf(value) != -1} 
                                 inputProps={{ 'aria-labelledby': labelId }}
                               />
                             </ListItemSecondaryAction>
