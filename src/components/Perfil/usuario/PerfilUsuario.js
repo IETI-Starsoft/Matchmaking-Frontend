@@ -4,17 +4,16 @@ import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Rating from '@material-ui/lab/Rating';
-import { borders } from '@material-ui/system';
 import { Card, CardContent, Container } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import SwipeableViews from 'react-swipeable-views';
 import Tabs from '@material-ui/core/Tabs';
-import PropTypes from 'prop-types';
 import Tab from '@material-ui/core/Tab';
 import {useTheme} from '@material-ui/core';
 import TabPanel from './TabPanel';
 import { AmigoList } from './AmigoList';
 import { EquipoList } from './EquipoList';
+import NavBar from '../menu/NavBar';
 
 const userProfileStyles = makeStyles(theme => ({
     top: {
@@ -91,8 +90,9 @@ export default function PerfilUsuario(props) {
             setValue(index);
         };
 
-        return (
+        return ( 
             <Box>
+                <NavBar/>
                 <Box className={classes.top} borderBottom={1}>
                         <Box className={classes.topContent}>
                             <Avatar className={classes.avatar} src={tmpImage}/>

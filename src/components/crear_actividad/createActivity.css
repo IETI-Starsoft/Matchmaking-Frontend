@@ -1,0 +1,29 @@
+.appBar {
+    position: 'relative',
+  }
+
+.layout {
+    width: 'auto';
+    margin-left: 350px;
+    margin-right: 350px;
+ 
+  }
+.paper {
+    margin-top:100px;
+    margin-bottom: 100px;
+    padding: 25px;
+  }
+
+.stepper {
+    padding: 10px
+  }
+
+.buttons {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+.button {
+    margin-top: 10px;
+    margin-left: 10px;
+  }
