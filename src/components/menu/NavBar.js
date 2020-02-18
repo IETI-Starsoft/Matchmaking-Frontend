@@ -112,7 +112,7 @@ export default function DenseAppBar() {
           </SwipeableDrawer>
 
           <Typography variant="h6" color="inherit" className={classes.title}>
-            MachMaking
+            MatchMaking
           </Typography>
 
           <IconButton color="inherit">
