@@ -8,8 +8,8 @@ import StepLabel from "@material-ui/core/StepLabel";
 import Button from "@material-ui/core/Button";
 import Link from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
-import AddressForm from "./EquipoForm";
-import PaymentForm from "./ParticipantesForm";
+import EquipoForm from "./EquipoForm";
+import ParticipantesForm from "./ParticipantesForm";
 import Menu from "../menu/NavBar";
 
 function Copyright() {
@@ -70,9 +70,9 @@ const steps = [
 function getStepContent(step) {
   switch (step) {
     case 0:
-      return <AddressForm />;
+      return <EquipoForm />;
     case 1:
-      return <PaymentForm />;
+      return <ParticipantesForm />;
     default:
       throw new Error("Unknown step");
   }
