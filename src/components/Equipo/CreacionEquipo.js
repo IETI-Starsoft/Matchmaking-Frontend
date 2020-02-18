@@ -10,7 +10,6 @@ import Link from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
 import AddressForm from "./EquipoForm";
 import PaymentForm from "./ParticipantesForm";
-import Review from "./Review";
 import Menu from "../menu/NavBar";
 
 function Copyright() {
@@ -65,8 +64,7 @@ const useStyles = makeStyles(theme => ({
 
 const steps = [
   "Nombre Equipo",
-  "Invitacion Participantes",
-  "Review your order"
+  "Invitacion Participantes"
 ];
 
 function getStepContent(step) {
@@ -75,8 +73,6 @@ function getStepContent(step) {
       return <AddressForm />;
     case 1:
       return <PaymentForm />;
-    case 2:
-      return <Review />;
     default:
       throw new Error("Unknown step");
   }
