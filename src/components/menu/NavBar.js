@@ -19,6 +19,9 @@ import EventAvailableIcon from "@material-ui/icons/EventAvailable";
 import EventIcon from "@material-ui/icons/Event";
 import GroupAddIcon from "@material-ui/icons/GroupAdd";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import GroupWorkOutlinedIcon from "@material-ui/icons/GroupWorkOutlined";
+
+import { BrowserRouter as Router, Link } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -47,7 +50,7 @@ export default function DenseAppBar() {
     left: false,
     icons: [
       [<GroupIcon />, <GroupWorkIcon />, <EventAvailableIcon />],
-      [<EventIcon />, <GroupAddIcon />]
+      [<EventIcon />, <GroupAddIcon />, <GroupWorkOutlinedIcon />]
     ]
   });
 
@@ -71,19 +74,27 @@ export default function DenseAppBar() {
       onKeyDown={toggleDrawer(side, false)}
     >
       <List>
-        {["Amigos", "Mis Equipos", "Mis Maches"].map((text, index) => (
-          <ListItem button key={text}>
+        {[
+          ["Amigos", "/amigos"],
+          ["Mis Equipos", "/mis-equipos"],
+          ["Mis Matches", "/mis-matches"]
+        ].map((array, index) => (
+          <ListItem button key={array[0]} component={Link} to={array[1]}>
             <ListItemIcon>{state.icons[0][index]}</ListItemIcon>
-            <ListItemText primary={text} />
+            <ListItemText primary={array[0]} />
           </ListItem>
         ))}
       </List>
       <Divider />
       <List>
-        {["Crear Mach", "Crear Equipo"].map((text, index) => (
-          <ListItem button key={text}>
+        {[
+          ["Crear Match", "/crear-match"],
+          ["Crear Equipo", "/crear-equipo"],
+          ["Buscar Match", "/buscar-match"]
+        ].map((array, index) => (
+          <ListItem button key={array[0]} component={Link} to={array[1]}>
             <ListItemIcon>{state.icons[1][index]}</ListItemIcon>
-            <ListItemText primary={text} />
+            <ListItemText primary={array[0]} />
           </ListItem>
         ))}
       </List>
@@ -115,7 +126,7 @@ export default function DenseAppBar() {
             MatchMaking
           </Typography>
 
-          <IconButton color="inherit">
+          <IconButton color="inherit" href="/perfil">
             <AccountCircleIcon className={classes.perfilButton} />
           </IconButton>
         </Toolbar>

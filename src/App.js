@@ -1,42 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import {CreateActivity} from "./components/crear_actividad/createActivity";
-import {BrowserRouter as Router,Route} from "react-router-dom";
+import React from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import Login from "./components/login/Login";
+import SignUp from "./components/login/SignUp";
+import Perfil from "./components/Perfil/usuario/PerfilUsuario";
 
+import { CreateActivity } from "./components/crear_actividad/createActivity";
+import CrearEquipo from "./components/Equipo/CreacionEquipo";
+import { ListaDeActividades } from "./components/actividad/ListaDeActividades";
 class App extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    
+    this.state = {};
   }
-  render(){
-    const a = ()=><CreateActivity />;
+
+  render() {
+    const LoginView = () => <Login />;
+    const SignUpView = () => <SignUp />;
+    const HomeView = () => <Perfil />;
+
+    const CrearMatchHomeView = () => <CreateActivity />;
+    const CrearEquipoView = () => <CrearEquipo />;
+    const BuscarMatchView = () => <ListaDeActividades />;
+    //<Route exact path="/amigos" component={HomeView} />
+    //<Route exact path="/mis-equipos" component={HomeView} />
+    //<Route exact path="/mis-matches" component={HomeView} />
     return (
       <Router>
-            
-         
         <div className="App">
-        <Route exact path="/holo" component={a} />
-          <header className="App-header">
-            
-            <img src={logo} className="App-logo" alt="logo" />
-            <p>
-              Edit <code>src/App.js</code> and save to reload.
-            </p>
-            <a
-              className="App-link"
-              href="https://reactjs.org"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learn React
-            </a>
-          </header>
+          <div>
+            <Route exact path="/" component={LoginView} />
+            <Route exact path="/sign-up" component={SignUpView} />
+            <Route exact path="/perfil" component={HomeView} />
+
+            <Route exact path="/crear-match" component={CrearMatchHomeView} />
+            <Route exact path="/crear-equipo" component={CrearEquipoView} />
+            <Route exact path="/buscar-match" component={BuscarMatchView} />
+          </div>
         </div>
       </Router>
     );
   }
-  
 }
 
 export default App;

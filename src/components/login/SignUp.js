@@ -52,6 +52,11 @@ const useStyles = makeStyles(theme => ({
 export default function SignUp() {
   const classes = useStyles();
 
+  const handleSubmit = e => {
+    e.preventDefault();
+    window.location.href = "/";
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -60,7 +65,12 @@ export default function SignUp() {
           <LockOutlinedIcon />
         </Avatar>
         <img src={logo} alt="logo" className={classes.logo} />
-        <form className={classes.form} noValidate>
+        <form
+          className={classes.form}
+          noValidate
+          onSubmit={handleSubmit}
+          method="POST"
+        >
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -126,7 +136,7 @@ export default function SignUp() {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="/" variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>
