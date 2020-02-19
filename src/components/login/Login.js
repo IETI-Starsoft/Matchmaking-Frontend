@@ -51,6 +51,10 @@ const useStyles = makeStyles(theme => ({
 
 export default function SignIn() {
   const classes = useStyles();
+  const handleSubmit = e => {
+    e.preventDefault();
+    window.location.href = "/perfil";
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -61,7 +65,7 @@ export default function SignIn() {
         </Avatar>
         <img src={logo} alt="logo" className={classes.logo} />
 
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -104,7 +108,7 @@ export default function SignIn() {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="/sign-up" variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
