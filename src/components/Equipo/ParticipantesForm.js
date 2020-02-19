@@ -4,7 +4,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import InputBase from "@material-ui/core/InputBase";
 
-import { AmigoList } from "../Perfil/AmigoList";
+import { AmigoList } from "../Perfil/usuario/AmigoList";
 
 const useStyles = makeStyles(theme => ({
   search: {
