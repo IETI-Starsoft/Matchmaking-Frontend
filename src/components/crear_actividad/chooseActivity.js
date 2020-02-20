@@ -123,7 +123,7 @@ export class ChooseActivity extends React.Component {
             <Grid item xs={12} sm={6}>
             <FormControl  margin="normal" fullWidth>
                 { this.props.stateBet ? 
-                this.props.bet === 0  ?  
+                this.props.bet == 0  ?  
                       <Input error
                         label="Cantidad"
                         value={this.props.bet}
