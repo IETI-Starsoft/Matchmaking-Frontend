@@ -21,7 +21,8 @@ import GroupAddIcon from "@material-ui/icons/GroupAdd";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import GroupWorkOutlinedIcon from "@material-ui/icons/GroupWorkOutlined";
 
-import { BrowserRouter as Router, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
+import Payment from "../payments/Payments";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -125,7 +126,7 @@ export default function DenseAppBar() {
           <Typography variant="h6" color="inherit" className={classes.title}>
             MatchMaking
           </Typography>
-
+          <Payment />
           <IconButton color="inherit" href="/perfil">
             <AccountCircleIcon className={classes.perfilButton} />
           </IconButton>
