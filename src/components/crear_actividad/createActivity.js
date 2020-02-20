@@ -1,8 +1,6 @@
 import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import moment from "moment";
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import Paper from '@material-ui/core/Paper';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -14,6 +12,8 @@ import { ChooseActivity } from './chooseActivity';
 import { Participants } from './participants';
 import {Verify} from './verify';
 import './createActivity.css'
+import Menu from "../menu/NavBar";
+
 
 export class CreateActivity extends React.Component{
 
@@ -60,13 +60,7 @@ export class CreateActivity extends React.Component{
         return (
             <React.Fragment>
             <CssBaseline />
-            <AppBar position="absolute" color="default" className="appBar">
-              <Toolbar>
-                <Typography variant="h6" color="inherit" noWrap>
-                  MatchMaking
-                </Typography>
-              </Toolbar>
-            </AppBar> 
+            <Menu /> 
             <main className="layout">
               <Paper className="paper">
                 <Typography component="h1" variant="h4" align="center">
