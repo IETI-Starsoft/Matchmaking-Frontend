@@ -2,13 +2,10 @@ import React from 'react';
 import 'date-fns';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControl from '@material-ui/core/FormControl';
 import 'react-datepicker/dist/react-datepicker.css';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Input from '@material-ui/core/Input';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Avatar from '@material-ui/core/Avatar';
@@ -31,7 +28,7 @@ export class Participants extends React.Component {
 
         </Typography>
         <Grid container spacing={1}>
-          <Grid item sm={4}>
+          <Grid item xs={12} sm={4}>
 
             <FormControlLabel className="checkbox"
               control={<Checkbox checked={this.props.checkParticipants} size="medium" color="secondary" onChange={this.props.changeCheckParticipants} name="participantes" value="yes" />}
@@ -55,7 +52,7 @@ export class Participants extends React.Component {
                           <Checkbox
                             edge="end"
                             onChange={() => this.props.changeChecked(value)}
-                            checked={this.props.checked.indexOf(value) != -1}
+                            checked={this.props.checked.indexOf(value) !== -1}
                             inputProps={{ 'aria-labelledby': labelId }}
                           />
                         </ListItemSecondaryAction>
@@ -66,7 +63,7 @@ export class Participants extends React.Component {
                 : null}
             </FormControl>
           </Grid>
-          <Grid item sm={4}>
+          <Grid item xs={12}  sm={4}>
 
             <FormControlLabel className="checkbox"
               control={<Checkbox checked={this.props.checkTeams} size="medium" color="secondary" onChange={this.props.changeCheckTeams} name="Equipo" value="yes" />}
@@ -91,7 +88,7 @@ export class Participants extends React.Component {
                           <Checkbox
                             edge="end"
                             onChange={() => this.props.changeChecked(value)}
-                            checked={this.props.checked.indexOf(value) != -1}
+                            checked={this.props.checked.indexOf(value) !== -1}
                             inputProps={{ 'aria-labelledby': labelId }}
                           />
                         </ListItemSecondaryAction>
@@ -103,7 +100,7 @@ export class Participants extends React.Component {
             </FormControl>
            
           </Grid>
-          <Grid item sm={4}>
+          <Grid item xs={12}  sm={4}>
             <FormControlLabel className="checkbox"
               control={<Checkbox checked={this.props.checkIndividual} size="medium" color="secondary" onChange={this.props.changeCheckIndividual} name="Individual" value="yes" />}
               label="Individual" labelPlacement="start"

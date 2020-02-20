@@ -1,8 +1,6 @@
 import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import moment from "moment";
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import Paper from '@material-ui/core/Paper';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -13,9 +11,12 @@ import Typography from '@material-ui/core/Typography';
 import { ChooseActivity } from './chooseActivity';
 import { Participants } from './participants';
 import {Verify} from './verify';
-import './createActivity.css'
+import Menu from "../menu/NavBar";
+import { withStyles } from '@material-ui/core/styles';
 
-export class CreateActivity extends React.Component{
+
+
+class CreateActivity extends React.Component{
 
     constructor(props){
         super(props)
@@ -54,26 +55,20 @@ export class CreateActivity extends React.Component{
           }
           
          
-        const steps = ['Actividad', 'Participantes','Verificar'];
+        const steps = ['Actividad', 'Jugadores','Verificar'];
           
          
         return (
             <React.Fragment>
             <CssBaseline />
-            <AppBar position="absolute" color="default" className="appBar">
-              <Toolbar>
-                <Typography variant="h6" color="inherit" noWrap>
-                  MatchMaking
-                </Typography>
-              </Toolbar>
-            </AppBar> 
-            <main className="layout">
-              <Paper className="paper">
+            <Menu /> 
+            <main className={this.props.classes.layout}>
+              <Paper className={this.props.classes.paper}>
                 <Typography component="h1" variant="h4" align="center">
                   Crear actividad
                 </Typography>
-                <Stepper activeStep={this.state.count} className="stepper">
-                  {steps.map(label => (
+                <Stepper activeStep={this.state.count} className={this.props.classes.stepper}>
+                  {steps.map(label => (                    
                     <Step key={label}>
                       <StepLabel>{label}</StepLabel>
                     </Step>
@@ -93,9 +88,9 @@ export class CreateActivity extends React.Component{
                   ) : (
                     <React.Fragment>
                       {this.getStepContent(this.state.count)}
-                      <div className="buttons">
+                      <div className={this.props.classes.buttons}>
                         {this.state.count !== 0 && (
-                          <Button onClick={this.handleBack} className="button">
+                          <Button onClick={this.handleBack} className={this.props.classes.button}>
                             Atras
                           </Button>
                         )}
@@ -103,7 +98,7 @@ export class CreateActivity extends React.Component{
                           variant="contained"
                           color="primary"
                           onClick={this.handleNext}
-                          className="button"
+                          className={this.props.classes.button}
                         >
                           {this.state.count === steps.length - 1 ? 'Confirmar Actividad' : 'Siguiente'}
                         </Button>
@@ -121,7 +116,6 @@ export class CreateActivity extends React.Component{
     //choose activity 
     handleChangeActivity(e) { 
       this.setState({activity: e.target.value}) 
-      if (this.state.activiy == ""){this.state.fieldsFull = false}
     }
   
     handleDateChange(datee) {this.setState({date: datee})}
@@ -170,7 +164,7 @@ export class CreateActivity extends React.Component{
       const newChecked = [...this.state.checked];
       if (this.state.checkTeams){
         if (currentIndex === -1){
-          if (this.state.checked.length == 0){
+          if (this.state.checked.length === 0){
             newChecked.push(value);  
             this.setState({checked:newChecked});
           }
@@ -192,10 +186,10 @@ export class CreateActivity extends React.Component{
     
     // create activity 
     handleNext() {
-      if (this.state.count == 0){
+      if (this.state.count === 0){
         this.validateChoose(this.nextStep)    
       }
-      else if (this.state.count ==1){
+      else if (this.state.count ===1){
         this.validateParticipants(this.nextStep)
       } 
       else{
@@ -208,9 +202,9 @@ export class CreateActivity extends React.Component{
     }
 
     validateChoose(callback){
-      if(this.state.activity != "" && this.state.location != "" ){
-        if (this.state.stateBet == true) {
-          if (this.state.bet != "" && this.state.bet > 0 ){
+      if(this.state.activity !== "" && this.state.location !== "" ){
+        if (this.state.stateBet === true) {
+          if (this.state.bet !== "" && this.state.bet > 0 ){
             callback()
           }
         }
@@ -221,7 +215,7 @@ export class CreateActivity extends React.Component{
     }
 
     validateParticipants(callback){
-      if(this.state.checked.length != 0){
+      if(this.state.checked.length !== 0){
         callback()
       }
     } 
@@ -238,7 +232,7 @@ export class CreateActivity extends React.Component{
             location={this.state.location} changeLocation={this.handleChangeLocation}
             bet={this.state.bet} changeBet={this.handleChangeBet}
             stateBet={this.state.stateBet} changeStateBet={this.handleChangeStateBet}/>; 
-    
+           
           
           case 1:   
             return  <Participants checkParticipants={this.state.checkParticipants} changeCheckParticipants={this.handlecheckParticipants}
@@ -248,7 +242,7 @@ export class CreateActivity extends React.Component{
 
            
           case 2: 
-            return  <Verify checkParticipants={this.state.checkParticipants} checked={this.state.checked}
+            return <Verify checkParticipants={this.state.checkParticipants} checked={this.state.checked}
             checkIndividual={this.state.checkIndividual}
             time={this.state.time} date={this.state.date} activity={this.state.activity}
             location={this.state.location}  bet={this.state.bet}  stateBet={this.state.stateBet}
@@ -261,3 +255,41 @@ export class CreateActivity extends React.Component{
         }
       }
     }
+
+const styles = theme => ({
+  
+  layout: {
+    width: 'auto',
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
+    [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
+      width: 600,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+  },
+  paper: {
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(3),
+    padding: theme.spacing(1),
+    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+      marginTop: theme.spacing(6),
+      marginBottom: theme.spacing(6),
+      padding: theme.spacing(3),
+    },
+  },
+  stepper: {
+    padding: theme.spacing(3, 0, 3),
+  },
+  buttons: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
+  button: {
+    marginTop: theme.spacing(3),
+    marginLeft: theme.spacing(1),
+  },
+
+});
+
+export default withStyles(styles)(CreateActivity);
