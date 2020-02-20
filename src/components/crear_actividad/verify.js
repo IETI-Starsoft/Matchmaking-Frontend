@@ -2,19 +2,13 @@ import React from 'react';
 import 'date-fns';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import FormControl from '@material-ui/core/FormControl';
 import DateFnsUtils from '@date-io/date-fns';
 import {MuiPickersUtilsProvider,KeyboardDatePicker,KeyboardTimePicker } from '@material-ui/pickers'
 import 'react-datepicker/dist/react-datepicker.css';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Input from '@material-ui/core/Input';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Avatar from '@material-ui/core/Avatar';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import './participants.css'
@@ -34,8 +28,8 @@ export class Verify extends React.Component {
     return (
         <React.Fragment>
          
-          <Grid container spacing={0} > 
-          <Grid item xs={6}>   
+          <Grid container spacing={1} > 
+          <Grid item xs={12}  sm={6}>   
           <center>
             <Typography variant="h6" gutterBottom>
               Participantes 
@@ -58,7 +52,7 @@ export class Verify extends React.Component {
                       })}
                     </List> 
           </Grid>
-          <Grid item xs={6}>            
+          <Grid item xs={12} sm={6}>            
                   <center>
                     <Typography variant="h6" gutterBottom>
                       Detalles

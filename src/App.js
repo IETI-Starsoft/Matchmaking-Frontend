@@ -4,7 +4,7 @@ import Login from "./components/login/Login";
 import SignUp from "./components/login/SignUp";
 import Perfil from "./components/Perfil/usuario/PerfilUsuario";
 
-import { CreateActivity } from "./components/crear_actividad/createActivity";
+import CreateActivity from "./components/crear_actividad/createActivity";
 import CrearEquipo from "./components/Equipo/CreacionEquipo";
 import { ListaDeActividades } from "./components/actividad/ListaDeActividades";
 import PerfilEquipo from "./components/Perfil/equipo/PerfilEquipo";

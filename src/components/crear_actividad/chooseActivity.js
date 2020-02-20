@@ -24,10 +24,6 @@ export class ChooseActivity extends React.Component {
 
 
   render(){
-    const FormNotFilled = {
-      background: 'linear-gradient(45deg, #CB3234 30%, #CB3234 90%)',
-      
-    };
 
     return (
         <React.Fragment>
@@ -38,7 +34,7 @@ export class ChooseActivity extends React.Component {
             <Grid item xs={12} sm={6}>
             <FormControl required fullWidth>
             <InputLabel htmlFor="age-native-helper">Actividad</InputLabel>
-            {this.props.activity == ""  ? 
+            {this.props.activity === ""  ? 
             <NativeSelect error
             value={this.props.activity}
             onChange={this.props.changeActivity}
@@ -76,7 +72,7 @@ export class ChooseActivity extends React.Component {
                     </MuiPickersUtilsProvider>
                     </FormControl>
             </Grid>
-            <Grid item xs={4} sm={6}>
+            <Grid item xs={12} sm={6}>
             <FormControl required fullWidth>
             <TextField 
               id="descripcion"
@@ -105,7 +101,7 @@ export class ChooseActivity extends React.Component {
             </Grid>
             <Grid item xs={12} sm={6}>
             <FormControl required fullWidth>
-            {this.props.location == "" ? 
+            {this.props.location === "" ? 
             <TextField error
               id="ubicacion"
               name="Ubicacion"
@@ -127,7 +123,7 @@ export class ChooseActivity extends React.Component {
             <Grid item xs={12} sm={6}>
             <FormControl  margin="normal" fullWidth>
                 { this.props.stateBet ? 
-                this.props.bet == 0  ?  
+                this.props.bet === 0  ?  
                       <Input error
                         label="Cantidad"
                         value={this.props.bet}
