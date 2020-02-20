@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { ActividadCard } from './ActividadCard';
 import Grid from '@material-ui/core/Grid';
 import Menu from "../menu/NavBar";
+import Filtros from './Filtros';
 export class ListaDeActividades extends React.Component {
 
     constructor(props) {
@@ -89,7 +90,7 @@ export class ListaDeActividades extends React.Component {
         return (
             <Fragment>
                 <Menu />
-                
+                <Filtros />  
                 <Grid container spacing={32} justify="center">
                     {this.state.map((actividad, i) => {
                         return (
