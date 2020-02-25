@@ -5,14 +5,20 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
-
+import Badge from '@material-ui/core/Badge';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import Popper from '@material-ui/core/Popper';
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-
+import Grow from "@material-ui/core/Grow";
+import Paper from "@material-ui/core/Paper";
+import MenuItem from "@material-ui/core/MenuItem";
+import MenuList from "@material-ui/core/MenuList";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import GroupIcon from "@material-ui/icons/Group";
 import GroupWorkIcon from "@material-ui/icons/GroupWork";
 import EventAvailableIcon from "@material-ui/icons/EventAvailable";
@@ -53,6 +59,19 @@ export default function DenseAppBar() {
       [<EventIcon />, <GroupAddIcon />, <GroupWorkOutlinedIcon />]
     ]
   });
+  const [openNotification, setOpenNotification] = React.useState(null);
+
+  const handleClickNotification = event => {
+    if (openNotification && openNotification.contains(event.target)) {
+      setOpenNotification(null);
+    } else {
+      setOpenNotification(event.currentTarget);
+    }
+  };
+  
+  const handleCloseNotification = () => {
+    setOpenNotification(null);
+  };
 
   const toggleDrawer = (side, open) => event => {
     if (
@@ -126,6 +145,25 @@ export default function DenseAppBar() {
             MatchMaking
           </Typography>
 
+          <IconButton aria-label="show 11 new notifications" color="inherit" onClick={handleClickNotification}>
+            <Badge badgeContent={2} color="secondary">
+              <NotificationsIcon />
+            </Badge>
+          </IconButton>
+          <Popper  open={Boolean(openNotification)} anchorEl={openNotification} transition
+          disablePortal>
+      
+              <Paper>
+                <ClickAwayListener onClickAway={handleCloseNotification}>
+                  <MenuList role="menu">
+                         <MenuItem
+                    > 
+                      Mike John responded to your email
+                    </MenuItem>
+                  </MenuList>
+                </ClickAwayListener>
+              </Paper>
+        </Popper>
           <IconButton color="inherit" href="/perfil">
             <AccountCircleIcon className={classes.perfilButton} />
           </IconButton>
