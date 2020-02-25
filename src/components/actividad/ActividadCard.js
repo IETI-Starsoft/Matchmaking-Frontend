@@ -17,6 +17,12 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 import vs from "./vs.jpg";
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -56,10 +62,21 @@ const useStyless=makeStyles({
 export function ActividadCard({props}) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
+
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <Card className={classes.root}>
     <CardHeader
@@ -92,9 +109,31 @@ export function ActividadCard({props}) {
       </Typography>
     </CardContent>
     <CardActions disableSpacing>
-      <Button size="small" color="primary">
+      <Button size="small" color="primary" onClick={handleClickOpen}>
           Aceptar
       </Button>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"¿Esta seguro que desea aceptar este match?"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Descripcion:{props.Descripcion}<br />
+            Apuesta: {props.Apuesta}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancelar 
+          </Button>
+          <Button onClick={handleClose} color="primary" autoFocus>
+            Aceptar
+          </Button>
+        </DialogActions>
+      </Dialog>
       <IconButton
         className={clsx(classes.expand, {
           [classes.expandOpen]: expanded,
