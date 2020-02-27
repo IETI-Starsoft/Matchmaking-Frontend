@@ -2,7 +2,8 @@ import React, { Fragment } from 'react';
 import { ActividadCard } from './ActividadCard';
 import Grid from '@material-ui/core/Grid';
 import Menu from "../menu/NavBar";
-import Filtros from './Filtros';
+import Filtros from './Filtros'; 
+import ModalMasInfo from './ModalMasInfo'
 export class ListaDeActividades extends React.Component {
 
     constructor(props) {
@@ -88,7 +89,8 @@ export class ListaDeActividades extends React.Component {
 
     render() {
         return (
-            <Fragment>
+        
+           <Fragment>
                 <Menu />
                 <Filtros />  
                 <Grid container spacing={32} justify="center">
@@ -99,7 +101,7 @@ export class ListaDeActividades extends React.Component {
                     })}
                 </Grid>
             </Fragment>
-        );
+        ); 
 
 
     }

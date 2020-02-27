@@ -18,7 +18,10 @@ import EventIcon from "@material-ui/icons/Event";
 import GroupAddIcon from "@material-ui/icons/GroupAdd";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import GroupWorkOutlinedIcon from "@material-ui/icons/GroupWorkOutlined";
-import { BrowserRouter as Router, Link } from "react-router-dom";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+
+import { Link } from "react-router-dom";
+import Payment from "../payments/Payments";
 import Notification from "./Notification"
 
 const useStyles = makeStyles(theme => ({
@@ -97,6 +100,13 @@ export default function DenseAppBar() {
           </ListItem>
         ))}
       </List>
+      <Divider />
+      <ListItem button key="cerrar" component={Link} to="/">
+        <ListItemIcon>
+          <ExitToAppIcon />
+        </ListItemIcon>
+        <ListItemText primary="Cerrar Sesion" />
+      </ListItem>
     </div>
   );
 
@@ -124,7 +134,9 @@ export default function DenseAppBar() {
           <Typography variant="h6" color="inherit" className={classes.title}>
             MatchMaking
           </Typography>
-          <Notification />
+
+          <Payment />
+          <Notification />  
           <IconButton color="inherit" href="/perfil">
             <AccountCircleIcon className={classes.perfilButton} />
           </IconButton>
