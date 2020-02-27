@@ -20,6 +20,7 @@ import EventIcon from "@material-ui/icons/Event";
 import GroupAddIcon from "@material-ui/icons/GroupAdd";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import GroupWorkOutlinedIcon from "@material-ui/icons/GroupWorkOutlined";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 import { Link } from "react-router-dom";
 import Payment from "../payments/Payments";
@@ -99,6 +100,13 @@ export default function DenseAppBar() {
           </ListItem>
         ))}
       </List>
+      <Divider />
+      <ListItem button key="cerrar" component={Link} to="/">
+        <ListItemIcon>
+          <ExitToAppIcon />
+        </ListItemIcon>
+        <ListItemText primary="Cerrar Sesion" />
+      </ListItem>
     </div>
   );
 
