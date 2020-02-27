@@ -7,17 +7,12 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import Badge from '@material-ui/core/Badge';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import Popper from '@material-ui/core/Popper';
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import Paper from "@material-ui/core/Paper";
-import MenuItem from "@material-ui/core/MenuItem";
-import MenuList from "@material-ui/core/MenuList";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import GroupIcon from "@material-ui/icons/Group";
 import GroupWorkIcon from "@material-ui/icons/GroupWork";
 import EventAvailableIcon from "@material-ui/icons/EventAvailable";
@@ -25,11 +20,12 @@ import EventIcon from "@material-ui/icons/Event";
 import GroupAddIcon from "@material-ui/icons/GroupAdd";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import GroupWorkOutlinedIcon from "@material-ui/icons/GroupWorkOutlined";
-import Avatar from '@material-ui/core/Avatar';
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import cancel from "../../resources/cancel.webp";
 import aceppt from "../../resources/aceppt.webp";
 import timer from "../../resources/timer.webp";
+import Notification from "./Notification"
+
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1
@@ -153,28 +149,7 @@ export default function DenseAppBar() {
               <NotificationsIcon />
             </Badge>
           </IconButton>
-          <Popper  open={Boolean(openNotification)} anchorEl={openNotification} transition
-          disablePortal>
-              <Paper>
-                <ClickAwayListener onClickAway={handleCloseNotification}>
-                  <MenuList role="menu">
-                    {notifications.map(not => ( 
-                      <div>
-                        <MenuItem > 
-                        <a href="/perfil"> <Avatar src={not.img} style={{paddingRight:10}} 
-                          /> </a>
-                     
-                        <Typography> {not.text} </Typography> 
-                        </MenuItem>
-                        {notifications.indexOf(not) + 1 != notifications.length ?<Divider /> : null }
-                        </div>
-                        ))
-                    }
-                   
-                  </MenuList>
-                </ClickAwayListener>
-              </Paper>
-        </Popper>
+          <Notification openNotification={openNotification} notifications={notifications} handleCloseNotification={handleCloseNotification}/>
           <IconButton color="inherit" href="/perfil">
             <AccountCircleIcon className={classes.perfilButton} />
           </IconButton>
