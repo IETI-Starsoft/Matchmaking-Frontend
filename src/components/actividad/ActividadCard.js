@@ -1,5 +1,5 @@
 import React from 'react';
-import {makeStyles} from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -22,14 +22,14 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-
+import ModalMasInfo from './ModalMasInfo'
 
 const useStyles = makeStyles(theme => ({
   root: {
     maxWidth: "300px",
-    minWidth:"30px",
-    margin:"1em",
-    boxSizing:"border-box"
+    minWidth: "30px",
+    margin: "1em",
+    boxSizing: "border-box"
   },
   media: {
     height: 0,
@@ -49,21 +49,20 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: red[500],
   },
 }));
-const useStyless=makeStyles({
-  item:{
-    minWidth:"350px",
-    margin:"1em",
-    boxSizing:"border-box"
+const useStyless = makeStyles({
+  item: {
+    minWidth: "350px",
+    margin: "1em",
+    boxSizing: "border-box"
   },
-  media:{
-    minWidth:"200px"
+  media: {
+    minWidth: "200px"
   }
 });
-export function ActividadCard({props}) {
+export function ActividadCard({ props }) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const [open, setOpen] = React.useState(false);
-
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -76,82 +75,82 @@ export function ActividadCard({props}) {
   const handleClose = () => {
     setOpen(false);
   };
-
   return (
-    <Card className={classes.root}>
-    <CardHeader
-      avatar={
-        <Avatar aria-label="recipe" className={classes.avatar}>
-          {props.Retador[0]}
-        </Avatar>
-      }
-      action={
-        <IconButton aria-label="settings">
-          <MoreVertIcon />
-        </IconButton>
-      }
-      title={props.NombreActividad}
-      subheader={props.Fecha}
-    />
-    <CardMedia
+    <div>
+      <Card className={classes.root}>
+        <CardHeader
+          avatar={
+            <Avatar aria-label="recipe" className={classes.avatar}>
+              {props.Retador[0]}
+            </Avatar>
+          }
+          action={
+            <IconButton aria-label="settings">
+              <MoreVertIcon />
+            </IconButton>
+          }
+          title={props.NombreActividad}
+          subheader={props.Fecha}
+        />
+        <CardMedia
           component="img"
           alt="Contemplative Reptile"
           height="140"
           image={vs}
           title="Contemplative Reptile"
         />
-    
-    <CardContent>
-      <Typography variant="body2" color="textSecondary" component="p">
-        {props.Retador}<br />
-        Descripcion:{props.Descripcion}<br />
-        Apuesta: {props.Apuesta}
-      </Typography>
-    </CardContent>
-    <CardActions disableSpacing>
-      <Button size="small" color="primary" onClick={handleClickOpen}>
-          Aceptar
-      </Button>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{"¿Esta seguro que desea aceptar este match?"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
+
+        <CardContent>
+          <Typography variant="body2" color="textSecondary" component="p">
+            {props.Retador}<br />
             Descripcion:{props.Descripcion}<br />
             Apuesta: {props.Apuesta}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancelar 
-          </Button>
-          <Button onClick={handleClose} color="primary" autoFocus>
+          </Typography>
+        </CardContent>
+        <CardActions disableSpacing>
+          <Button size="small" color="primary" onClick={handleClickOpen}>
             Aceptar
+      </Button>
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">{"¿Esta seguro que desea aceptar este match?"}</DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                Descripcion:{props.Descripcion}<br />
+                Apuesta: {props.Apuesta}
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose} color="primary">
+                Cancelar
           </Button>
-        </DialogActions>
-      </Dialog>
-      <IconButton
-        className={clsx(classes.expand, {
-          [classes.expandOpen]: expanded,
-        })}
-        onClick={handleExpandClick}
-        aria-expanded={expanded}
-        aria-label="show more"
-      >
-        
-      </IconButton>
-        <Button size="small" color="primary">
-            Mas Info
-        </Button>
-      <IconButton />
+              <Button onClick={handleClose} color="primary" autoFocus>
+                Aceptar
+          </Button>
+            </DialogActions>
+          </Dialog>
+          <IconButton
+            className={clsx(classes.expand, {
+              [classes.expandOpen]: expanded,
+            })}
+            onClick={handleExpandClick}
+            aria-expanded={expanded}
+            aria-label="show more"
+          >
+
+          </IconButton>
+            <ModalMasInfo props={props} />
+          <IconButton />
+
+        </CardActions>
+
+      </Card>
       
-    </CardActions>
-    
-  </Card>
+    </div>
   );
 
 }
