@@ -79,8 +79,6 @@ export default function Filtros() {
         }else{
             setbarra(<div></div>)
         }
-        
-        console.log(event.target.value === "Actividad")
     };
     
     return (
