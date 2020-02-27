@@ -14,7 +14,6 @@ import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import Grow from "@material-ui/core/Grow";
 import Paper from "@material-ui/core/Paper";
 import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
@@ -26,9 +25,11 @@ import EventIcon from "@material-ui/icons/Event";
 import GroupAddIcon from "@material-ui/icons/GroupAdd";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import GroupWorkOutlinedIcon from "@material-ui/icons/GroupWorkOutlined";
-
+import Avatar from '@material-ui/core/Avatar';
 import { BrowserRouter as Router, Link } from "react-router-dom";
-
+import cancel from "../../resources/cancel.webp";
+import aceppt from "../../resources/aceppt.webp";
+import timer from "../../resources/timer.webp";
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1
@@ -60,7 +61,9 @@ export default function DenseAppBar() {
     ]
   });
   const [openNotification, setOpenNotification] = React.useState(null);
-
+  var notifications = [{img: cancel, text:"El match ha sido cancelado"}
+                      ,{img: timer,text:"Falta 1h para tu que inicie tu match"},
+                      {img: aceppt, text:"Alguien ha aceptado tu reto"}];
   const handleClickNotification = event => {
     if (openNotification && openNotification.contains(event.target)) {
       setOpenNotification(null);
@@ -146,20 +149,28 @@ export default function DenseAppBar() {
           </Typography>
 
           <IconButton aria-label="show 11 new notifications" color="inherit" onClick={handleClickNotification}>
-            <Badge badgeContent={2} color="secondary">
+            <Badge badgeContent={notifications.length} color="secondary">
               <NotificationsIcon />
             </Badge>
           </IconButton>
           <Popper  open={Boolean(openNotification)} anchorEl={openNotification} transition
           disablePortal>
-      
               <Paper>
                 <ClickAwayListener onClickAway={handleCloseNotification}>
                   <MenuList role="menu">
-                         <MenuItem
-                    > 
-                      Mike John responded to your email
-                    </MenuItem>
+                    {notifications.map(not => ( 
+                      <div>
+                        <MenuItem > 
+                        <a href="/perfil"> <Avatar src={not.img} style={{paddingRight:10}} 
+                          /> </a>
+                     
+                        <Typography> {not.text} </Typography> 
+                        </MenuItem>
+                        {notifications.indexOf(not) + 1 != notifications.length ?<Divider /> : null }
+                        </div>
+                        ))
+                    }
+                   
                   </MenuList>
                 </ClickAwayListener>
               </Paper>
