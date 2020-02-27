@@ -5,8 +5,6 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
-import Badge from '@material-ui/core/Badge';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
@@ -21,9 +19,6 @@ import GroupAddIcon from "@material-ui/icons/GroupAdd";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import GroupWorkOutlinedIcon from "@material-ui/icons/GroupWorkOutlined";
 import { BrowserRouter as Router, Link } from "react-router-dom";
-import cancel from "../../resources/cancel.webp";
-import aceppt from "../../resources/aceppt.webp";
-import timer from "../../resources/timer.webp";
 import Notification from "./Notification"
 
 const useStyles = makeStyles(theme => ({
@@ -56,21 +51,7 @@ export default function DenseAppBar() {
       [<EventIcon />, <GroupAddIcon />, <GroupWorkOutlinedIcon />]
     ]
   });
-  const [openNotification, setOpenNotification] = React.useState(null);
-  var notifications = [{img: cancel, text:"El match ha sido cancelado"}
-                      ,{img: timer,text:"Falta 1h para tu que inicie tu match"},
-                      {img: aceppt, text:"Alguien ha aceptado tu reto"}];
-  const handleClickNotification = event => {
-    if (openNotification && openNotification.contains(event.target)) {
-      setOpenNotification(null);
-    } else {
-      setOpenNotification(event.currentTarget);
-    }
-  };
-  
-  const handleCloseNotification = () => {
-    setOpenNotification(null);
-  };
+ 
 
   const toggleDrawer = (side, open) => event => {
     if (
@@ -143,13 +124,7 @@ export default function DenseAppBar() {
           <Typography variant="h6" color="inherit" className={classes.title}>
             MatchMaking
           </Typography>
-
-          <IconButton aria-label="show 11 new notifications" color="inherit" onClick={handleClickNotification}>
-            <Badge badgeContent={notifications.length} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-          <Notification openNotification={openNotification} notifications={notifications} handleCloseNotification={handleCloseNotification}/>
+          <Notification />
           <IconButton color="inherit" href="/perfil">
             <AccountCircleIcon className={classes.perfilButton} />
           </IconButton>
