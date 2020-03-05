@@ -5,14 +5,12 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
-
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-
 import GroupIcon from "@material-ui/icons/Group";
 import GroupWorkIcon from "@material-ui/icons/GroupWork";
 import EventAvailableIcon from "@material-ui/icons/EventAvailable";
@@ -21,9 +19,10 @@ import GroupAddIcon from "@material-ui/icons/GroupAdd";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import GroupWorkOutlinedIcon from "@material-ui/icons/GroupWorkOutlined";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-
+import Hidden from '@material-ui/core/Hidden';
 import { Link } from "react-router-dom";
 import Payment from "../payments/Payments";
+import Notification from "./Notification"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -55,6 +54,7 @@ export default function DenseAppBar() {
       [<EventIcon />, <GroupAddIcon />, <GroupWorkOutlinedIcon />]
     ]
   });
+ 
 
   const toggleDrawer = (side, open) => event => {
     if (
@@ -101,6 +101,9 @@ export default function DenseAppBar() {
         ))}
       </List>
       <Divider />
+      <Hidden mdUp>
+        <Notification mobile={true}/>
+      </Hidden>
       <ListItem button key="cerrar" component={Link} to="/">
         <ListItemIcon>
           <ExitToAppIcon />
@@ -134,7 +137,11 @@ export default function DenseAppBar() {
           <Typography variant="h6" color="inherit" className={classes.title}>
             MatchMaking
           </Typography>
+
           <Payment />
+          <Hidden smDown>
+          <Notification mobile={false}/>  
+          </Hidden>
           <IconButton color="inherit" href="/perfil">
             <AccountCircleIcon className={classes.perfilButton} />
           </IconButton>
