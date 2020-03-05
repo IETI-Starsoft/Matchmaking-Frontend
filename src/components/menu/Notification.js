@@ -14,65 +14,79 @@ import Typography from "@material-ui/core/Typography";
 import Badge from '@material-ui/core/Badge';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import IconButton from "@material-ui/core/IconButton";
+import { Link } from "react-router-dom";
+import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
 
+export default function Notification({mobile}) {
 
-export default function Notification(){
-
-    const [openNotification, setOpenNotification] = React.useState(null);
-    var notifications = [{img: cancel, text:"El match ha sido cancelado"}
-                        ,{img: timer,text:"Falta 1h para tu que inicie tu match"},
-                        {img: aceppt, text:"Alguien ha aceptado tu reto"}];
-    const handleClickNotification = event => {
-      if (openNotification && openNotification.contains(event.target)) {
-        setOpenNotification(null);
-      } else {
-        setOpenNotification(event.currentTarget);
-      }
-    };
-    
-    const handleCloseNotification = () => {
+  const [openNotification, setOpenNotification] = React.useState(null);
+  var notifications = [{ img: cancel, text: "El match ha sido cancelado" }
+    , { img: timer, text: "Falta 1h para tu que inicie tu match" },
+  { img: aceppt, text: "Alguien ha aceptado tu reto" }];
+  const handleClickNotification = event => {
+    if (openNotification && openNotification.contains(event.target)) {
       setOpenNotification(null);
-    };
+    } else {
+      setOpenNotification(event.currentTarget);
+    }
+  };
 
-return (
+  const handleCloseNotification = () => {
+    setOpenNotification(null);
+  };
+
+  return (
     <div>
-        <IconButton aria-label="show 11 new notifications" color="inherit" onClick={handleClickNotification}>
+      {mobile ?
+        <ListItem button key="notifications" component={Link} to="/perfil">
+          <ListItemIcon> <NotificationsNoneIcon /></ListItemIcon>
+          <ListItemText primary="Notificaciones" />
+        </ListItem>
+        :
+        <div>
+          <IconButton aria-label="show 11 new notifications" color="inherit" onClick={handleClickNotification}>
             <Badge badgeContent={notifications.length} color="secondary">
               <NotificationsIcon />
             </Badge>
           </IconButton>
-        <Popper  open={Boolean(openNotification)} anchorEl={openNotification} transition
-              >
+          <Popper open={Boolean(openNotification)} anchorEl={openNotification} transition
+          >
             {({ TransitionProps, placement }) => (
-                    <Grow
-                        {...TransitionProps}
-                        id="notification-menu-list-grow"
-                        style={{
-                            transformOrigin:
-                                placement === "bottom" ? "center top" : "center bottom"
-                        }}
-                    >
-              <Paper>
-                <ClickAwayListener onClickAway={handleCloseNotification}>
-                  <MenuList role="menu">
-                    {notifications.map(not => ( 
-                      <div>
-                        <MenuItem > 
-                        <a href="/perfil"> <Avatar src={not.img} style={{paddingRight:10}} 
-                          /> </a>
-                     
-                        <Typography> {not.text} </Typography> 
-                        </MenuItem>
-                        {notifications.indexOf(not) + 1 != notifications.length ?<Divider /> : null }
+              <Grow
+                {...TransitionProps}
+                id="notification-menu-list-grow"
+                style={{
+                  transformOrigin:
+                    placement === "bottom" ? "center top" : "center bottom"
+                }}
+              >
+                <Paper>
+                  <ClickAwayListener onClickAway={handleCloseNotification}>
+                    <MenuList role="menu">
+                      {notifications.map(not => (
+                        <div>
+                          <MenuItem >
+                            <a href="/perfil"> <Avatar src={not.img} style={{ paddingRight: 10 }}
+                            /> </a>
+
+                            <Typography> {not.text} </Typography>
+                          </MenuItem>
+                          {notifications.indexOf(not) + 1 != notifications.length ? <Divider /> : null}
                         </div>
-                        ))
-                    }
-                   
-                  </MenuList>
-                </ClickAwayListener>
-              </Paper>
+                      ))
+                      }
+
+                    </MenuList>
+                  </ClickAwayListener>
+                </Paper>
               </Grow>)}
-        </Popper>
+          </Popper>
         </div>
-)
+      }
+
+    </div>
+  )
 }

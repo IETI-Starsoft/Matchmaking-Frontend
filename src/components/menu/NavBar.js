@@ -19,7 +19,7 @@ import GroupAddIcon from "@material-ui/icons/GroupAdd";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import GroupWorkOutlinedIcon from "@material-ui/icons/GroupWorkOutlined";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-
+import Hidden from '@material-ui/core/Hidden';
 import { Link } from "react-router-dom";
 import Payment from "../payments/Payments";
 import Notification from "./Notification"
@@ -101,6 +101,9 @@ export default function DenseAppBar() {
         ))}
       </List>
       <Divider />
+      <Hidden mdUp>
+        <Notification mobile={true}/>
+      </Hidden>
       <ListItem button key="cerrar" component={Link} to="/">
         <ListItemIcon>
           <ExitToAppIcon />
@@ -136,7 +139,9 @@ export default function DenseAppBar() {
           </Typography>
 
           <Payment />
-          <Notification />  
+          <Hidden smDown>
+          <Notification mobile={false}/>  
+          </Hidden>
           <IconButton color="inherit" href="/perfil">
             <AccountCircleIcon className={classes.perfilButton} />
           </IconButton>
