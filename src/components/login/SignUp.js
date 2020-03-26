@@ -62,11 +62,12 @@ export default function SignUp() {
         email: e.target.email.value,
         password: e.target.password.value,
         rating: 0,
-        credits: 0
+        credits: 0,
+        friends: [],
+        teams: []
     })
     .then(function(response){
-      console.log(response.data);
-          
+      alert("Registered!");
       window.location.href = "/";
     })
     .catch(function(error){
