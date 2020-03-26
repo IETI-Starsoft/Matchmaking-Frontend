@@ -19,10 +19,11 @@ import GroupAddIcon from "@material-ui/icons/GroupAdd";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import GroupWorkOutlinedIcon from "@material-ui/icons/GroupWorkOutlined";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import Hidden from '@material-ui/core/Hidden';
+import Hidden from "@material-ui/core/Hidden";
 import { Link } from "react-router-dom";
 import Payment from "../payments/Payments";
-import Notification from "./Notification"
+import PaymentModal from "../payments/ModalPayments";
+import Notification from "./Notification";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -54,7 +55,6 @@ export default function DenseAppBar() {
       [<EventIcon />, <GroupAddIcon />, <GroupWorkOutlinedIcon />]
     ]
   });
- 
 
   const toggleDrawer = (side, open) => event => {
     if (
@@ -102,7 +102,7 @@ export default function DenseAppBar() {
       </List>
       <Divider />
       <Hidden mdUp>
-        <Notification mobile={true}/>
+        <Notification mobile={true} />
       </Hidden>
       <ListItem button key="cerrar" component={Link} to="/">
         <ListItemIcon>
@@ -138,9 +138,9 @@ export default function DenseAppBar() {
             MatchMaking
           </Typography>
 
-          <Payment />
+          <PaymentModal />
           <Hidden smDown>
-          <Notification mobile={false}/>  
+            <Notification mobile={false} />
           </Hidden>
           <IconButton color="inherit" href="/perfil">
             <AccountCircleIcon className={classes.perfilButton} />
