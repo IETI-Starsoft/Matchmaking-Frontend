@@ -14,6 +14,7 @@ import { Verify } from './verify';
 import Menu from "../menu/NavBar";
 import { withStyles } from '@material-ui/core/styles';
 import axios from "axios"
+import axiosHeader from '../../api/axiosHeader';
 
 
 class CreateActivity extends React.Component {
@@ -203,7 +204,7 @@ class CreateActivity extends React.Component {
 
   postIndividual() {
     var today = new Date();
-    axios.post("http://localhost:8080/api/activities", {
+    axiosHeader.post("http://localhost:8080/api/activities", {
       typ: "IndividualActivity",
       date: this.state.date.getFullYear() + "-" + this.state.date.getMonth() + 1 + "-" + this.state.date.getDate() + "T" + this.state.time.getHours() + ":" + this.state.time.getMinutes() + ":" + this.state.time.getSeconds(),
       publicationDate: today.getFullYear() + "-" + today.getMonth() + 1 + "-" + today.getDate() + "T" + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(),
@@ -224,7 +225,7 @@ class CreateActivity extends React.Component {
 
   postGroup() {
     var today = new Date();
-    axios.post("http://localhost:8080/api/activities", {
+    axiosHeader.post("http://localhost:8080/api/activities", {
       typ: "GroupActivity",
       date: this.state.date.getFullYear() + "-" + this.state.date.getMonth() + 1 + "-" + this.state.date.getDate() + "T" + this.state.time.getHours() + ":" + this.state.time.getMinutes() + ":" + this.state.time.getSeconds(),
       publicationDate: today.getFullYear() + "-" + today.getMonth() + 1 + "-" + today.getDate() + "T" + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(),
