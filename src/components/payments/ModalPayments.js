@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import Payment from "./Payments";
 import TextField from "@material-ui/core/TextField";
 
-export default function Example() {
+export default function Example(props) {
   const [show, setShow] = React.useState(false);
   const [amount, setAmount] = React.useState(0);
 
@@ -40,7 +40,12 @@ export default function Example() {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Payment amount={amount} value={amount * 3000} />
+          <Payment
+            amount={amount}
+            value={amount * 3000}
+            setCredits={props.setCredits}
+            closeModal={handleClose}
+          />
         </Modal.Footer>
       </Modal>
     </>

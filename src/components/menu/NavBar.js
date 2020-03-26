@@ -21,7 +21,6 @@ import GroupWorkOutlinedIcon from "@material-ui/icons/GroupWorkOutlined";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import Hidden from "@material-ui/core/Hidden";
 import { Link } from "react-router-dom";
-import Payment from "../payments/Payments";
 import PaymentModal from "../payments/ModalPayments";
 import Notification from "./Notification";
 
@@ -43,6 +42,9 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     flexGrow: 1
+  },
+  credits: {
+    marginLeft: 5
   }
 }));
 
@@ -53,8 +55,12 @@ export default function DenseAppBar() {
     icons: [
       [<GroupIcon />, <GroupWorkIcon />, <EventAvailableIcon />],
       [<EventIcon />, <GroupAddIcon />, <GroupWorkOutlinedIcon />]
-    ]
+    ],
+    credits: JSON.parse(localStorage.getItem("user")).credits
   });
+  const handleCredits = valor => {
+    setState({ ...state, credits: valor });
+  };
 
   const toggleDrawer = (side, open) => event => {
     if (
@@ -138,7 +144,11 @@ export default function DenseAppBar() {
             MatchMaking
           </Typography>
 
-          <PaymentModal />
+          <PaymentModal setCredits={handleCredits} />
+
+          <Typography color="inherit" className={classes.credits}>
+            Creditos {state.credits}
+          </Typography>
           <Hidden smDown>
             <Notification mobile={false} />
           </Hidden>
