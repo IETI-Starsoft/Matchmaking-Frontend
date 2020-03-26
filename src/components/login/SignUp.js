@@ -13,6 +13,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import logo from "./logoM.webp";
+import axios from "axios";
 
 function Copyright() {
   return (
@@ -54,7 +55,24 @@ export default function SignUp() {
 
   const handleSubmit = e => {
     e.preventDefault();
-    window.location.href = "/";
+    
+    axios.post("http://localhost:8080/users/register",{
+        firstName: e.target.firstName.value,
+        lastName:  e.target.lastName.value,
+        email: e.target.email.value,
+        password: e.target.password.value,
+        rating: 0,
+        credits: 0
+    })
+    .then(function(response){
+      console.log(response.data);
+          
+      window.location.href = "/";
+    })
+    .catch(function(error){
+      alert("Error in registering user " + error);
+    });
+    
   };
 
   return (
