@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Box from "@material-ui/core/Box";
 import { makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
@@ -14,6 +14,7 @@ import TabPanel from "./TabPanel";
 import { AmigoList } from "./AmigoList";
 import { EquipoList } from "./EquipoList";
 import NavBar from "../../menu/NavBar";
+
 
 const userProfileStyles = makeStyles(theme => ({
   top: {
@@ -57,7 +58,6 @@ export default function PerfilUsuario(props) {
   const classes = userProfileStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
-
   const name = "USER"; //props.name
   const stars = 4; //props.stars
   const friends = [
