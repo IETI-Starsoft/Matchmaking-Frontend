@@ -14,7 +14,7 @@ import TabPanel from "./TabPanel";
 import { AmigoList } from "./AmigoList";
 import { EquipoList } from "./EquipoList";
 import NavBar from "../../menu/NavBar";
-
+import axiosHeader from "../../../api/axiosHeader";
 
 const userProfileStyles = makeStyles(theme => ({
   top: {
@@ -54,37 +54,37 @@ const tmpImage =
 const teamImage =
   "https://www.pinclipart.com/picdir/middle/14-148399_employee-self-serve-portal-transparent-team-icon-png.png";
 
-export default function PerfilUsuario(props) {
+export default function PerfilUsuario() {
   const classes = userProfileStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
-  const name = "USER"; //props.name
-  const stars = 4; //props.stars
-  const friends = [
-    {
-      name: "amigo 1",
-      image: tmpImage,
-      stars: 4
-    },
-    {
-      name: "amigo 2",
-      image: tmpImage,
-      stars: 2
-    }
-  ]; //props.friends
+  const [name, setName] = React.useState(null);
+  const [rating, setRating] = React.useState(0); 
+  const [friends, setFriends] = React.useState([]);
+  const [teams, setTeams] = React.useState([]);
 
-  const teams = [
-    {
-      name: "Equipo 1",
-      image: teamImage,
-      stars: 3
-    },
-    {
-      name: "Equipo 4",
-      image: teamImage,
-      stars: 5
-    }
-  ]; //props.teams
+  useEffect( () => {
+      let user = JSON.parse(localStorage.getItem("user"));
+      console.log(user);
+      setName(user.firstName.toUpperCase() + " " + user.lastName.toUpperCase());
+      setRating(user.rating);
+      axiosHeader.get("/users/id/"+user.userId+"/friends")
+      .then(function (response){
+        setFriends(response.data);
+      })
+      .catch(function (error){
+        console.log(error);
+      });
+
+      axiosHeader.get("/users/id/"+user.userId+"/teams")
+      .then(function (response){
+        setTeams(response.data);
+      })
+      .catch(function (error){
+        console.log(error);
+      });
+  },[]);
+
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -104,7 +104,7 @@ export default function PerfilUsuario(props) {
         <Box className={classes.centerContainer}>
           <Typography className={classes.nameTop}>{name}</Typography>
           <Typography variant="body1">RATING</Typography>
-          <Rating value={stars} readOnly />
+          <Rating value={rating} readOnly />
         </Box>
       </Box>
       <Container>
