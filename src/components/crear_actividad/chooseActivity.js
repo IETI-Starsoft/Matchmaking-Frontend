@@ -80,6 +80,8 @@ export class ChooseActivity extends React.Component {
               label="Descripcion de la actividad"
               multiline
               rowsMax="2"
+              value={this.props.description}
+              onChange={this.props.changeDescription}
             />  
             </FormControl>
             

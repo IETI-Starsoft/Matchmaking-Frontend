@@ -10,254 +10,304 @@ import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import { ChooseActivity } from './chooseActivity';
 import { Participants } from './participants';
-import {Verify} from './verify';
+import { Verify } from './verify';
 import Menu from "../menu/NavBar";
 import { withStyles } from '@material-ui/core/styles';
+import axios from "axios"
+import axiosHeader from '../../api/axiosHeader';
 
 
+class CreateActivity extends React.Component {
 
-class CreateActivity extends React.Component{
+  constructor(props) {
+    super(props)
+    this.state = { activity: "", date: new Date(), time: new Date(), location: "", bet: "", description: "", stateBet: false, checkParticipants: false, checkTeams: false, checked: [], count: 0, checkIndividual: false };
+    //metodos para chooseActivity 
+    this.handleChangeActivity = this.handleChangeActivity.bind(this);
+    this.handleDateChange = this.handleDateChange.bind(this);
+    this.handleTimeChange = this.handleTimeChange.bind(this);
+    this.handleChangeDescription = this.handleChangeDescription.bind(this);
+    this.handleChangeLocation = this.handleChangeLocation.bind(this);
+    this.handleChangeBet = this.handleChangeBet.bind(this);
+    this.handleChangeStateBet = this.handleChangeStateBet.bind(this);
+    //metodos para participants
+    this.handlecheckParticipants = this.handlecheckParticipants.bind(this);
+    this.handlecheckTeams = this.handlecheckTeams.bind(this);
+    this.handleToggle = this.handleToggle.bind(this);
+    this.handlecheckIndividual = this.handlecheckIndividual.bind(this);
+    //metodos para createActivity 
+    this.handleNext = this.handleNext.bind(this);
+    this.handleBack = this.handleBack.bind(this);
+    this.nextStep = this.nextStep.bind(this);
+  }
 
-    constructor(props){
-        super(props)
-        this.state = {activity: "", date: moment(),time:Date.now(), location:"",bet:"",stateBet: false,checkParticipants:false, checkTeams: false , checked: [],count:0, checkIndividual: false};
-        //metodos para chooseActivity 
-        this.handleChangeActivity = this.handleChangeActivity.bind(this);
-        this.handleDateChange = this.handleDateChange.bind(this);
-        this.handleTimeChange = this.handleTimeChange.bind(this);
-        this.handleChangeLocation = this.handleChangeLocation.bind(this);
-        this.handleChangeBet = this.handleChangeBet.bind(this);
-        this.handleChangeStateBet = this.handleChangeStateBet.bind(this);
-        //metodos para participants
-        this.handlecheckParticipants = this.handlecheckParticipants.bind(this);
-        this.handlecheckTeams = this.handlecheckTeams.bind(this);
-        this.handleToggle = this.handleToggle.bind(this);
-        this.handlecheckIndividual = this.handlecheckIndividual.bind(this);
-        //metodos para createActivity 
-        this.handleNext = this.handleNext.bind(this);
-        this.handleBack = this.handleBack.bind(this);
-        this.nextStep = this.nextStep.bind(this);
-    }
-  
-    
-    render(){
-       function Copyright() {
-            return (
-              <Typography variant="body2" color="textSecondary" align="center">
-                {'Copyright © '}
-                <Link color="inherit" href="https://material-ui.com/">
-                  Your Website
+
+  render() {
+    function Copyright() {
+      return (
+        <Typography variant="body2" color="textSecondary" align="center">
+          {'Copyright © '}
+          <Link color="inherit" href="https://material-ui.com/">
+            Your Website
                 </Link>{' '}
-                {new Date().getFullYear()}
-                {'.'}
-              </Typography>
-            );
-          }
-          
-         
-        const steps = ['Actividad', 'Jugadores','Verificar'];
-          
-         
-        return (
-            <React.Fragment>
-            <CssBaseline />
-            <Menu /> 
-            <main className={this.props.classes.layout}>
-              <Paper className={this.props.classes.paper}>
-                <Typography component="h1" variant="h4" align="center">
-                  Crear actividad
+          {new Date().getFullYear()}
+          {'.'}
+        </Typography>
+      );
+    }
+
+
+    const steps = ['Actividad', 'Jugadores', 'Verificar'];
+
+
+    return (
+      <React.Fragment>
+        <CssBaseline />
+        <Menu />
+        <main className={this.props.classes.layout}>
+          <Paper className={this.props.classes.paper}>
+            <Typography component="h1" variant="h4" align="center">
+              Crear actividad
                 </Typography>
-                <Stepper activeStep={this.state.count} className={this.props.classes.stepper}>
-                  {steps.map(label => (                    
-                    <Step key={label}>
-                      <StepLabel>{label}</StepLabel>
-                    </Step>
-                  ))}
-                </Stepper>
+            <Stepper activeStep={this.state.count} className={this.props.classes.stepper}>
+              {steps.map(label => (
+                <Step key={label}>
+                  <StepLabel>{label}</StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+            <React.Fragment>
+              {this.state.count === steps.length ? (
                 <React.Fragment>
-                  {this.state.count === steps.length ? (
-                    <React.Fragment>
-                      <Typography variant="h5" gutterBottom>
-                       ¡ Tu actividad se ha registrado con exito !
+                  <Typography variant="h5" gutterBottom>
+                    ¡ Tu actividad se ha registrado con exito !
                       </Typography>
-                      <Typography variant="subtitle1">
-                        El identificador de tu actividad es #4512. Seras informado cuando alguien 
-                        decida aceptar tu reto/juego. 
+                  <Typography variant="subtitle1">
+                    El identificador de tu actividad es #4512. Seras informado cuando alguien
+                    decida aceptar tu reto/juego.
                       </Typography>
-                    </React.Fragment>
-                  ) : (
-                    <React.Fragment>
-                      {this.getStepContent(this.state.count)}
-                      <div className={this.props.classes.buttons}>
-                        {this.state.count !== 0 && (
-                          <Button onClick={this.handleBack} className={this.props.classes.button}>
-                            Atras
-                          </Button>
-                        )}
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          onClick={this.handleNext}
-                          className={this.props.classes.button}
-                        >
-                          {this.state.count === steps.length - 1 ? 'Confirmar Actividad' : 'Siguiente'}
-                        </Button>
-                      </div>
-                    </React.Fragment>
-                  )}
                 </React.Fragment>
-              </Paper>
-              <Copyright />
-            </main>
-          </React.Fragment>
-        );
-    }
-   
-    //choose activity 
-    handleChangeActivity(e) { 
-      this.setState({activity: e.target.value}) 
-    }
-  
-    handleDateChange(datee) {this.setState({date: datee})}
-  
-    handleTimeChange(datee) {this.setState({time: datee})}
-  
-    handleChangeLocation(e) {this.setState({location: e.target.value})}
-  
-    handleChangeBet(e) {this.setState({bet:e.target.value})}
-  
-    handleChangeStateBet() {this.setState({stateBet:!(this.state.stateBet)})}
+              ) : (
+                  <React.Fragment>
+                    {this.getStepContent(this.state.count)}
+                    <div className={this.props.classes.buttons}>
+                      {this.state.count !== 0 && (
+                        <Button onClick={this.handleBack} className={this.props.classes.button}>
+                          Atras
+                        </Button>
+                      )}
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={this.handleNext}
+                        className={this.props.classes.button}
+                      >
+                        {this.state.count === steps.length - 1 ? 'Confirmar Actividad' : 'Siguiente'}
+                      </Button>
+                    </div>
+                  </React.Fragment>
+                )}
+            </React.Fragment>
+          </Paper>
+          <Copyright />
+        </main>
+      </React.Fragment>
+    );
+  }
 
-    //participants 
-    handlecheckParticipants(){
-      const newChecked = [];
-      this.setState({checked:newChecked});
-      this.setState({checkParticipants:!(this.state.checkParticipants)})
-      if (this.state.checkTeams) this.setState({checkTeams:false})
-      if (this.state.checkIndividual) this.setState({checkIndividual:false})
-    }
-  
-    handlecheckTeams(){
-      const newChecked = [];
-      this.setState({checked:newChecked});
-      this.setState({checkTeams:!(this.state.checkTeams)})
-      if (this.state.checkParticipants) this.setState({checkParticipants:false})
-      if (this.state.checkIndividual) this.setState({checkIndividual:false})
-    }
+  //choose activity 
+  handleChangeActivity(e) {
+    this.setState({ activity: e.target.value })
+  }
 
-    handlecheckIndividual(){
-      if (!this.state.checkIndividual){
-        const newChecked = ["user"];
-        this.setState({checked:newChecked});
-      }
-      else {
-        const newChecked = [];
-        this.setState({checked:newChecked});
-      }
-      this.setState({checkIndividual:!(this.state.checkIndividual)})
-      if (this.state.checkTeams) this.setState({checkTeams:false})
-      if (this.state.checkParticipants) this.setState({checkParticipants:false})
+  handleChangeDescription(e) { this.setState({ description: e.target.value }) }
+
+  handleDateChange(datee) { this.setState({ date: datee }) }
+
+  handleTimeChange(datee) { this.setState({ time: datee }) }
+
+  handleChangeLocation(e) { this.setState({ location: e.target.value }) }
+
+  handleChangeBet(e) { this.setState({ bet: e.target.value }) }
+
+  handleChangeStateBet() { this.setState({ stateBet: !(this.state.stateBet) }) }
+
+  //participants 
+  handlecheckParticipants() {
+    const newChecked = [];
+    this.setState({ checked: newChecked });
+    this.setState({ checkParticipants: !(this.state.checkParticipants) })
+    if (this.state.checkTeams) this.setState({ checkTeams: false })
+    if (this.state.checkIndividual) this.setState({ checkIndividual: false })
+  }
+
+  handlecheckTeams() {
+    const newChecked = [];
+    this.setState({ checked: newChecked });
+    this.setState({ checkTeams: !(this.state.checkTeams) })
+    if (this.state.checkParticipants) this.setState({ checkParticipants: false })
+    if (this.state.checkIndividual) this.setState({ checkIndividual: false })
+  }
+
+  handlecheckIndividual() {
+    if (!this.state.checkIndividual) {
+      const newChecked = ["user"];
+      this.setState({ checked: newChecked });
     }
-  
-    handleToggle(value) {
-      const currentIndex = this.state.checked.indexOf(value);
-      const newChecked = [...this.state.checked];
-      if (this.state.checkTeams){
-        if (currentIndex === -1){
-          if (this.state.checked.length === 0){
-            newChecked.push(value);  
-            this.setState({checked:newChecked});
-          }
-        }
-        else{
-            newChecked.splice(currentIndex, 1);
-            this.setState({checked:newChecked});
-          } 
-      }
-      else {
-        if (currentIndex === -1) {
+    else {
+      const newChecked = [];
+      this.setState({ checked: newChecked });
+    }
+    this.setState({ checkIndividual: !(this.state.checkIndividual) })
+    if (this.state.checkTeams) this.setState({ checkTeams: false })
+    if (this.state.checkParticipants) this.setState({ checkParticipants: false })
+  }
+
+  handleToggle(value) {
+    const currentIndex = this.state.checked.indexOf(value);
+    const newChecked = [...this.state.checked];
+    if (this.state.checkTeams) {
+      if (currentIndex === -1) {
+        if (this.state.checked.length === 0) {
           newChecked.push(value);
-        } else {
-          newChecked.splice(currentIndex, 1);
+          this.setState({ checked: newChecked });
         }
-        this.setState({checked:newChecked});
-      };
       }
-    
-    // create activity 
-    handleNext() {
-      if (this.state.count === 0){
-        this.validateChoose(this.nextStep)    
+      else {
+        newChecked.splice(currentIndex, 1);
+        this.setState({ checked: newChecked });
       }
-      else if (this.state.count ===1){
-        this.validateParticipants(this.nextStep)
-      } 
-      else{
-        this.nextStep(); 
-      }
-    };
-
-    nextStep(){
-      this.setState({count: this.state.count +1})
     }
+    else {
+      if (currentIndex === -1) {
+        newChecked.push(value);
+      } else {
+        newChecked.splice(currentIndex, 1);
+      }
+      this.setState({ checked: newChecked });
+    };
+  }
 
-    validateChoose(callback){
-      if(this.state.activity !== "" && this.state.location !== "" ){
-        if (this.state.stateBet === true) {
-          if (this.state.bet !== "" && this.state.bet > 0 ){
-            callback()
-          }
-        }
-        else{
+  // create activity 
+  handleNext() {
+    if (this.state.count === 0) {
+      this.validateChoose(this.nextStep)
+    }
+    else if (this.state.count === 1) {
+      this.validateParticipants(this.nextStep)
+    }
+    else {
+      if (this.state.checkIndividual) this.postIndividual();
+      else this.postGroup();
+    }
+  }
+
+  postIndividual() {
+    var today = new Date();
+    axiosHeader.post("http://localhost:8080/api/activities", {
+      typ: "IndividualActivity",
+      date: this.state.date.getFullYear() + "-" + this.state.date.getMonth() + 1 + "-" + this.state.date.getDate() + "T" + this.state.time.getHours() + ":" + this.state.time.getMinutes() + ":" + this.state.time.getSeconds(),
+      publicationDate: today.getFullYear() + "-" + today.getMonth() + 1 + "-" + today.getDate() + "T" + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(),
+      bet: this.state.bet == "" ? 0 : this.state.bet,
+      description: this.state.description,
+      type: this.state.activity,
+      location: this.state.location,
+      credits: 0,
+      idPlayer1: JSON.parse(localStorage.user).userId,
+    })
+      .then(function (response) {
+        window.location.href = "/perfil";
+      })
+      .catch(function (error) {
+        console.log(error.response);
+      });
+  }
+
+  postGroup() {
+    var today = new Date();
+    axiosHeader.post("http://localhost:8080/api/activities", {
+      typ: "GroupActivity",
+      date: this.state.date.getFullYear() + "-" + this.state.date.getMonth() + 1 + "-" + this.state.date.getDate() + "T" + this.state.time.getHours() + ":" + this.state.time.getMinutes() + ":" + this.state.time.getSeconds(),
+      publicationDate: today.getFullYear() + "-" + today.getMonth() + 1 + "-" + today.getDate() + "T" + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(),
+      bet: this.state.bet == "" ? 0 : this.state.bet,
+      description: this.state.description,
+      type: this.state.activity,
+      location: this.state.location,
+      credits: 0,
+      idTeam1: this.state.checked.pop(),
+    })
+      .then(function (response) {
+        window.location.href = "/perfil";
+      })
+      .catch(function (error) {
+        console.log(error.response);
+      });
+
+  }
+
+
+  nextStep() {
+    this.setState({ count: this.state.count + 1 })
+  }
+
+  validateChoose(callback) {
+    if (this.state.activity !== "" && this.state.location !== "") {
+      if (this.state.stateBet === true) {
+        if (this.state.bet !== "" && this.state.bet > 0) {
           callback()
         }
       }
-    }
-
-    validateParticipants(callback){
-      if(this.state.checked.length !== 0){
+      else {
         callback()
       }
-    } 
-
-    handleBack() {this.setState({count: this.state.count -1})};
-
-    getStepContent(step) {
-       
-        switch (step) {
-          case 0:
-            return  <ChooseActivity activity={this.state.activity} changeActivity={this.handleChangeActivity}
-            date={this.state.date} changeDate={this.handleDateChange}
-            time={this.state.time} changeTime={this.handleTimeChange}
-            location={this.state.location} changeLocation={this.handleChangeLocation}
-            bet={this.state.bet} changeBet={this.handleChangeBet}
-            stateBet={this.state.stateBet} changeStateBet={this.handleChangeStateBet}/>; 
-           
-          
-          case 1:   
-            return  <Participants checkParticipants={this.state.checkParticipants} changeCheckParticipants={this.handlecheckParticipants}
-            checkTeams={this.state.checkTeams} changeCheckTeams={this.handlecheckTeams}
-            checkIndividual={this.state.checkIndividual} changeCheckIndividual={this.handlecheckIndividual}
-            checked={this.state.checked} changeChecked={this.handleToggle}/>; 
-
-           
-          case 2: 
-            return <Verify checkParticipants={this.state.checkParticipants} checked={this.state.checked}
-            checkIndividual={this.state.checkIndividual}
-            time={this.state.time} date={this.state.date} activity={this.state.activity}
-            location={this.state.location}  bet={this.state.bet}  stateBet={this.state.stateBet}
-            
-            />;
-            
-                
-          default:
-            throw new Error('Unknown step');
-        }
-      }
     }
+  }
+
+  validateParticipants(callback) {
+    if (this.state.checked.length !== 0) {
+      callback()
+    }
+  }
+
+  handleBack() { this.setState({ count: this.state.count - 1 }) };
+
+  getStepContent(step) {
+
+    switch (step) {
+      case 0:
+        return <ChooseActivity activity={this.state.activity} changeActivity={this.handleChangeActivity}
+          date={this.state.date} changeDate={this.handleDateChange}
+          description={this.state.description} changeDescription={this.handleChangeDescription}
+          time={this.state.time} changeTime={this.handleTimeChange}
+          location={this.state.location} changeLocation={this.handleChangeLocation}
+          bet={this.state.bet} changeBet={this.handleChangeBet}
+          stateBet={this.state.stateBet} changeStateBet={this.handleChangeStateBet} />;
+
+
+      case 1:
+        return <Participants checkParticipants={this.state.checkParticipants} changeCheckParticipants={this.handlecheckParticipants}
+          checkTeams={this.state.checkTeams} changeCheckTeams={this.handlecheckTeams}
+          checkIndividual={this.state.checkIndividual} changeCheckIndividual={this.handlecheckIndividual}
+          checked={this.state.checked} changeChecked={this.handleToggle} />;
+
+
+      case 2:
+        return <Verify checkParticipants={this.state.checkParticipants} checked={this.state.checked}
+          checkIndividual={this.state.checkIndividual}
+          time={this.state.time} date={this.state.date} activity={this.state.activity}
+          location={this.state.location} bet={this.state.bet} stateBet={this.state.stateBet}
+
+        />;
+
+
+      default:
+        throw new Error('Unknown step');
+    }
+  }
+}
 
 const styles = theme => ({
-  
+
   layout: {
     width: 'auto',
     marginLeft: theme.spacing(2),
