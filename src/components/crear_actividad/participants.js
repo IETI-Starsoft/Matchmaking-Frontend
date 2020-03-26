@@ -13,7 +13,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import './participants.css'
-
+import axios from "axios"
 
 export class Participants extends React.Component {
 
@@ -22,6 +22,28 @@ export class Participants extends React.Component {
   }
 
   render() {
+    const teams = []
+    //axiosHeader.get(/teams/captain)
+    axios.post("http://localhost:8080/api/team/captain", {
+      userId: JSON.parse(localStorage.user).userId,
+      firstName: JSON.parse(localStorage.user).firstName,
+      lastName: JSON.parse(localStorage.user).lastName,
+      email: JSON.parse(localStorage.user).email,
+      password: JSON.parse(localStorage.user).password,
+      rating: JSON.parse(localStorage.user).rating,
+      credits: JSON.parse(localStorage.user).credits,
+      friends: JSON.parse(localStorage.user).friends,
+      teams: JSON.parse(localStorage.user).teams,
+    })
+      .then(function(response) {
+        response.data.map(value => {
+          teams.push(value)
+        })
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
     return (
       <React.Fragment>
         <Typography variant="h6" gutterBottom>
@@ -37,7 +59,7 @@ export class Participants extends React.Component {
             <FormControl margin="normal" fullWidth>
               {this.props.checkParticipants ?
                 <List className="list" >
-                  {[0, 1, 2].map(value => {
+                  {teams.map(value => {
                     const labelId = `checkbox-list-secondary-label-${value}`;
                     return (
                       <ListItem key={value} button>
@@ -73,17 +95,17 @@ export class Participants extends React.Component {
             <FormControl margin="normal" fullWidth>
               {this.props.checkTeams ?
                 <List className="list" >
-                  {[0, 1, 2].map(value => {
+                  {teams.map(value => {
                     const labelId = `checkbox-list-secondary-label-${value}`;
                     return (
-                      <ListItem key={value} >
+                    <ListItem key={value} >
                         <ListItemAvatar>
                           <Avatar
                             alt={`Avatar n°${value + 1}`}
                             src={`/static/images/avatar/${value + 1}.jpg`}
                           />
                         </ListItemAvatar>
-                        <ListItemText id={labelId} primary={`Equipo ${value + 1}`} />
+                        <ListItemText id={labelId} primary={`${value}`} />
                         <ListItemSecondaryAction>
                           <Checkbox
                             edge="end"
