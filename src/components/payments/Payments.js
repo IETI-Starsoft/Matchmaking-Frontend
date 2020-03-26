@@ -12,12 +12,16 @@ class Payments extends Component {
 
       axiosHeader
         .put("/payments/user/" + userId + "/amount/" + amount)
-        .then(function(response) {
-          console.log(response);
-        })
+        .then(
+          function(response) {
+            localStorage.setItem("user", JSON.stringify(response.data));
+            this.props.setCredits(response.data.credits);
+            this.props.closeModal();
+          }.bind(this)
+        )
         .catch(function(error) {
           console.log(error);
-          alert(error);
+          this.props.closeModal();
         });
     };
 
