@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Paper from "@material-ui/core/Paper";
@@ -11,7 +11,8 @@ import Typography from "@material-ui/core/Typography";
 import EquipoForm from "./EquipoForm";
 import ParticipantesForm from "./ParticipantesForm";
 import Menu from "../menu/NavBar";
-
+import axios from "axios";
+import axiosHeader from "./../../api/axiosHeader";
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -24,7 +25,11 @@ function Copyright() {
     </Typography>
   );
 }
-
+const team = {
+  name: "",
+  Captain: "",
+  members: ""
+};
 const useStyles = makeStyles(theme => ({
   appBar: {
     position: "relative"
@@ -67,15 +72,19 @@ const steps = [
   "Invitacion Participantes"
 ];
 
+
 function getStepContent(step) {
   switch (step) {
     case 0:
-      return <EquipoForm />;
+      return <EquipoForm props={handleNameTeam} />;
     case 1:
       return <ParticipantesForm />;
     default:
       throw new Error("Unknown step");
   }
+}
+function handleNameTeam(n) {
+  team.name = n;
 }
 
 export default function Checkout() {
@@ -83,7 +92,29 @@ export default function Checkout() {
   const [activeStep, setActiveStep] = React.useState(0);
 
   const handleNext = () => {
-    setActiveStep(activeStep + 1);
+
+    if (activeStep == 1) {
+
+      axiosHeader.post("http://localhost:8080/api/team", {
+        members: [],
+        captain: JSON.parse(localStorage.getItem("user")),
+        credits: 0,
+        name: team.name,
+        
+      })
+      .then(function (response) {
+        console.log(response.data);
+        setActiveStep(activeStep + 1);
+        
+      })
+        .catch(function (error) {
+          alert("Error in registering user " + error);
+        });
+    }else{
+      setActiveStep(activeStep + 1);
+    }
+
+    //console.log(team)
   };
 
   const handleBack = () => {
@@ -104,7 +135,9 @@ export default function Checkout() {
           <Stepper activeStep={activeStep} className={classes.stepper}>
             {steps.map(label => (
               <Step key={label}>
-                <StepLabel>{label}</StepLabel>
+                <StepLabel
+                  id={label}
+                >{label}</StepLabel>
               </Step>
             ))}
           </Stepper>
@@ -120,25 +153,25 @@ export default function Checkout() {
                 </Typography>
               </React.Fragment>
             ) : (
-              <React.Fragment>
-                {getStepContent(activeStep)}
-                <div className={classes.buttons}>
-                  {activeStep !== 0 && (
-                    <Button onClick={handleBack} className={classes.button}>
-                      Back
+                <React.Fragment>
+                  {getStepContent(activeStep)}
+                  <div className={classes.buttons}>
+                    {activeStep !== 0 && (
+                      <Button onClick={handleBack} className={classes.button}>
+                        Back
+                      </Button>
+                    )}
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleNext}
+                      className={classes.button}
+                    >
+                      {activeStep === steps.length - 1 ? "Place order" : "Next"}
                     </Button>
-                  )}
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleNext}
-                    className={classes.button}
-                  >
-                    {activeStep === steps.length - 1 ? "Place order" : "Next"}
-                  </Button>
-                </div>
-              </React.Fragment>
-            )}
+                  </div>
+                </React.Fragment>
+              )}
           </React.Fragment>
         </Paper>
         <Copyright />
