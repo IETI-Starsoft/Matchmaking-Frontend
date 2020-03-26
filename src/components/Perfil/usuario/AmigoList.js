@@ -12,7 +12,7 @@ export class AmigoList extends React.Component {
 
     render() {
         const friendList = this.props.friends.map((friend, i) => {
-            return <Amigo key={i} image={friend.image} name={friend.name} stars={friend.stars}/>;
+            return <Amigo key={i} image={friend.image} name={friend.firstName.toUpperCase() + " " + friend.lastName.toUpperCase()} stars={friend.rating}/>;
         });
 
         return (
