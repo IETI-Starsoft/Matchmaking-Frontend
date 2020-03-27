@@ -234,7 +234,7 @@ class CreateActivity extends React.Component {
       type: this.state.activity,
       location: this.state.location,
       credits: 0,
-      idTeam1: this.state.checked.pop(),
+      idTeam1: this.state.checked.pop().teamId,
     })
       .then(function (response) {
         window.location.href = "/perfil";
@@ -242,10 +242,7 @@ class CreateActivity extends React.Component {
       .catch(function (error) {
         console.log(error.response);
       });
-
   }
-
-
   nextStep() {
     this.setState({ count: this.state.count + 1 })
   }
@@ -265,7 +262,7 @@ class CreateActivity extends React.Component {
 
   validateParticipants(callback) {
     if (this.state.checked.length !== 0) {
-      callback()
+      callback();
     }
   }
 
