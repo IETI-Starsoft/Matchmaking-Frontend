@@ -94,10 +94,10 @@ export default function Checkout() {
   const handleNext = () => {
 
     if (activeStep == 1) {
-
+      console.log(JSON.parse(localStorage.getItem("user")).userId)
       axiosHeader.post("http://localhost:8080/api/team", {
         members: [],
-        captain: JSON.parse(localStorage.getItem("user")),
+        captainId: JSON.parse(localStorage.getItem("user")).userId,
         credits: 0,
         name: team.name,
         

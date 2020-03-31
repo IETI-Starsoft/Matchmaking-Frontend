@@ -26,20 +26,9 @@ export class Participants extends React.Component {
 
   getTeams(){
     var temp = []
-    
-   axiosHeader.post("http://localhost:8080/api/team/captain", {
-      userId: JSON.parse(localStorage.user).userId,
-      firstName: JSON.parse(localStorage.user).firstName,
-      lastName: JSON.parse(localStorage.user).lastName,
-      email: JSON.parse(localStorage.user).email,
-      password: JSON.parse(localStorage.user).password,
-      rating: JSON.parse(localStorage.user).rating,
-      credits:JSON.parse(localStorage.user).credits,
-      friends: JSON.parse(localStorage.user).friends,
-      teams: JSON.parse(localStorage.user).teams,
-    })
+    let user = JSON.parse(localStorage.getItem("user"));
+    axiosHeader.get("/team/captain/" + user.userId)
       .then(response => {
-        console.log(response.data)
         response.data.map(value => {
           temp.push(value);
         })
