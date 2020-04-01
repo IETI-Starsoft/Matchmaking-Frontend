@@ -23,6 +23,7 @@ import Hidden from "@material-ui/core/Hidden";
 import { Link } from "react-router-dom";
 import PaymentModal from "../payments/ModalPayments";
 import Notification from "./Notification";
+import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -105,7 +106,14 @@ export default function DenseAppBar() {
             <ListItemText primary={array[0]} />
           </ListItem>
         ))}
+        <ListItem button key="transfer" component={Link} to={"/transfer"}>
+          <ListItemIcon>
+            <MonetizationOnIcon />
+          </ListItemIcon>
+          <ListItemText primary="Transferir Creditos" />
+        </ListItem>
       </List>
+
       <Divider />
       <Hidden mdUp>
         <Notification mobile={true} />

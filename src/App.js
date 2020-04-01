@@ -8,6 +8,8 @@ import CreateActivity from "./components/crear_actividad/createActivity";
 import CrearEquipo from "./components/Equipo/CreacionEquipo";
 import { ListaDeActividades } from "./components/actividad/ListaDeActividades";
 import PerfilEquipo from "./components/Perfil/equipo/PerfilEquipo";
+import TransferCredits from "./components/payments/TransferCredits";
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -24,6 +26,7 @@ class App extends React.Component {
     const BuscarMatchView = () => <ListaDeActividades />;
 
     const PerfilEquipoView = () => <PerfilEquipo />;
+    const TransferirCreditos = () => <TransferCredits />;
     //<Route exact path="/amigos" component={HomeView} />
     //<Route exact path="/mis-equipos" component={HomeView} />
     //<Route exact path="/mis-matches" component={HomeView} />
@@ -40,6 +43,7 @@ class App extends React.Component {
             <Route exact path="/buscar-match" component={BuscarMatchView} />
 
             <Route exact path="/perfil-equipo" component={PerfilEquipoView} />
+            <Route exact path="/transfer" component={TransferirCreditos} />
           </div>
         </div>
       </Router>
