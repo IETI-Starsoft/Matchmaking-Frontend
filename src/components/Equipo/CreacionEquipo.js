@@ -28,8 +28,10 @@ function Copyright() {
 const team = {
   name: "",
   Captain: "",
-  members: ""
+  members:[]
 };
+
+
 const useStyles = makeStyles(theme => ({
   appBar: {
     position: "relative"
@@ -78,9 +80,23 @@ function getStepContent(step) {
     case 0:
       return <EquipoForm props={handleNameTeam} />;
     case 1:
-      return <ParticipantesForm />;
+      return <ParticipantesForm handleAddMemberTeam={handleAddMemberTeam} />;
     default:
       throw new Error("Unknown step");
+  }
+}
+
+
+function handleAddMemberTeam(member, seleccionado) {
+  if (seleccionado) {
+    team.members.push(member.userId);
+    console.log(team.members);
+  } else {
+    var i = team.members.indexOf(member.userId);
+    if (i !== -1) {
+      team.members.splice(i, 1);
+    }
+    console.log(team.members);
   }
 }
 function handleNameTeam(n) {
@@ -96,21 +112,21 @@ export default function Checkout() {
     if (activeStep == 1) {
       console.log(JSON.parse(localStorage.getItem("user")).userId)
       axiosHeader.post("http://localhost:8080/api/team", {
-        members: [],
+        members: team.members,
         captainId: JSON.parse(localStorage.getItem("user")).userId,
         credits: 0,
         name: team.name,
-        
+
       })
-      .then(function (response) {
-        console.log(response.data);
-        setActiveStep(activeStep + 1);
-        
-      })
+        .then(function (response) {
+          console.log(response.data);
+          setActiveStep(activeStep + 1);
+
+        })
         .catch(function (error) {
           alert("Error in registering user " + error);
         });
-    }else{
+    } else {
       setActiveStep(activeStep + 1);
     }
 
