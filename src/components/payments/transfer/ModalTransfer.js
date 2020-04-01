@@ -16,17 +16,25 @@ export default function ModalTransfer(props) {
     setAmount(e.target.value);
   };
 
+  const handleCredit = value => {
+    let user = JSON.parse(localStorage.getItem("user"));
+    let creditosAct = user.credits;
+    user.credits = creditosAct - value;
+    localStorage.setItem("user", JSON.stringify(user));
+  };
+
   const handleSubmit = e => {
     const userId = JSON.parse(localStorage.getItem("user")).userId;
     const id = props.id;
     switch (props.type) {
       case "team":
-        console.log(id);
         axiosHeader
           .put("/payments/user/" + userId + "/team/" + id + "/amount/" + amount)
           .then(
             function(response) {
               alert("Envio Exitoso");
+              handleCredit(amount);
+              window.location.reload(false);
             }.bind(this)
           )
           .catch(function(error) {
@@ -35,12 +43,13 @@ export default function ModalTransfer(props) {
           });
         break;
       case "friend":
-        console.log("enee");
         axiosHeader
           .put("/payments/user/" + userId + "/user/" + id + "/amount/" + amount)
           .then(
             function(response) {
               alert("Envio Exitoso");
+              handleCredit(amount);
+              window.location.reload(false);
             }.bind(this)
           )
           .catch(function(error) {
