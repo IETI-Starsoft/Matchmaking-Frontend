@@ -14,9 +14,9 @@ class Payments extends Component {
         .put("/payments/user/" + userId + "/amount/" + amount)
         .then(
           function(response) {
+            this.props.closeModal();
             localStorage.setItem("user", JSON.stringify(response.data));
             this.props.setCredits(response.data.credits);
-            this.props.closeModal();
           }.bind(this)
         )
         .catch(function(error) {

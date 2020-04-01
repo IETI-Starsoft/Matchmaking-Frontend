@@ -1,5 +1,5 @@
 import React from "react";
-import { Equipo } from "./Equipo";
+import Equipo from "./EquipoTransfer";
 import { Container } from "@material-ui/core";
 
 export class EquipoList extends React.Component {
@@ -15,6 +15,7 @@ export class EquipoList extends React.Component {
           image={team.image}
           name={team.name}
           stars={team.stars}
+          teamId={team.teamId}
         />
       );
     });
