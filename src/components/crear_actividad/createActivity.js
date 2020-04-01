@@ -151,7 +151,8 @@ class CreateActivity extends React.Component {
 
   handlecheckIndividual() {
     if (!this.state.checkIndividual) {
-      const newChecked = ["user"];
+      var name = JSON.parse(localStorage.getItem("user")).firstName+" "+JSON.parse(localStorage.getItem("user")).lastName  
+      const newChecked = [name];
       this.setState({ checked: newChecked });
     }
     else {
