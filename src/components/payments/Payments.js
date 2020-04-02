@@ -17,10 +17,12 @@ class Payments extends Component {
             this.props.closeModal();
             localStorage.setItem("user", JSON.stringify(response.data));
             this.props.setCredits(response.data.credits);
+            alert("Recarga exitosa");
           }.bind(this)
         )
         .catch(function(error) {
           console.log(error);
+          alert("Recarga fallida");
           this.props.closeModal();
         });
     };
