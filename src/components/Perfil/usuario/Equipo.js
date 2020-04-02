@@ -6,6 +6,8 @@ import GroupWorkIcon from "@material-ui/icons/GroupWork";
 export class Equipo extends React.Component {
   constructor(props) {
     super(props);
+    this.state={ruta:`/perfil-equipo/${this.props.teamId}`};
+    console.log(this.state.ruta);
   }
 
   render() {
@@ -15,7 +17,7 @@ export class Equipo extends React.Component {
           <CardHeader
             avatar={<Avatar src={this.props.image} />}
             action={
-              <IconButton aria-label="settings" href="/perfil-equipo">
+              <IconButton aria-label="settings" href={this.state.ruta}>
                 <GroupWorkIcon />
               </IconButton>
             }
