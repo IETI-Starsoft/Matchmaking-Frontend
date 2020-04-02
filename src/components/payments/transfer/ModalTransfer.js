@@ -56,6 +56,27 @@ export default function ModalTransfer(props) {
             console.log(error);
           });
         break;
+      case "teamUser":
+        axiosHeader
+          .put(
+            "/payments/team/" +
+              props.teamId +
+              "/user/" +
+              id +
+              "/amount/" +
+              amount
+          )
+          .then(
+            function(response) {
+              alert("Envio Exitoso");
+              window.location.reload(false);
+            }.bind(this)
+          )
+          .catch(function(error) {
+            alert("Envio Fallido");
+            console.log(error);
+          });
+        break;
     }
 
     handleClose();
