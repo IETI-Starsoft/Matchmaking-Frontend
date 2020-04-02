@@ -14,6 +14,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import './participants.css'
 import axiosHeader from '../../api/axiosHeader';
+import Divider from '@material-ui/core/Divider';
+import teamIcon from "../../resources/teamIcon.webp";
+
 
 export class Participants extends React.Component {
 
@@ -47,15 +50,26 @@ export class Participants extends React.Component {
         </Typography>
         <Grid container spacing={1}>
           <Grid item xs={12}  sm={6}>
-
+         
             <FormControlLabel className="checkbox"
               control={<Checkbox checked={this.props.checkTeams} size="medium" color="secondary" onChange={this.props.changeCheckTeams} name="Equipo" value="yes" />}
               label="Agregar Equipo" labelPlacement="start"
             />
 
             <FormControl margin="normal" fullWidth>
-              {this.props.checkTeams ?
-                <List className="list" >
+              {this.props.checkTeams ? 
+                 <div className={this.props.classes.divTeams}>
+                 <Grid item xs={12} >
+                 <img src={teamIcon} className={this.props.classes.teamIcon} />               
+                </Grid>
+                  <Grid item xs={12}  >
+                  <Typography variant="button"  className={this.props.classes.labelEquipo} gutterBottom>
+                    Seleccione un equipo 
+                  </Typography>
+                  </Grid>
+                  <Divider  /> 
+                <List className={this.props.classes.list} >
+                  
                   {this.state.teams.map(value => {
                     const labelId = `checkbox-list-secondary-label--`;
                     return (
@@ -78,6 +92,7 @@ export class Participants extends React.Component {
                     );
                   })}
                 </List>
+                </div> 
                 : null}
             </FormControl>
            
