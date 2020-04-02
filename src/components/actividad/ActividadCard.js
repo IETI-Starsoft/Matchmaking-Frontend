@@ -13,6 +13,8 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import vs from "./vs.jpg";
 import ModalMasInfo from './ModalMasInfo'
 import DialogAceptarActividad from './DialogAceptarActividad';
+import axiosHeader from '../../api/axiosHeader';
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -49,8 +51,26 @@ const useStyless = makeStyles({
     minWidth: "200px"
   }
 });
+
 export function ActividadCard({ props }) {
+
+  const [onwerPlayer, setOnwerPlayer] = React.useState("");
+  const owner = (userId,path) => {
+    axiosHeader.get(path + userId)
+      .then(response => {
+        var player = ""; 
+        if (path == "/users/id/") player= response.data.firstName + " " + response.data.lastName;  
+        else player = response.data.name;
+        setOnwerPlayer(player);
+      })
+      .catch(function (error) {
+        console.log(error);
+        return null;
+      });
+  }
   const classes = useStyles();
+  owner(props.idPlayer1 != undefined ? props.idPlayer1: props.idTeam1
+  ,props.idPlayer1 != undefined ? "/users/id/": "/team/");
 
   return (
     <div>
@@ -58,7 +78,7 @@ export function ActividadCard({ props }) {
         <CardHeader
           avatar={
             <Avatar aria-label="recipe" className={classes.avatar}>
-              {props.Retador[0]}
+              {onwerPlayer[0]}
             </Avatar>
           }
           action={
@@ -66,8 +86,8 @@ export function ActividadCard({ props }) {
               <MoreVertIcon />
             </IconButton>
           }
-          title={props.NombreActividad}
-          subheader={props.Fecha}
+          title="Activity"
+          subheader={props.date}
         />
         <CardMedia
           component="img"
@@ -79,20 +99,20 @@ export function ActividadCard({ props }) {
 
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">
-            {props.Retador}<br />
-            Descripcion:{props.Descripcion}<br />
-            Apuesta: {props.Apuesta}
+          {onwerPlayer} <br />
+            Descripcion:{props.description}<br />
+            Apuesta: {props.bet}
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
-          <DialogAceptarActividad  props={props}/>
-          <ModalMasInfo props={props} />
+          <DialogAceptarActividad props={props} />
+          <ModalMasInfo props={props}  onwerPlayer = {onwerPlayer}/>
           <IconButton />
 
         </CardActions>
 
       </Card>
-      
+
     </div>
   );
 
