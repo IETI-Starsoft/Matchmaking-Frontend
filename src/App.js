@@ -44,7 +44,7 @@ class App extends React.Component {
             <Route exact path="/crear-equipo" component={CrearEquipoView} />
             <Route exact path="/buscar-match" component={BuscarMatchView} />
 
-            <Route exact path="/perfil-equipo" component={PerfilEquipoView} />
+            <Route exact path="/perfil-equipo/:props" component={PerfilEquipoView} />
             <Route exact path="/transfer" component={TransferirCreditos} />
             <Route exact path="/editar-perfil" component={EditarPerfilUsuario}/>
           </div>

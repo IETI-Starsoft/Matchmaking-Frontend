@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
     Container,
@@ -11,6 +11,7 @@ import {
 import NavBar from "../../menu/NavBar";
 import Rating from "@material-ui/lab/Rating";
 import Integrante from './Integrante';
+import axiosHeader from "../../../api/axiosHeader";
 
 const teamImage =
     "https://www.pinclipart.com/picdir/middle/14-148399_employee-self-serve-portal-transparent-team-icon-png.png";
@@ -43,26 +44,29 @@ const teamProfileStyles = makeStyles(theme => ({
 
 export default function PerfilEquipo(props) {
     const classes = teamProfileStyles();
-    const teamMembers = [{
-        name: "P1",
-        stars: 4
-    },
-    {
-        name: "P2",
-        stars: 2
-    },
-    {
-        name: "P3",
-        stars: 2
-    },
-    {
-        name: "P4",
-        stars: 3
-    }
-    ]; //props.teamMembers
-    const stars = 4; //props.stars
-    const name = "Team 1"; //props.name
+    const [team, setTeam] = React.useState({});
+    const teamId = window.location.pathname.split("/")[2];
+    const [teamMembers, setTeamMembers] = React.useState([]);
+    useEffect(() => {
+        axiosHeader.get("http://localhost:8080/api/team/" + teamId)
+            .then(function (response) {
+                setTeam(response.data);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        axiosHeader.get(`http://localhost:8080/api/team/${teamId}/members`)
+            .then(function (response) {
+                setTeamMembers(response.data);
+                console.log(response.data);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
 
+    }, []);
+
+    
     return (
         <div>
             <NavBar />
@@ -71,9 +75,10 @@ export default function PerfilEquipo(props) {
                     <Avatar className={classes.avatar} src={teamImage} />
                 </Box>
                 <Box className={classes.centerContainer}>
-                    <Typography className={classes.nameTop}>{name}</Typography>
+                    <Typography className={classes.nameTop}>{team.name}</Typography>
                     <Typography variant="body1">RATING</Typography>
-                    <Rating value={stars} readOnly />
+                    <Rating value={team.stars} readOnly />
+                    <Typography variant="body1">Creditos:{team.credits} </Typography>
                 </Box>
             </Box>
             <Container>
@@ -82,10 +87,10 @@ export default function PerfilEquipo(props) {
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <Grid container justify="center" spacing={1}>
-                                {teamMembers.map((member,i) => (
+                                {teamMembers.map((member, i) => (
                                     <Grid key={i} item>
                                         <Paper>
-                                            <Integrante name={member.name} stars={member.stars}/>
+                                            <Integrante name={member.firstName.toUpperCase()+ " "+member.lastName.toUpperCase()} stars={member.rating}/>
                                         </Paper>
                                     </Grid>
                                 ))}
