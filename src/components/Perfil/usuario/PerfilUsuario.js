@@ -70,7 +70,16 @@ export default function PerfilUsuario() {
       setRating(user.rating);
       axiosHeader.get("/users/id/"+user.userId)
       .then(function (response){
-        setImage("http://localhost:8080/api/files/"+user.userId+"/"+response.data.imageFileURL);
+        if (response.data.imageFileURL != "" || response.data.imageFileURL != null){
+          axiosHeader.get("/files/"+user.userId+"/"+response.data.imageFileURL , {responseType: "arraybuffer"})
+          .then( response => {
+            let data = new Uint8Array(response.data);
+            let raw = String.fromCharCode.apply(null, data);
+            let base64 = btoa(raw);
+            setImage("data:image;base64," + base64);
+          });
+        }
+        
       })
       
       axiosHeader.get("/users/id/"+user.userId+"/friends")
