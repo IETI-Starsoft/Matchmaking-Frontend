@@ -81,7 +81,7 @@ class CreateActivity extends React.Component {
                     ¡ Tu actividad se ha registrado con exito !
                       </Typography>
                   <Typography variant="subtitle1">
-                    El identificador de tu actividad es #4512. Seras informado cuando alguien
+                    Su actividad se ha registrado con exito. Seras informado cuando alguien
                     decida aceptar tu reto/juego.
                       </Typography>
                 </React.Fragment>
@@ -196,50 +196,136 @@ class CreateActivity extends React.Component {
       this.validateParticipants(this.nextStep)
     }
     else {
-      if (this.state.checkIndividual) this.postIndividual();
-      else this.postGroup();
+      if (this.state.checkIndividual) this.validateCreditsUser();
+      else this.validateCreditsTeam();
     }
+  }
+
+  validateCreditsUser(){
+    if (this.state.stateBet === true){
+      let userId = JSON.parse(localStorage.getItem("user")).userId;
+      axiosHeader.get("/users/id/" + userId)
+        .then(response => {
+          let credits = response.data.credits
+          if (this.state.bet <= credits ) {
+            this.postIndividual();
+          }
+          else alert("Su saldo es insuficiente para realizar la apuesta.");
+        })
+        .catch(function (error) {
+          alert("error validate credits")
+          console.log(error);
+          return false;
+        });
+    }
+    else {
+      this.postIndividual();
+    }
+  }
+
+  validateCreditsTeam(){
+    if (this.state.stateBet === true){
+      let teamId = this.state.checked[0].teamId;
+      axiosHeader.get("/team/" + teamId)
+        .then(response => {
+          let credits = response.data.credits
+          if (this.state.bet <= credits ) {
+             this.postGroup();
+          }
+          else alert("Su saldo es insuficiente para realizar la apuesta.");
+        })
+        .catch(function (error) {
+          alert("error validate credits")
+          console.log(error);
+          return false;
+        });
+    }
+    else {
+      this.postGroup();
+    }
+  }
+
+ handleCredit = value => {
+    let user = JSON.parse(localStorage.getItem("user"));
+    let creditosAct = user.credits;
+    user.credits = creditosAct - value;
+    localStorage.setItem("user", JSON.stringify(user));
+  };
+
+  betUserToActivity(credits,activityId){
+    let userId =  JSON.parse(localStorage.getItem("user")).userId
+    axiosHeader.put("/payments/user/"+ userId
+    + "/activity/" + activityId + "/amount/" + credits)
+        .then(response =>{
+          this.handleCredit(credits)
+          this.nextStep();
+        })
+        .catch(function (error) {
+          alert("error bet activity")
+          console.log(error);
+        });
+  }
+
+
+  betTeamToActivity(credits,activityId){
+    let teamId =  this.state.checked[0].teamId;
+    axiosHeader.put("/payments/team/"+ teamId
+    + "/activity/" + activityId + "/amount/" + credits)
+        .then(response =>{
+          this.nextStep();
+        })
+        .catch(function (error) {
+          alert("error bet activity")
+          console.log(error);
+        });    
   }
 
   postIndividual() {
     var today = new Date();
-    axiosHeader.post("http://localhost:8080/api/activities", {
+    axiosHeader.post("/activities", {
       typ: "IndividualActivity",
       date: this.state.date.getFullYear() + "-" + this.state.date.getMonth() + 1 + "-" + this.state.date.getDate() + "T" + this.state.time.getHours() + ":" + this.state.time.getMinutes() + ":" + this.state.time.getSeconds(),
       publicationDate: today.getFullYear() + "-" + today.getMonth() + 1 + "-" + today.getDate() + "T" + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(),
-      bet: this.state.bet == "" ? 0 : this.state.bet,
+      bet: this.state.bet == "" ? null : this.state.bet,
       description: this.state.description,
       type: this.state.activity,
       location: this.state.location,
-      credits: 0,
+      credits:  0,
       idPlayer1: JSON.parse(localStorage.user).userId,
     })
-      .then(function (response) {
-        window.location.href = "/perfil";
+      .then(response =>{
+        if (this.state.stateBet) this.betUserToActivity(this.state.bet,response.data.id);
+        else {
+          this.nextStep();
+        }
       })
       .catch(function (error) {
-        console.log(error.response);
+        console.log(error);
       });
   }
 
   postGroup() {
     var today = new Date();
-    axiosHeader.post("http://localhost:8080/api/activities", {
+    console.log(this.state.checked[0].teamId)
+    axiosHeader.post("/activities", {
       typ: "GroupActivity",
       date: this.state.date.getFullYear() + "-" + this.state.date.getMonth() + 1 + "-" + this.state.date.getDate() + "T" + this.state.time.getHours() + ":" + this.state.time.getMinutes() + ":" + this.state.time.getSeconds(),
       publicationDate: today.getFullYear() + "-" + today.getMonth() + 1 + "-" + today.getDate() + "T" + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(),
-      bet: this.state.bet == "" ? 0 : this.state.bet,
+      bet: this.state.bet == "" ? null : this.state.bet,
       description: this.state.description,
       type: this.state.activity,
       location: this.state.location,
-      credits: 0,
-      idTeam1: this.state.checked.pop().teamId,
+      credits:  this.state.bet == "" ? null : this.state.bet/2,
+      idTeam1: this.state.checked[0].teamId,
     })
-      .then(function (response) {
-        window.location.href = "/perfil";
+      .then(response => {
+        if (this.state.stateBet) this.betTeamToActivity(this.state.bet,response.data.id);
+        else {
+          this.nextStep();
+        } 
       })
       .catch(function (error) {
-        console.log(error.response);
+        console.log( error);
       });
   }
   nextStep() {
