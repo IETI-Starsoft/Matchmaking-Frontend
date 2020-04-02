@@ -62,12 +62,17 @@ export default function PerfilUsuario() {
   const [rating, setRating] = React.useState(0); 
   const [friends, setFriends] = React.useState([]);
   const [teams, setTeams] = React.useState([]);
+  const [image, setImage] = React.useState(tmpImage);
 
   useEffect( () => {
       let user = JSON.parse(localStorage.getItem("user"));
-      console.log(user);
       setName(user.firstName.toUpperCase() + " " + user.lastName.toUpperCase());
       setRating(user.rating);
+      axiosHeader.get("/users/id/"+user.userId)
+      .then(function (response){
+        setImage("http://localhost:8080/api/files/"+user.userId+"/"+response.data.imageFileURL);
+      })
+      
       axiosHeader.get("/users/id/"+user.userId+"/friends")
       .then(function (response){
         setFriends(response.data);
@@ -99,7 +104,7 @@ export default function PerfilUsuario() {
       <NavBar />
       <Box className={classes.top} borderBottom={1}>
         <Box className={classes.topContent}>
-          <Avatar className={classes.avatar} src={tmpImage} />
+          <Avatar className={classes.avatar} src={image} />
         </Box>
         <Box className={classes.centerContainer}>
           <Typography className={classes.nameTop}>{name}</Typography>

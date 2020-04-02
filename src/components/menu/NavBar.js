@@ -24,6 +24,8 @@ import { Link } from "react-router-dom";
 import PaymentModal from "../payments/ModalPayments";
 import Notification from "./Notification";
 import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
+import EditIcon from '@material-ui/icons/Edit';
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -114,6 +116,13 @@ export default function DenseAppBar() {
         </ListItem>
       </List>
 
+      <Divider />
+      <ListItem button key="cerrar" component={Link} to="/editar-perfil">
+        <ListItemIcon>
+          <EditIcon />
+        </ListItemIcon>
+        <ListItemText primary="Editar perfil" />
+      </ListItem>
       <Divider />
       <Hidden mdUp>
         <Notification mobile={true} />
