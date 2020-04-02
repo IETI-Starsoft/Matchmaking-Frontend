@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function ModalMasInfo({ props }) {
+export default function ModalMasInfo({ props, onwerPlayer }) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const [fullWidth, setFullWidth] = React.useState(true);
@@ -50,13 +50,13 @@ export default function ModalMasInfo({ props }) {
                 <DialogContent >
                     
                     <DialogContentText>
-                    <b>Retador:</b> {props.Retador} <br/>
-                    <b>Tipo De Actividad:</b>{props.TipoActividad}<br/>
-                    <b>Descripcion:</b> {props.Descripcion}.<br/>
-                    <b>Lugar:</b>  {props.Lugar}<br/>
-                    <b>Fecha:</b> {props.Fecha}<br/>
-                    <b>Fecha De Publicacion:</b> {props.FechaPublicacion}<br/>
-                    <b>Apuesta:</b> {props.Apuesta}<br/>
+                    <b>Retador:</b> {onwerPlayer} <br/>
+                    <b>Tipo De Actividad:</b>{props.type}<br/>
+                    <b>Descripcion:</b> {props.description}.<br/>
+                    <b>Lugar:</b>  {props.location}<br/>
+                    <b>Fecha:</b> {props.date}<br/>
+                    <b>Fecha De Publicacion:</b> {props.publicationDate}<br/>
+                    <b>Apuesta:</b> {props.bet}<br/>
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>

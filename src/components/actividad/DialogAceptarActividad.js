@@ -68,8 +68,8 @@ export default function DialogAceptarActividad({ props }) {
                 <DialogTitle id="alert-dialog-title">{"¿Esta seguro que desea aceptar este match?"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Descripcion:{props.Descripcion}<br />
-                Apuesta: {props.Apuesta}
+                        Descripcion:{props.description}<br />
+                Apuesta: {props.bet}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>

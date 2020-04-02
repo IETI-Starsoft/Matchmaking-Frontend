@@ -292,6 +292,8 @@ class CreateActivity extends React.Component {
       location: this.state.location,
       credits:  0,
       idPlayer1: JSON.parse(localStorage.user).userId,
+      state: "Available",
+      owner: JSON.parse(localStorage.user).userId
     })
       .then(response =>{
         if (this.state.stateBet) this.betUserToActivity(this.state.bet,response.data.id);
@@ -315,8 +317,10 @@ class CreateActivity extends React.Component {
       description: this.state.description,
       type: this.state.activity,
       location: this.state.location,
-      credits:  this.state.bet == "" ? null : this.state.bet/2,
+      credits:  0,
       idTeam1: this.state.checked[0].teamId,
+      state: "Available",
+      owner: JSON.parse(localStorage.user).userId
     })
       .then(response => {
         if (this.state.stateBet) this.betTeamToActivity(this.state.bet,response.data.id);

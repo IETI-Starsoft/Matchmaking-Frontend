@@ -4,87 +4,30 @@ import Grid from '@material-ui/core/Grid';
 import Menu from "../menu/NavBar";
 import Filtros from './Filtros'; 
 import ModalMasInfo from './ModalMasInfo'
+import axiosHeader from '../../api/axiosHeader';
+
 export class ListaDeActividades extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = [
-            {
-                Retador: "Luis Pizza",
-                NombreActividad: 'Partido De futbol 5',
-                TipoActividad: "Futbol",
-                Descripcion: "Partido de futbol amistoso 5 vs 5 a 10 goles",
-                Lugar: "Parque San andres calle 80",
-                Apuesta: "$ 0",
-                Fecha: "15/03/4 Hora:10:00 AM",
-                FechaPublicacion: "14/03/4 Hora:10:00 AM"
-            },
-            {
-                Retador: "Diego Corredor",
-                NombreActividad: 'Partido De basquetbol',
-                TipoActividad: "Basquetbol",
-                Descripcion: "Partido de Basquetbol  1 vs 1 a 10 canastas ",
-                Lugar: "Parque Simon Bolivar",
-                Apuesta: "$ 100.000",
-                Fecha: "3/03/4 Hora:10:00 AM",
-                FechaPublicacion: "01/03/4 Hora:10:00 AM"
-            },
-            {
-                Retador: "Cristian Lopez",
-                NombreActividad: 'Partido De Tennis',
-                TipoActividad: "Tennis ",
-                Descripcion: "Partido de Tennis  1 vs 1 a 3  sets",
-                Apuesta: "$ 50.000",
-                Lugar: "Parque Simon Bolivar",
-                Fecha: "28/04/4 Hora:10:00 AM",
-                FechaPublicacion: "28/03/4 Hora:10:00 AM"
-            }
-            ,
-            {
-                Retador: "Cristian Lopez",
-                NombreActividad: 'Partido De Tennis',
-                TipoActividad: "Tennis ",
-                Descripcion: "Partido de Tennis  1 vs 1 a 3  sets",
-                Apuesta: "$ 50.000",
-                Lugar: "Parque Simon Bolivar",
-                Fecha: "28/04/4 Hora:10:00 AM",
-                FechaPublicacion: "28/03/4 Hora:10:00 AM"
-            }
-            ,
-            {
-                Retador: "Cristian Lopez",
-                NombreActividad: 'Partido De Tennis',
-                TipoActividad: "Tennis ",
-                Descripcion: "Partido de Tennis  1 vs 1 a 3  sets",
-                Apuesta: "$ 50.000",
-                Lugar: "Parque Simon Bolivar",
-                Fecha: "28/04/4 Hora:10:00 AM",
-                FechaPublicacion: "28/03/4 Hora:10:00 AM"
-            }
-            ,
-            {
-                Retador: "Cristian Lopez",
-                NombreActividad: 'Partido De Tennis',
-                TipoActividad: "Tennis ",
-                Descripcion: "Partido de Tennis  1 vs 1 a 3  sets",
-                Apuesta: "$ 50.000",
-                Lugar: "Parque Simon Bolivar",
-                Fecha: "28/04/4 Hora:10:00 AM",
-                FechaPublicacion: "28/03/4 Hora:10:00 AM"
-            }
-            ,
-            {
-                Retador: "Cristian Lopez",
-                NombreActividad: 'Partido De Tennis',
-                TipoActividad: "Tennis ",
-                Descripcion: "Partido de Tennis  1 vs 1 a 3  sets",
-                Apuesta: "$ 50.000",
-                Lugar: "Parque Simon Bolivar",
-                Fecha: "28/04/4 Hora:10:00 AM",
-                FechaPublicacion: "28/03/4 Hora:10:00 AM"
-            }
-            
-        ];
+        this.state = {activities: []};
+        this.getAllActivities = this.getAllActivities.bind(this);
+        this.getAllActivities();
+    }
+
+    getAllActivities(){
+        var temp = []
+        let user = JSON.parse(localStorage.getItem("user"));
+        axiosHeader.get("/activities/available/"+ user.userId + "/Available")
+          .then(response => {
+            response.data.map(value => {
+              temp.push(value);
+            })
+            this.setState({activities:temp})
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
     }
 
     render() {
@@ -94,7 +37,7 @@ export class ListaDeActividades extends React.Component {
                 <Menu />
                 <Filtros />  
                 <Grid container spacing={32} justify="center">
-                    {this.state.map((actividad, i) => {
+                    {this.state.activities.map((actividad, i) => {
                         return (
                             <ActividadCard props={actividad} />
                         );
