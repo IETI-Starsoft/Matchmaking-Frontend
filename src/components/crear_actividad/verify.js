@@ -46,7 +46,7 @@ export class Verify extends React.Component {
                                     src={`/static/images/avatar/${value + 1}.jpg`}
                               />
                             </ListItemAvatar>
-                            <ListItemText id={labelId} primary={this.props.checkIndividual || this.props.checkParticipants ? `User ${value}`: `Equipo ${value.name}`}  />
+                            <ListItemText id={labelId} primary={this.props.checkIndividual || this.props.checkParticipants ? `${value}`: `${value.name}`}  />
                           </ListItem>
                         );
                       })}

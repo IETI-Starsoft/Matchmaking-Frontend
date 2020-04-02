@@ -1,6 +1,5 @@
 import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import moment from "moment";
 import Paper from '@material-ui/core/Paper';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -13,7 +12,6 @@ import { Participants } from './participants';
 import { Verify } from './verify';
 import Menu from "../menu/NavBar";
 import { withStyles } from '@material-ui/core/styles';
-import axios from "axios"
 import axiosHeader from '../../api/axiosHeader';
 
 
@@ -151,7 +149,8 @@ class CreateActivity extends React.Component {
 
   handlecheckIndividual() {
     if (!this.state.checkIndividual) {
-      const newChecked = ["user"];
+      var name = JSON.parse(localStorage.getItem("user")).firstName+" "+JSON.parse(localStorage.getItem("user")).lastName  
+      const newChecked = [name];
       this.setState({ checked: newChecked });
     }
     else {
@@ -285,7 +284,7 @@ class CreateActivity extends React.Component {
         return <Participants checkParticipants={this.state.checkParticipants} changeCheckParticipants={this.handlecheckParticipants}
           checkTeams={this.state.checkTeams} changeCheckTeams={this.handlecheckTeams}
           checkIndividual={this.state.checkIndividual} changeCheckIndividual={this.handlecheckIndividual}
-          checked={this.state.checked} changeChecked={this.handleToggle} />;
+          checked={this.state.checked} changeChecked={this.handleToggle} classes={this.props.classes}/>;
 
 
       case 2:
@@ -304,6 +303,35 @@ class CreateActivity extends React.Component {
 }
 
 const styles = theme => ({
+
+  divTeams: {
+    backgroundColor: theme.palette.background.paper,
+    border: 'groove',
+    borderRadius: '5px'
+    },
+
+  labelEquipo:{
+    marginLeft:   "22%",
+    [theme.breakpoints.up(600)]:{
+      marginLeft:   "18%"
+    },
+  },
+
+  teamIcon: {
+    width: '30%',
+    height: '10%',
+    marginLeft:"35%",
+    marginTop:"2%"
+  },
+
+  list:{
+    width: '100%',
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper,
+    position: 'relative',
+    overflow: 'auto',
+    maxHeight: 230,
+  },
 
   layout: {
     width: 'auto',
