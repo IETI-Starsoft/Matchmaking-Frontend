@@ -64,7 +64,8 @@ export default function SignUp() {
         rating: 0,
         credits: 0,
         friends: [],
-        teams: []
+        teams: [],
+        imageFileURL: ""
     })
     .then(function(response){
       alert("Registered!");
