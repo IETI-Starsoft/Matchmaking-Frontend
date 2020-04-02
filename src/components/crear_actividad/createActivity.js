@@ -81,7 +81,7 @@ class CreateActivity extends React.Component {
                     ¡ Tu actividad se ha registrado con exito !
                       </Typography>
                   <Typography variant="subtitle1">
-                    Su actividad se ha registrado con exito. Seras informado cuando alguien
+                    Seras informado cuando alguien
                     decida aceptar tu reto/juego.
                       </Typography>
                 </React.Fragment>
