@@ -280,6 +280,24 @@ class CreateActivity extends React.Component {
         });    
   }
 
+  updateOwnerUser(idActivity){
+    let user = JSON.parse(localStorage.getItem("user"));
+    var act = user.activities; 
+    act.push(idActivity);
+    axiosHeader.put("/users", {
+      userId: user.userId, firstName: user.firstName,
+      lastName: user.lastName, email: user.email,
+      password: user.password, imageFileURL: user.imageFileURL,
+      rating: user.rating, credits: user.credits,
+      friends: user.friends, teams: user.teams,
+      activities: act
+    }).then(response =>{
+      localStorage.setItem("user", JSON.stringify(response.data));
+    }).catch(function (error) {
+      console.log(error);
+    });
+  }
+
   postIndividual() {
     var today = new Date();
     axiosHeader.post("/activities", {
@@ -296,6 +314,7 @@ class CreateActivity extends React.Component {
       owner: JSON.parse(localStorage.user).userId
     })
       .then(response =>{
+        this.updateOwnerUser(response.data.id); 
         if (this.state.stateBet) this.betUserToActivity(this.state.bet,response.data.id);
         else {
           this.nextStep();
