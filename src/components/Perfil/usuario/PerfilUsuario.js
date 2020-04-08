@@ -15,6 +15,7 @@ import { AmigoList } from "./AmigoList";
 import { EquipoList } from "./EquipoList";
 import NavBar from "../../menu/NavBar";
 import axiosHeader from "../../../api/axiosHeader";
+import '../../../resources/styles.css';
 
 const userProfileStyles = makeStyles(theme => ({
   top: {
@@ -111,7 +112,7 @@ export default function PerfilUsuario() {
   return (
     <Box>
       <NavBar />
-      <Box className={classes.top} borderBottom={1}>
+      <Box className={[classes.top, "animated", "fadeIn", "fast"]} borderBottom={1}>
         <Box className={classes.topContent}>
           <Avatar className={classes.avatar} src={image} />
         </Box>
@@ -123,7 +124,7 @@ export default function PerfilUsuario() {
       </Box>
       <Container>
         <Box p={1}>
-          <Card>
+          <Card class="animated fadeIn">
             <CardContent>
               <AppBar position="static" color="default">
                 <Tabs
