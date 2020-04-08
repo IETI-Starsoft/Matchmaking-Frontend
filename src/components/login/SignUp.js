@@ -65,6 +65,7 @@ export default function SignUp() {
         credits: 0,
         friends: [],
         teams: [],
+        activities: [],
         imageFileURL: ""
     })
     .then(function(response){
