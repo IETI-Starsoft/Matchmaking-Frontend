@@ -116,7 +116,7 @@ export default function Checkout() {
         captainId: JSON.parse(localStorage.getItem("user")).userId,
         credits: 0,
         name: team.name,
-
+        activities: []
       })
         .then(function (response) {
           console.log(response.data);

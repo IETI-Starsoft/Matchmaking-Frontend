@@ -280,6 +280,47 @@ class CreateActivity extends React.Component {
         });    
   }
 
+  updateOwnerUser(idActivity){
+    let user = JSON.parse(localStorage.getItem("user"));
+    var act = user.activities; 
+    act.push(idActivity);
+    axiosHeader.put("/users", {
+      userId: user.userId, firstName: user.firstName,
+      lastName: user.lastName, email: user.email,
+      password: user.password, imageFileURL: user.imageFileURL,
+      rating: user.rating, credits: user.credits,
+      friends: user.friends, teams: user.teams,
+      activities: act
+    }).then(response =>{
+      localStorage.setItem("user", JSON.stringify(response.data));
+    }).catch(function (error) {
+      console.log(error);
+    });
+  }
+
+  updateActivitiesTeam(idActivity){
+    let teamId =  this.state.checked[0].teamId;
+    axiosHeader.get("/team/" + teamId)
+      .then(response =>{
+        this.updateListTeam(response.data,idActivity);
+      }).catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  updateListTeam(team,idActivity){
+    var act = team.activities; 
+    act.push(idActivity);
+    axiosHeader.put("/team",{
+      teamId: team.teamId,
+      members: team.members,
+      captainId: team.captainId,
+      credits: team.credits,
+      activities: act,
+      name: team.name
+    })
+  }
+
   postIndividual() {
     var today = new Date();
     axiosHeader.post("/activities", {
@@ -296,6 +337,7 @@ class CreateActivity extends React.Component {
       owner: JSON.parse(localStorage.user).userId
     })
       .then(response =>{
+        this.updateOwnerUser(response.data.id); 
         if (this.state.stateBet) this.betUserToActivity(this.state.bet,response.data.id);
         else {
           this.nextStep();
@@ -323,6 +365,7 @@ class CreateActivity extends React.Component {
       owner: JSON.parse(localStorage.user).userId
     })
       .then(response => {
+        this.updateActivitiesTeam(response.data.id); 
         if (this.state.stateBet) this.betTeamToActivity(this.state.bet,response.data.id);
         else {
           this.nextStep();
