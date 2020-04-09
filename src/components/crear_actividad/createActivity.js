@@ -298,6 +298,29 @@ class CreateActivity extends React.Component {
     });
   }
 
+  updateActivitiesTeam(idActivity){
+    let teamId =  this.state.checked[0].teamId;
+    axiosHeader.get("/team/" + teamId)
+      .then(response =>{
+        this.updateListTeam(response.data,idActivity);
+      }).catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  updateListTeam(team,idActivity){
+    var act = team.activities; 
+    act.push(idActivity);
+    axiosHeader.put("/team",{
+      teamId: team.teamId,
+      members: team.members,
+      captainId: team.captainId,
+      credits: team.credits,
+      activities: act,
+      name: team.name
+    })
+  }
+
   postIndividual() {
     var today = new Date();
     axiosHeader.post("/activities", {
@@ -342,6 +365,7 @@ class CreateActivity extends React.Component {
       owner: JSON.parse(localStorage.user).userId
     })
       .then(response => {
+        this.updateActivitiesTeam(response.data.id); 
         if (this.state.stateBet) this.betTeamToActivity(this.state.bet,response.data.id);
         else {
           this.nextStep();
