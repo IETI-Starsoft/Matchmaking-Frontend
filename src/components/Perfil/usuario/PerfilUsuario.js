@@ -87,6 +87,7 @@ export default function PerfilUsuario() {
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
   const [name, setName] = React.useState(null);
+  const [bio, setBio] = React.useState("");
   const [rating, setRating] = React.useState(0);
   const [friends, setFriends] = React.useState([]);
   const [teams, setTeams] = React.useState([]);
@@ -96,6 +97,7 @@ export default function PerfilUsuario() {
     let user = JSON.parse(localStorage.getItem("user"));
     setName(user.firstName.toUpperCase() + " " + user.lastName.toUpperCase());
     setRating(user.rating);
+    setBio(user.bio);
     axiosHeader.get("/users/id/" + user.userId).then(function (response) {
       if (
         response.data.imageFileURL != "" ||
@@ -185,19 +187,7 @@ export default function PerfilUsuario() {
                   Sobre <b>{name}</b>
                 </Grid>
                 <Grid item xs={8}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras
-                  blandit orci lorem, nec consectetur dolor auctor nec. Nam
-                  consectetur ex eros, id pellentesque magna varius in. Praesent
-                  scelerisque in mi sit amet tempor. Mauris commodo at lacus in
-                  fringilla. In scelerisque mi odio, maximus auctor erat cursus
-                  vitae. Sed urna neque, auctor ac venenatis in, facilisis a
-                  sem. Donec vel lectus tincidunt, tempus ligula congue,
-                  vestibulum ipsum. Mauris porttitor maximus nibh, in fringilla
-                  velit aliquet semper. Praesent ultricies dui non augue
-                  condimentum efficitur. Lorem ipsum dolor sit amet, consectetur
-                  adipiscing elit. Donec luctus ex in lacinia vehicula. Sed
-                  placerat dictum lorem, ut fringilla urna tincidunt a. Nullam
-                  quis auctor tortor, pulvinar pretium erat.
+                    {bio ? bio: "¡Agrega información sobre tí editando tu perfil!"}
                 </Grid>
               </Grid>
             </div>

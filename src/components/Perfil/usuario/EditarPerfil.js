@@ -17,6 +17,8 @@ import Alert from '@material-ui/lab/Alert';
 import { Container } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import axiosHeader from "../../../api/axiosHeader";
+import '../../../resources/css/animation.css';
+import TextField from '@material-ui/core/TextField';
 
 const useStyles = makeStyles((theme) => ({
     layout: {
@@ -51,6 +53,7 @@ export default function EditarPerfil() {
     const [state, setState] = React.useState({
         name: "",
         lastname: "",
+        bio: "",
         file: null,
     });
 
@@ -63,6 +66,10 @@ export default function EditarPerfil() {
         setState({ ...state, lastname: event.target.value });
     };
 
+    const handleBioChange = () => event => {
+        setState({ ...state, bio: event.target.value });
+    };
+
     const handleInputChange = () => e => {
         e.preventDefault();
         setState({ ...state, file: e.target.files[0] });
@@ -73,6 +80,7 @@ export default function EditarPerfil() {
         const updateUser = () => {
             user.firstName = state.name;
             user.lastName = state.lastname;
+            user.bio = state.bio != "" ? state.bio : user.bio;
             axiosHeader.put("/users", user)
                 .then(response => {
                     localStorage.setItem("user",JSON.stringify(user));
@@ -132,6 +140,16 @@ export default function EditarPerfil() {
                                     value={state.lastname}
                                     onChange={handleLastnameChange()}
                                     autoFocus />
+                            </FormControl>
+                            <FormControl margin="normal"  fullWidth>
+                                <TextField
+                                    id="standard-multiline-static"
+                                    label="Bio"
+                                    value={state.bio}
+                                    onChange={handleBioChange()}
+                                    multiline
+                                    rows="4"
+                                />
                             </FormControl>
                             <FormControl >
                                 <div className={classes.imageButton}>
