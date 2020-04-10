@@ -21,6 +21,7 @@ import PermIdentityIcon from "@material-ui/icons/PermIdentity";
 import ContactsIcon from "@material-ui/icons/Contacts";
 import GroupWorkIcon from "@material-ui/icons/GroupWork";
 import GradeIcon from "@material-ui/icons/Grade";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import DarkBackground from "../../../resources/images/dark.jpg";
 
 const userProfileStyles = makeStyles((theme) => ({
@@ -89,7 +90,7 @@ export default function PerfilUsuario() {
   const [name, setName] = React.useState(null);
   const [bio, setBio] = React.useState("");
   const [rating, setRating] = React.useState(0);
-  const [friends, setFriends] = React.useState([]);
+  const [friends, setFriends] = React.useState(null);
   const [teams, setTeams] = React.useState([]);
   const [image, setImage] = React.useState(tmpImage);
 
@@ -186,66 +187,102 @@ export default function PerfilUsuario() {
                   Sobre <b>{name}</b>
                 </Grid>
                 <Grid item xs={8}>
-                    {bio ? bio: "¡Agrega información sobre tí editando tu perfil!"}
+                  {bio
+                    ? bio
+                    : "¡Agrega información sobre tí editando tu perfil!"}
                 </Grid>
               </Grid>
             </div>
           </TabPanel>
           <TabPanel className="animated fadeIn fast" value={value} index={1}>
             <div className={classes.center}>
-              <Rating name="hover-feedback" value={rating} readOnly size="large" />
+              <Rating
+                name="hover-feedback"
+                value={rating}
+                readOnly
+                size="large"
+              />
               {rating !== null && <Box ml={2}>{labels[rating]}</Box>}
             </div>
           </TabPanel>
           <TabPanel className="animated fadeIn fast" value={value} index={2}>
             <div className={classes.center}>
-              <Grid container spacing={2}>
-                <Grid item xs={3}>
-                  Tienes <b>{friends.length}</b> amigo(s)
-                </Grid>
-                {friends.length == 0 ? 
-                  <Grid item xs={8}> 
-                    Aún no tienes amigos, ¡agrega algunos!
-                    <Button variant="contained" color="primary" fullWidth>
-                      Agregar amigos
-                    </Button>
-                  </Grid> 
-                  :
-                  <Grid item xs={8}>
-                    Algunos de tus amigos ...
-                    <AmigoList friends={friends.slice(0,4)}/>
-                    <Button variant="contained" color="primary" fullWidth>
-                      Ver más ...
-                    </Button>
+              {friends ? (
+                friends.length == 0 ? (
+                  <Grid container spacing={2}>
+                    <Grid item xs={3}>
+                      Tienes <b>{friends.length}</b> amigo(s)
+                    </Grid>
+                    <Grid item xs={8}>
+                      Aún no tienes amigos, ¡agrega algunos!
+                      <Button variant="contained" color="primary" fullWidth>
+                        Agregar amigos
+                      </Button>
+                    </Grid>
                   </Grid>
-                }
-              </Grid>
+                ) : (
+                  <Grid container spacing={2}>
+                    <Grid item xs={3}>
+                      Tienes <b>{friends.length}</b> amigo(s)
+                    </Grid>
+                    <Grid item xs={8}>
+                      Algunos de tus amigos ...
+                      <AmigoList friends={friends.slice(0, 4)} />
+                      <Button variant="contained" color="primary" fullWidth>
+                        Ver más ...
+                      </Button>
+                    </Grid>
+                  </Grid>
+                )
+              ) : (
+                <div style={{ textAlign: "center" }}>
+                  <CircularProgress />
+                  Cargando...
+                </div>
+              )}
             </div>
           </TabPanel>
           <TabPanel className="animated fadeIn fast" value={value} index={3}>
-          <div className={classes.center}>
-              <Grid container spacing={2}>
-                <Grid item xs={3}>
-                  Estas en <b>{teams.length}</b> equipo(s)
-                </Grid>
-                {
-                  teams.length == 0 ? 
-                  <Grid item xs={8}>
-                    No estas en ningún equipo, ¡crea uno!
-                    <Button variant="contained" color="primary" href="/crear-equipo" fullWidth style={{color: "white", textDecoration:"none"}}>
-                      Crear equipo
-                    </Button>
+            <div className={classes.center}>
+              {teams ? (
+                teams.length == 0 ? (
+                  <Grid container spacing={2}>
+                    <Grid item xs={3}>
+                      Estas en <b>{teams.length}</b> equipo(s)
+                    </Grid>
+                    <Grid item xs={8}>
+                      No estas en ningún equipo, ¡crea uno!
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        href="/crear-equipo"
+                        fullWidth
+                        style={{ color: "white", textDecoration: "none" }}
+                      >
+                        Crear equipo
+                      </Button>
+                    </Grid>
                   </Grid>
-                  :
-                  <Grid item xs={8}>
-                    Algunos de tus equipos ...
-                    <EquipoList teams={teams.slice(0,4)}/>
-                    <Button variant="contained" color="primary" fullWidth>
-                      Ver más ...
-                    </Button>
+                ) : (
+                  <Grid container spacing={2}>
+                    <Grid item xs={3}>
+                      Estas en <b>{teams.length}</b> equipo(s)
+                    </Grid>
+                    <Grid item xs={8}>
+                      Algunos de tus equipos ...
+                      <EquipoList teams={teams.slice(0, 4)} />
+                      <Button variant="contained" color="primary" fullWidth>
+                        Ver más ...
+                      </Button>
+                    </Grid>
                   </Grid>
-                }
-              </Grid>
+                )
+              ) : (
+                <div style={{ textAlign: "center" }}>
+                  <CircularProgress />
+                  Cargando...
+                </div>
+              )}
             </div>
           </TabPanel>
         </div>
