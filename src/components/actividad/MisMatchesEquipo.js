@@ -5,6 +5,7 @@ import Menu from "../menu/NavBar";
 import Filtros from './Filtros'; 
 import ModalMasInfo from './ModalMasInfo'
 import axiosHeader from '../../api/axiosHeader';
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 export class MisMatchesEquipo extends React.Component {
 
@@ -48,7 +49,8 @@ export class MisMatchesEquipo extends React.Component {
            <Fragment>
                 <Menu />
                 <Filtros />  
-                
+                {this.state.activities.length > 0 
+                ? 
                 <Grid container spacing={32} justify="center">
                  {this.state.activities.map((actividad, i) => {
                      return (
@@ -56,8 +58,12 @@ export class MisMatchesEquipo extends React.Component {
                      );
                  })}
                 </Grid>
-                
-                
+                : 
+                <div style={{ textAlign: "center" , marginTop:"8%"}}>
+                    <CircularProgress />
+                    Cargando...
+                </div>
+                }
             </Fragment>
         ); 
     }

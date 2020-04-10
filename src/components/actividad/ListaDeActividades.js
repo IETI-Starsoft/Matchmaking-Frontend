@@ -5,6 +5,7 @@ import Menu from "../menu/NavBar";
 import Filtros from './Filtros'; 
 import ModalMasInfo from './ModalMasInfo'
 import axiosHeader from '../../api/axiosHeader';
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 export class ListaDeActividades extends React.Component {
 
@@ -36,13 +37,19 @@ export class ListaDeActividades extends React.Component {
            <Fragment>
                 <Menu />
                 <Filtros />  
-                <Grid container spacing={32} justify="center">
+                {this.state.activities.length > 0  
+                ? <Grid container spacing={32} justify="center">
                     {this.state.activities.map((actividad, i) => {
                         return (
                             <ActividadCard props={actividad} />
                         );
                     })}
                 </Grid>
+                : <div style={{ textAlign: "center", marginTop:"8%" }}>
+                    <CircularProgress />
+                     Cargando...
+                    </div>
+                 }
             </Fragment>
         ); 
 
