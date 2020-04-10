@@ -227,7 +227,7 @@ export default function PerfilUsuario() {
                     </Grid>
                     <Grid item xs={8}>
                       Algunos de tus amigos ...
-                      <AmigoList friends={friends.slice(0, 4)} />
+                      <AmigoList friends={friends.slice(0, 3)} />
                       <Button variant="contained" color="primary" fullWidth>
                         Ver más ...
                       </Button>
@@ -270,7 +270,7 @@ export default function PerfilUsuario() {
                     </Grid>
                     <Grid item xs={8}>
                       Algunos de tus equipos ...
-                      <EquipoList teams={teams.slice(0, 4)} />
+                      <EquipoList teams={teams.slice(0, 3)} />
                       <Button variant="contained" color="primary" fullWidth>
                         Ver más ...
                       </Button>
