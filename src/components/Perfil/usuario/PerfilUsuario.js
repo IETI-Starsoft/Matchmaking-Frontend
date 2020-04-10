@@ -9,6 +9,7 @@ import AppBar from "@material-ui/core/AppBar";
 import SwipeableViews from "react-swipeable-views";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+import Button from "@material-ui/core/Button";
 import { useTheme } from "@material-ui/core";
 import TabPanel from "./TabPanel";
 import { AmigoList } from "./AmigoList";
@@ -24,10 +25,10 @@ import DarkBackground from "../../../resources/images/dark.jpg";
 
 const userProfileStyles = makeStyles((theme) => ({
   top: {
-    backgroundImage: `url(${DarkBackground})`,
+    //backgroundImage: `url(${DarkBackground})`,
+    backgroundColor: "#a0bceb",
     borderColor: "black",
     borderBottomWidth: "1px",
-    color: "white",
   },
   topContent: {
     alignItems: "center",
@@ -41,7 +42,7 @@ const userProfileStyles = makeStyles((theme) => ({
   },
   nameTop: {
     fontSize: 20,
-    color: "#FFFFFF",
+    //color: "#FFFFFF",
     fontWeight: "600",
   },
   centerContainer: {
@@ -84,7 +85,6 @@ const teamImage =
 
 export default function PerfilUsuario() {
   const classes = userProfileStyles();
-  const theme = useTheme();
   const [value, setValue] = React.useState(0);
   const [name, setName] = React.useState(null);
   const [bio, setBio] = React.useState("");
@@ -168,7 +168,6 @@ export default function PerfilUsuario() {
               scrollButtons="on"
               indicatorColor="primary"
               textColor="primary"
-              centered
             >
               <Tab label="Bio" icon={<PermIdentityIcon />} {...a11yProps(0)} />
               <Tab
@@ -199,10 +198,55 @@ export default function PerfilUsuario() {
             </div>
           </TabPanel>
           <TabPanel className="animated fadeIn fast" value={value} index={2}>
-            Item Three
+            <div className={classes.center}>
+              <Grid container spacing={2}>
+                <Grid item xs={3}>
+                  Tienes <b>{friends.length}</b> amigo(s)
+                </Grid>
+                {friends.length == 0 ? 
+                  <Grid item xs={8}> 
+                    Aún no tienes amigos, ¡agrega algunos!
+                    <Button variant="contained" color="primary" fullWidth>
+                      Agregar amigos
+                    </Button>
+                  </Grid> 
+                  :
+                  <Grid item xs={8}>
+                    Algunos de tus amigos ...
+                    <AmigoList friends={friends.slice(0,4)}/>
+                    <Button variant="contained" color="primary" fullWidth>
+                      Ver más ...
+                    </Button>
+                  </Grid>
+                }
+              </Grid>
+            </div>
           </TabPanel>
           <TabPanel className="animated fadeIn fast" value={value} index={3}>
-            Item Three
+          <div className={classes.center}>
+              <Grid container spacing={2}>
+                <Grid item xs={3}>
+                  Estas en <b>{teams.length}</b> equipo(s)
+                </Grid>
+                {
+                  teams.length == 0 ? 
+                  <Grid item xs={8}>
+                    No estas en ningún equipo, ¡crea uno!
+                    <Button variant="contained" color="primary" href="/crear-equipo" fullWidth style={{color: "white", textDecoration:"none"}}>
+                      Crear equipo
+                    </Button>
+                  </Grid>
+                  :
+                  <Grid item xs={8}>
+                    Algunos de tus equipos ...
+                    <EquipoList teams={teams.slice(0,4)}/>
+                    <Button variant="contained" color="primary" fullWidth>
+                      Ver más ...
+                    </Button>
+                  </Grid>
+                }
+              </Grid>
+            </div>
           </TabPanel>
         </div>
       </Container>
