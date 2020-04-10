@@ -7,7 +7,7 @@ import ModalMasInfo from './ModalMasInfo'
 import axiosHeader from '../../api/axiosHeader';
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-export class ListaDeActividades extends React.Component {
+export class MisMatchesIndividual extends React.Component {
 
     constructor(props) {
         super(props);
@@ -19,7 +19,7 @@ export class ListaDeActividades extends React.Component {
     getAllActivities(){
         var temp = []
         let user = JSON.parse(localStorage.getItem("user"));
-        axiosHeader.get("/activities/available/"+ user.userId + "/Available")
+        axiosHeader.get("users/id/" + user.userId + "/activities")
           .then(response => {
             response.data.map(value => {
               temp.push(value);
@@ -45,10 +45,10 @@ export class ListaDeActividades extends React.Component {
                         );
                     })}
                 </Grid>
-                : <div style={{ textAlign: "center", marginTop:"8%" }}>
-                    <CircularProgress />
+                 : <div style={{ textAlign: "center" , marginTop:"8%"}}>
+                     <CircularProgress />
                      Cargando...
-                    </div>
+                 </div>
                  }
             </Fragment>
         ); 

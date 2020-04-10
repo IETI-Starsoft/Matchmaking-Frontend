@@ -10,7 +10,8 @@ import { ListaDeActividades } from "./components/actividad/ListaDeActividades";
 import PerfilEquipo from "./components/Perfil/equipo/PerfilEquipo";
 import TransferCredits from "./components/payments/TransferCredits";
 import EditarPerfil from "./components/Perfil/usuario/EditarPerfil";
-
+import {MisMatchesIndividual} from "./components/actividad/MisMatchesIndividual";
+import {MisMatchesEquipo} from "./components/actividad/MisMatchesEquipo";
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -25,10 +26,11 @@ class App extends React.Component {
     const CrearMatchHomeView = () => <CreateActivity />;
     const CrearEquipoView = () => <CrearEquipo />;
     const BuscarMatchView = () => <ListaDeActividades />;
-
+    const MisMacthesIndividualView = () => <MisMatchesIndividual/>;
+    const MisMatchesEquipoView = () => <MisMatchesEquipo/>;
     const PerfilEquipoView = () => <PerfilEquipo />;
     const TransferirCreditos = () => <TransferCredits />;
-    const EditarPerfilUsuario = () => <EditarPerfil/>
+    const EditarPerfilUsuario = () => <EditarPerfil/>;
     //<Route exact path="/amigos" component={HomeView} />
     //<Route exact path="/mis-equipos" component={HomeView} />
     //<Route exact path="/mis-matches" component={HomeView} />
@@ -47,6 +49,8 @@ class App extends React.Component {
             <Route exact path="/perfil-equipo/:props" component={PerfilEquipoView} />
             <Route exact path="/transfer" component={TransferirCreditos} />
             <Route exact path="/editar-perfil" component={EditarPerfilUsuario}/>
+            <Route exact path="/mis-matches-individual" component={MisMacthesIndividualView}/>
+            <Route exact path="/mis-matches-equipo" component={MisMatchesEquipoView}/>
           </div>
         </div>
       </Router>

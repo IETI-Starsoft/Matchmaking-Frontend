@@ -56,7 +56,7 @@ export default function DenseAppBar() {
   const [state, setState] = React.useState({
     left: false,
     icons: [
-      [<GroupIcon />, <GroupWorkIcon />, <EventAvailableIcon />],
+      [<GroupIcon />, <GroupWorkIcon />, <EventAvailableIcon />,<EventAvailableIcon />],
       [<EventIcon />, <GroupAddIcon />, <GroupWorkOutlinedIcon />]
     ],
     credits: JSON.parse(localStorage.getItem("user")).credits
@@ -88,7 +88,8 @@ export default function DenseAppBar() {
         {[
           ["Amigos", "/amigos"],
           ["Mis Equipos", "/mis-equipos"],
-          ["Mis Matches", "/mis-matches"]
+          ["Mis Matches Individual", "/mis-matches-individual"],
+          ["Mis Matches Equipo", "/mis-matches-equipo"]
         ].map((array, index) => (
           <ListItem button key={array[0]} component={Link} to={array[1]}>
             <ListItemIcon>{state.icons[0][index]}</ListItemIcon>
