@@ -53,10 +53,8 @@ export default function TransferCredits() {
 
   useEffect(() => {
     let user = JSON.parse(localStorage.getItem("user"));
-    setName(user.firstName.toUpperCase() + " " + user.lastName.toUpperCase());
-    setRating(user.rating);
     axiosHeader
-      .get("/users/id/" + user.userId + "/friends")
+      .get(`/users/id/${user.userId}/friends`)
       .then(function (response) {
         setFriends(response.data);
       })
@@ -65,7 +63,7 @@ export default function TransferCredits() {
       });
 
     axiosHeader
-      .get("/users/id/" + user.userId + "/teams")
+      .get(`/users/id/${user.userId}/teams`)
       .then(function (response) {
         setTeams(response.data);
       })

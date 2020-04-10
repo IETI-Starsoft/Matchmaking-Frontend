@@ -96,16 +96,17 @@ export default function PerfilUsuario() {
 
   useEffect(() => {
     let user = JSON.parse(localStorage.getItem("user"));
-    setName(user.firstName.toUpperCase() + " " + user.lastName.toUpperCase());
+    setName(`${user.firstName.toUpperCase()} ${user.lastName.toUpperCase()}`);
     setRating(user.rating);
     setBio(user.bio);
-    axiosHeader.get("/users/id/" + user.userId).then(function (response) {
+    axiosHeader.get(`/users/id/${user.userId}`)
+    .then(function (response) {
       if (
         response.data.imageFileURL != "" ||
         response.data.imageFileURL != null
       ) {
         axiosHeader
-          .get("/files/" + user.userId + "/" + response.data.imageFileURL, {
+          .get(`/files/${user.userId}/${response.data.imageFileURL}`, {
             responseType: "arraybuffer",
           })
           .then((response) => {
@@ -118,7 +119,7 @@ export default function PerfilUsuario() {
     });
 
     axiosHeader
-      .get("/users/id/" + user.userId + "/friends")
+      .get(`/users/id/${user.userId}/friends`)
       .then(function (response) {
         setFriends(response.data);
       })
@@ -127,8 +128,9 @@ export default function PerfilUsuario() {
       });
 
     axiosHeader
-      .get("/users/id/" + user.userId + "/teams")
+      .get(`/users/id/${user.userId}/teams`)
       .then(function (response) {
+        console.log("ok " + response.data);
         setTeams(response.data);
       })
       .catch(function (error) {
@@ -228,7 +230,7 @@ export default function PerfilUsuario() {
                     <Grid item xs={8}>
                       Algunos de tus amigos ...
                       <AmigoList friends={friends.slice(0, 3)} />
-                      <Button variant="contained" color="primary" fullWidth>
+                      <Button variant="contained" color="primary" href="/amigos" fullWidth style={{ color: "white", textDecoration: "none" }}>
                         Ver más ...
                       </Button>
                     </Grid>
