@@ -19,10 +19,15 @@ export class MisMatchesEquipo extends React.Component {
     getAllActivities(){
         var temp = []
         Promise.all(this.getAllTeamActivities()).then(results => {
-            results[0].map(activity => {
-                temp.push(activity);
-            })
-            this.setState({activities:temp})
+            try {
+                results[0].map(activity => {
+                    temp.push(activity);
+                })
+                this.setState({activities:temp})
+            } 
+            catch(error){
+                console.log(error)
+            }
         })
     }
 
@@ -52,9 +57,9 @@ export class MisMatchesEquipo extends React.Component {
                 {this.state.activities.length > 0 
                 ? 
                 <Grid container spacing={32} justify="center">
-                 {this.state.activities.map((actividad, i) => {
+                     {this.state.activities.map((actividad, i) => {
                      return (
-                         <ActividadCard props={actividad} />
+                        <ActividadCard props={actividad} />
                      );
                  })}
                 </Grid>
