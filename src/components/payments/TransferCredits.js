@@ -53,7 +53,6 @@ export default function TransferCredits() {
 
   useEffect(() => {
     let user = JSON.parse(localStorage.getItem("user"));
-    console.log(user);
     setName(user.firstName.toUpperCase() + " " + user.lastName.toUpperCase());
     setRating(user.rating);
     axiosHeader
