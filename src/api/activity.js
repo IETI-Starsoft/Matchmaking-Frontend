@@ -39,7 +39,37 @@ const postGroup = (state, ownerId, callback) => {
         });
 }
 
+const updateIndividualActivity = (activity) => {
+    return axiosHeader.put("/activities", {
+        typ: "IndividualActivity",id: activity.id,date: activity.date,
+        publicationDate: activity.publicationDate, bet: activity.bet,
+        description: activity.description, type: activity.type,
+        location: activity.location, credits: activity.credits, 
+        state: "Aceppted", owner: activity.owner,
+        idPlayer1: activity.idPlayer1,
+        idPlayer2:  activity.idPlayer2
+    }).then(response => {
+        return response.data;
+    })
+    .catch(function (error) {
+        console.log(error);
+    });
+}
+
+const getActivity = (activityId) => {
+    return axiosHeader.get("/activities/"+activityId)
+        .then(response => {
+            return response.data;
+        })
+        .catch(function (error) {
+            console.log(error);
+          });
+}
+
+
 export{
     postIndividual,
-    postGroup
+    postGroup,
+    updateIndividualActivity,
+    getActivity
 }

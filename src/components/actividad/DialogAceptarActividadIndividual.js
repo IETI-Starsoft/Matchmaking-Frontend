@@ -9,8 +9,9 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles'
 import { red } from '@material-ui/core/colors';
 import clsx from 'clsx';
-import axiosHeader from '../../api/axiosHeader';
-
+import { updateIndividualActivity } from "../../api/activity"
+import { updateActivitiesUser, validateCreditsUser } from "../../api/user"
+import { betUserToActivity } from "../../api/payments"
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -38,7 +39,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function DialogAceptarActividad({ props }) {
+export default function DialogAceptarActividadIndividual({ props }) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const [expanded, setExpanded] = React.useState(false);
@@ -51,72 +52,41 @@ export default function DialogAceptarActividad({ props }) {
         setOpen(false);
     };
 
-    const handleAccept = () =>{
+    const handleAccept = () => {
         setOpen(false)
-        axiosHeader.get("/activities/"+props.id)
-        .then(response => {
-            updateIndividualActivity(response.data);
-        })
-        .catch(function (error) {
-            console.log(error);
-          });
+        validateIndividualActivity();
+    }
+    
+    const validateIndividualActivity = () => {
+        if (props.bet != 0) {
+            validateCreditsUser(props.bet, JSON.parse(localStorage.getItem("user")).userId, makePaymentUserActivity)
+        }
+        else {
+            matchIndividualActivity(); //Actualiza el player 2 de la actividad
+            updateActivitiesUser(props.id).then(() => {//Actualiza la lista de actividades del usuario
+                confirmActivity();                   
+            });
+        }
     }
 
-    const handleCredit = value => {
-        let user = JSON.parse(localStorage.getItem("user"));
-        let creditosAct = user.credits;
-        user.credits = creditosAct - value;
-        localStorage.setItem("user", JSON.stringify(user));
-      }; 
+    const matchIndividualActivity = () =>{
+        props.idPlayer2 =  JSON.parse(localStorage.getItem("user")).userId;
+        updateIndividualActivity(props);//Actualiza el player2 de la actividad
+    }
 
-    const betUserToActivity = (credits,activityId) => {
-        let userId =  JSON.parse(localStorage.getItem("user")).userId
-        axiosHeader.put("/payments/user/"+ userId
-        + "/activity/" + activityId + "/amount/" + credits)
-            .then(response =>{
-                handleCredit(credits);
-            })
-            .catch(function (error) {
-              alert("error bet activity")
-              console.log(error);
+    const makePaymentUserActivity = userId => {
+        matchIndividualActivity();
+        betUserToActivity(props.bet, props.id).then//Realiza el pago 
+            (() => {
+                updateActivitiesUser(props.id).then(() => {//Actualiza la lista de actividades
+                    confirmActivity();                   
+                });
             });
-      }
+    }
 
-    const updateOwnerUser = (idActivity) =>{
-        let user = JSON.parse(localStorage.getItem("user"));
-        var act = user.activities; 
-        act.push(idActivity);
-        axiosHeader.put("/users", {
-          userId: user.userId, firstName: user.firstName,
-          lastName: user.lastName, email: user.email,
-          password: user.password, imageFileURL: user.imageFileURL,
-          rating: user.rating, credits: user.credits,
-          friends: user.friends, teams: user.teams,
-          activities: act
-        }).then(response =>{
-          localStorage.setItem("user", JSON.stringify(response.data));
-        }).catch(function (error) {
-          console.log(error);
-        });
-      }
-
-    const updateIndividualActivity = (activity) => {
-        axiosHeader.put("/activities", {
-            typ: "IndividualActivity",id: activity.id,date: activity.date,
-            publicationDate: activity.publicationDate, bet: activity.bet,
-            description: activity.description, type: activity.type,
-            location: activity.location, credits: activity.credits, 
-            state: "Aceppted", owner: activity.owner,
-            idPlayer1: activity.idPlayer1,
-            idPlayer2:  JSON.parse(localStorage.getItem("user")).userId
-        }).then(response => {
-            console.log(response.data)
-            betUserToActivity(activity.bet,response.data.id);
-            updateOwnerUser(response.data.id);
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
+    const confirmActivity = () =>{
+        alert("Ha aceptado el match con exito.");
+        window.location.href = "/buscar-match";
     }
 
     const handleExpandClick = () => {

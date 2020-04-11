@@ -12,7 +12,7 @@ import { red } from '@material-ui/core/colors';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import vs from "./vs.jpg";
 import ModalMasInfo from './ModalMasInfo'
-import DialogAceptarActividad from './DialogAceptarActividad';
+import DialogAceptarActividadIndividual from './DialogAceptarActividadIndividual';
 import axiosHeader from '../../api/axiosHeader';
 
 
@@ -63,10 +63,7 @@ export function ActividadCard({ props }) {
         else player = response.data.name;
         setOnwerPlayer(player);
       })
-      .catch(function (error) {
-        console.log(error);
-        return null;
-      });
+      .catch(function (error) {});
   }
   const classes = useStyles();
   owner(props.idPlayer1 != undefined ? props.idPlayer1: props.idTeam1
@@ -105,7 +102,7 @@ export function ActividadCard({ props }) {
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
-          <DialogAceptarActividad props={props} />
+          {props.idTeam1 != null ? null : <DialogAceptarActividadIndividual props={props} />}
           <ModalMasInfo props={props}  onwerPlayer = {onwerPlayer}/>
           <IconButton />
 
