@@ -17,6 +17,8 @@ import Alert from '@material-ui/lab/Alert';
 import { Container } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import axiosHeader from "../../../api/axiosHeader";
+import '../../../resources/css/animation.css';
+import TextField from '@material-ui/core/TextField';
 
 const useStyles = makeStyles((theme) => ({
     layout: {
@@ -51,6 +53,7 @@ export default function EditarPerfil() {
     const [state, setState] = React.useState({
         name: "",
         lastname: "",
+        bio: "",
         file: null,
     });
 
@@ -63,6 +66,10 @@ export default function EditarPerfil() {
         setState({ ...state, lastname: event.target.value });
     };
 
+    const handleBioChange = () => event => {
+        setState({ ...state, bio: event.target.value });
+    };
+
     const handleInputChange = () => e => {
         e.preventDefault();
         setState({ ...state, file: e.target.files[0] });
@@ -70,12 +77,13 @@ export default function EditarPerfil() {
 
     const handleSubmit = () => e => {
         e.preventDefault();
-        const updateUser = () => {
-            user.firstName = state.name;
-            user.lastName = state.lastname;
+        const updateUser = (user) => {
+            user.firstName = state.name != "" ? state.name : user.firstName;
+            user.lastName = state.lastname != "" ? state.lastname : user.lastName;
+            user.bio = state.bio != "" ? state.bio : user.bio;
             axiosHeader.put("/users", user)
                 .then(response => {
-                    localStorage.setItem("user",JSON.stringify(user));
+                    localStorage.setItem("user",JSON.stringify(response.data));
                     window.location.href = "/perfil";
                 })
                 .catch(error => {
@@ -83,26 +91,32 @@ export default function EditarPerfil() {
                     alert("error");
                 });
         };
-
-        let user = JSON.parse(localStorage.getItem("user"));
-
-        if (state.file != null){
-            let data = new FormData();
-            data.append("file", state.file);
-            data.append("userId", user.userId);
-        
-            axiosHeader.post("/files", data)
-                .then(response => {
-                    user.imageFileURL = state.file.name;
-                    updateUser();
-                })
-                .catch(error => {
-                    alert("Error cargando imagen.");  
-                });
-        }
-        else{
-            updateUser();
-        }
+        let userId = JSON.parse(localStorage.getItem("user")).userId;
+        axiosHeader.get(`/users/id/${userId}`)
+        .then( response => {
+            let user = response.data;
+            JSON.stringify(localStorage.setItem("user", user));
+            if (state.file != null){
+                let data = new FormData();
+                data.append("file", state.file);
+                data.append("userId", user.userId);
+            
+                axiosHeader.post("/files", data)
+                    .then(response => {
+                        user.imageFileURL = state.file.name;
+                        updateUser(user);
+                    })
+                    .catch(error => {
+                        alert("Error cargando imagen.");  
+                    });
+            }
+            else{
+                updateUser(user);
+            }
+        })
+        .catch( error => {
+            alert(error);
+        });
 
     };
 
@@ -115,7 +129,7 @@ export default function EditarPerfil() {
                     <Paper className={classes.paper}>
                         <Typography variant="h3">Editar Perfil</Typography>
                         <form className="form" onSubmit={handleSubmit()}>
-                            <FormControl margin="normal" required fullWidth>
+                            <FormControl margin="normal"  fullWidth>
                                 <InputLabel htmlFor="desc">Nombre</InputLabel>
                                 <Input
                                     id="name"
@@ -124,7 +138,7 @@ export default function EditarPerfil() {
                                     onChange={handleNameChange()}
                                     autoFocus />
                             </FormControl>
-                            <FormControl margin="normal" required fullWidth>
+                            <FormControl margin="normal"  fullWidth>
                                 <InputLabel htmlFor="desc">Apellido</InputLabel>
                                 <Input
                                     id="lastname"
@@ -132,6 +146,16 @@ export default function EditarPerfil() {
                                     value={state.lastname}
                                     onChange={handleLastnameChange()}
                                     autoFocus />
+                            </FormControl>
+                            <FormControl margin="normal"  fullWidth>
+                                <TextField
+                                    id="standard-multiline-static"
+                                    label="Bio"
+                                    value={state.bio}
+                                    onChange={handleBioChange()}
+                                    multiline
+                                    rows="4"
+                                />
                             </FormControl>
                             <FormControl >
                                 <div className={classes.imageButton}>

@@ -24,31 +24,30 @@ import { Link } from "react-router-dom";
 import PaymentModal from "../payments/ModalPayments";
 import Notification from "./Notification";
 import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
-import EditIcon from '@material-ui/icons/Edit';
+import EditIcon from "@material-ui/icons/Edit";
 
-
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   menuButton: {
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(2),
   },
   list: {
-    width: 250
+    width: 250,
   },
   fullList: {
-    width: "auto"
+    width: "auto",
   },
   perfilButton: {
-    fontSize: 40
+    fontSize: 40,
   },
   title: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   credits: {
-    marginLeft: 5
-  }
+    marginLeft: 5,
+  },
 }));
 
 export default function DenseAppBar() {
@@ -56,16 +55,21 @@ export default function DenseAppBar() {
   const [state, setState] = React.useState({
     left: false,
     icons: [
-      [<GroupIcon />, <GroupWorkIcon />, <EventAvailableIcon />,<EventAvailableIcon />],
-      [<EventIcon />, <GroupAddIcon />, <GroupWorkOutlinedIcon />]
+      [
+        <GroupIcon />,
+        <GroupWorkIcon />,
+        <EventAvailableIcon />,
+        <EventAvailableIcon />,
+      ],
+      [<EventIcon />, <GroupAddIcon />, <GroupWorkOutlinedIcon />],
     ],
-    credits: JSON.parse(localStorage.getItem("user")).credits
+    credits: JSON.parse(localStorage.getItem("user")).credits,
   });
-  const handleCredits = valor => {
+  const handleCredits = (valor) => {
     setState({ ...state, credits: valor });
   };
 
-  const toggleDrawer = (side, open) => event => {
+  const toggleDrawer = (side, open) => (event) => {
     if (
       event &&
       event.type === "keydown" &&
@@ -77,7 +81,7 @@ export default function DenseAppBar() {
     setState({ ...state, [side]: open });
   };
 
-  const sideList = side => (
+  const sideList = (side) => (
     <div
       className={classes.list}
       role="presentation"
@@ -89,7 +93,7 @@ export default function DenseAppBar() {
           ["Amigos", "/amigos"],
           ["Mis Equipos", "/mis-equipos"],
           ["Mis Matches Individual", "/mis-matches-individual"],
-          ["Mis Matches Equipo", "/mis-matches-equipo"]
+          ["Mis Matches Equipo", "/mis-matches-equipo"],
         ].map((array, index) => (
           <ListItem button key={array[0]} component={Link} to={array[1]}>
             <ListItemIcon>{state.icons[0][index]}</ListItemIcon>
@@ -102,7 +106,7 @@ export default function DenseAppBar() {
         {[
           ["Crear Match", "/crear-match"],
           ["Crear Equipo", "/crear-equipo"],
-          ["Buscar Match", "/buscar-match"]
+          ["Buscar Match", "/buscar-match"],
         ].map((array, index) => (
           <ListItem button key={array[0]} component={Link} to={array[1]}>
             <ListItemIcon>{state.icons[1][index]}</ListItemIcon>
@@ -118,7 +122,7 @@ export default function DenseAppBar() {
       </List>
 
       <Divider />
-      <ListItem button key="cerrar" component={Link} to="/editar-perfil">
+      <ListItem button key="Editar perfil" component={Link} to="/editar-perfil">
         <ListItemIcon>
           <EditIcon />
         </ListItemIcon>

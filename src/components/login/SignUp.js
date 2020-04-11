@@ -63,6 +63,7 @@ export default function SignUp() {
         password: e.target.password.value,
         rating: 0,
         credits: 0,
+        bio: "",
         friends: [],
         teams: [],
         activities: [],
