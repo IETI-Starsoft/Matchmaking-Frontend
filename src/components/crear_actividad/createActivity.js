@@ -12,8 +12,10 @@ import { Participants } from './participants';
 import { Verify } from './verify';
 import Menu from "../menu/NavBar";
 import { withStyles } from '@material-ui/core/styles';
-import axiosHeader from '../../api/axiosHeader';
-
+import {postIndividual,postGroup} from "../../api/activity"
+import {updateActivitiesUser,validateCreditsUser} from "../../api/user"
+import {updateActivitiesTeam,getTeamById,validateCreditsTeam} from "../../api/team"
+import {betTeamToActivity,betUserToActivity} from "../../api/payments"
 
 class CreateActivity extends React.Component {
 
@@ -196,185 +198,57 @@ class CreateActivity extends React.Component {
       this.validateParticipants(this.nextStep)
     }
     else {
-      if (this.state.checkIndividual) this.validateCreditsUser();
-      else this.validateCreditsTeam();
+      this.validateActivity(this.state.stateBet);
+    }
+  }
+  
+  //Valida el tipo de actividad y los creditos.
+  validateActivity(stateBet){
+    let userId =  JSON.parse(localStorage.getItem("user")).userId;
+    if (stateBet){ //si se desea apostar. se validan creditos
+      if (this.state.checkIndividual) validateCreditsUser(this.state.bet,userId
+        ,this.createIndividualActivity);
+      else validateCreditsTeam(this.state.bet,this.state.checked[0].teamId,this.createGroupActivity);
+    }
+    else{
+      if (this.state.checkIndividual) this.createIndividualActivity(userId);
+      else this.createGroupActivity(userId);
     }
   }
 
-  validateCreditsUser(){
-    if (this.state.stateBet === true){
-      let userId = JSON.parse(localStorage.getItem("user")).userId;
-      axiosHeader.get("/users/id/" + userId)
-        .then(response => {
-          let credits = response.data.credits
-          if (this.state.bet <= credits ) {
-            this.postIndividual();
-          }
-          else alert("Su saldo es insuficiente para realizar la apuesta.");
-        })
-        .catch(function (error) {
-          alert("error validate credits")
-          console.log(error);
-          return false;
-        });
-    }
+  //crea una actividad individual 
+  createIndividualActivity = (userId) => {
+    postIndividual(this.state,userId,this.updateActivitiesOwnerUser);
+  }
+
+  //crea una actividad en grupo
+  createGroupActivity = (ownerId) =>{
+    postGroup(this.state,ownerId,this.updateActivitiesTeam)
+  }
+
+  //Se realiza el descuento de creditos si se esta apostando. 
+  //Y se actualiza la lista de actividades del usuario.
+  updateActivitiesOwnerUser = (activity) => {
+    if (this.state.stateBet) betUserToActivity(activity.bet,activity.id,this.nextStep)
+    .then(() => {updateActivitiesUser(activity.id).then(() => {this.nextStep();});});
     else {
-      this.postIndividual();
+      updateActivitiesUser(activity.id).then(() => {this.nextStep();})
     }
   }
-
-  validateCreditsTeam(){
-    if (this.state.stateBet === true){
-      let teamId = this.state.checked[0].teamId;
-      axiosHeader.get("/team/" + teamId)
-        .then(response => {
-          let credits = response.data.credits
-          if (this.state.bet <= credits ) {
-             this.postGroup();
-          }
-          else alert("Su saldo es insuficiente para realizar la apuesta.");
-        })
-        .catch(function (error) {
-          alert("error validate credits")
-          console.log(error);
-          return false;
-        });
-    }
-    else {
-      this.postGroup();
-    }
-  }
-
- handleCredit = value => {
-    let user = JSON.parse(localStorage.getItem("user"));
-    let creditosAct = user.credits;
-    user.credits = creditosAct - value;
-    localStorage.setItem("user", JSON.stringify(user));
-  };
-
-  betUserToActivity(credits,activityId){
-    let userId =  JSON.parse(localStorage.getItem("user")).userId
-    axiosHeader.put("/payments/user/"+ userId
-    + "/activity/" + activityId + "/amount/" + credits)
-        .then(response =>{
-          this.handleCredit(credits)
-          this.nextStep();
-        })
-        .catch(function (error) {
-          alert("error bet activity")
-          console.log(error);
-        });
-  }
-
-
-  betTeamToActivity(credits,activityId){
-    let teamId =  this.state.checked[0].teamId;
-    axiosHeader.put("/payments/team/"+ teamId
-    + "/activity/" + activityId + "/amount/" + credits)
-        .then(response =>{
-          this.nextStep();
-        })
-        .catch(function (error) {
-          alert("error bet activity")
-          console.log(error);
-        });    
-  }
-
-  updateOwnerUser(idActivity){
-    let user = JSON.parse(localStorage.getItem("user"));
-    var act = user.activities; 
-    act.push(idActivity);
-    axiosHeader.put("/users", {
-      userId: user.userId, firstName: user.firstName,
-      lastName: user.lastName, email: user.email,
-      password: user.password, imageFileURL: user.imageFileURL,
-      rating: user.rating, credits: user.credits,
-      friends: user.friends, teams: user.teams,
-      activities: act
-    }).then(response =>{
-      localStorage.setItem("user", JSON.stringify(response.data));
-    }).catch(function (error) {
-      console.log(error);
+  //Se realiza el descuento de creditos si se esta apostando. 
+  //Y se actualiza la lista de actividades del equipo.
+  updateActivitiesTeam = (activity) =>{
+    if (this.state.stateBet) betTeamToActivity(this.state.bet,activity.id,this.state.checked[0].teamId)
+    .then(() => { 
+      getTeamById(this.state.checked[0].teamId).then(response =>{ //Se consulta el equipo para poder actualizar la lista  
+      updateActivitiesTeam(activity.id,response.data).then(() => {this.nextStep()})});
     });
+    else {
+      getTeamById(this.state.checked[0].teamId).then(response =>{
+        updateActivitiesTeam(activity.id,response.data).then(() => {this.nextStep()} ); 
+      })} 
   }
-
-  updateActivitiesTeam(idActivity){
-    let teamId =  this.state.checked[0].teamId;
-    axiosHeader.get("/team/" + teamId)
-      .then(response =>{
-        this.updateListTeam(response.data,idActivity);
-      }).catch(function (error) {
-        console.log(error);
-      });
-  }
-
-  updateListTeam(team,idActivity){
-    var act = team.activities; 
-    act.push(idActivity);
-    axiosHeader.put("/team",{
-      teamId: team.teamId,
-      members: team.members,
-      captainId: team.captainId,
-      credits: team.credits,
-      activities: act,
-      name: team.name
-    })
-  }
-
-  postIndividual() {
-    var today = new Date();
-    axiosHeader.post("/activities", {
-      typ: "IndividualActivity",
-      date: this.state.date.getFullYear() + "-" + this.state.date.getMonth() + 1 + "-" + this.state.date.getDate() + "T" + this.state.time.getHours() + ":" + this.state.time.getMinutes() + ":" + this.state.time.getSeconds(),
-      publicationDate: today.getFullYear() + "-" + today.getMonth() + 1 + "-" + today.getDate() + "T" + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(),
-      bet: this.state.bet == "" ? null : this.state.bet,
-      description: this.state.description,
-      type: this.state.activity,
-      location: this.state.location,
-      credits:  0,
-      idPlayer1: JSON.parse(localStorage.user).userId,
-      state: "Available",
-      owner: JSON.parse(localStorage.user).userId
-    })
-      .then(response =>{
-        this.updateOwnerUser(response.data.id); 
-        if (this.state.stateBet) this.betUserToActivity(this.state.bet,response.data.id);
-        else {
-          this.nextStep();
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
-
-  postGroup() {
-    var today = new Date();
-    console.log(this.state.checked[0].teamId)
-    axiosHeader.post("/activities", {
-      typ: "GroupActivity",
-      date: this.state.date.getFullYear() + "-" + this.state.date.getMonth() + 1 + "-" + this.state.date.getDate() + "T" + this.state.time.getHours() + ":" + this.state.time.getMinutes() + ":" + this.state.time.getSeconds(),
-      publicationDate: today.getFullYear() + "-" + today.getMonth() + 1 + "-" + today.getDate() + "T" + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(),
-      bet: this.state.bet == "" ? null : this.state.bet,
-      description: this.state.description,
-      type: this.state.activity,
-      location: this.state.location,
-      credits:  0,
-      idTeam1: this.state.checked[0].teamId,
-      state: "Available",
-      owner: JSON.parse(localStorage.user).userId
-    })
-      .then(response => {
-        this.updateActivitiesTeam(response.data.id); 
-        if (this.state.stateBet) this.betTeamToActivity(this.state.bet,response.data.id);
-        else {
-          this.nextStep();
-        } 
-      })
-      .catch(function (error) {
-        console.log( error);
-      });
-  }
+  
   nextStep() {
     this.setState({ count: this.state.count + 1 })
   }
