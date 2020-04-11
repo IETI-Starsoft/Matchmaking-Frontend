@@ -13,8 +13,10 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import vs from "./vs.jpg";
 import ModalMasInfo from './ModalMasInfo'
 import DialogAceptarActividadIndividual from './DialogAceptarActividadIndividual';
+import DialogAceptarActividadGrupo from "./DialogAceptarActividadGrupo";
 import axiosHeader from '../../api/axiosHeader';
-
+import PersonIcon from '@material-ui/icons/Person';
+import GroupIcon from '@material-ui/icons/Group';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -37,20 +39,7 @@ const useStyles = makeStyles(theme => ({
   expandOpen: {
     transform: 'rotate(180deg)',
   },
-  avatar: {
-    backgroundColor: red[500],
-  },
 }));
-const useStyless = makeStyles({
-  item: {
-    minWidth: "350px",
-    margin: "1em",
-    boxSizing: "border-box"
-  },
-  media: {
-    minWidth: "200px"
-  }
-});
 
 export function ActividadCard({ props }) {
 
@@ -74,8 +63,8 @@ export function ActividadCard({ props }) {
       <Card className={classes.root}>
         <CardHeader
           avatar={
-            <Avatar aria-label="recipe" className={classes.avatar}>
-              {onwerPlayer[0]}
+            <Avatar aria-label="recipe" style={{backgroundColor: props.idTeam1 != null ? "red" : "green"}}>
+               {props.idTeam1 != null ? <GroupIcon/>  :<PersonIcon />}
             </Avatar>
           }
           action={
@@ -102,7 +91,8 @@ export function ActividadCard({ props }) {
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
-          {props.idTeam1 != null ? null : <DialogAceptarActividadIndividual props={props} />}
+          {props.idTeam1 != null ? <DialogAceptarActividadGrupo props={props}/> 
+          : <DialogAceptarActividadIndividual props={props} />}
           <ModalMasInfo props={props}  onwerPlayer = {onwerPlayer}/>
           <IconButton />
 

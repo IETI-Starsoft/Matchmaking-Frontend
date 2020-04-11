@@ -12,6 +12,7 @@ import clsx from 'clsx';
 import { updateIndividualActivity } from "../../api/activity"
 import { updateActivitiesUser, validateCreditsUser } from "../../api/user"
 import { betUserToActivity } from "../../api/payments"
+import GroupIcon from '@material-ui/icons/Group';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -56,7 +57,7 @@ export default function DialogAceptarActividadIndividual({ props }) {
         setOpen(false)
         validateIndividualActivity();
     }
-
+    
     const validateIndividualActivity = () => {
         if (props.bet != 0) {
             validateCreditsUser(props.bet, JSON.parse(localStorage.getItem("user")).userId, makePaymentUserActivity)
