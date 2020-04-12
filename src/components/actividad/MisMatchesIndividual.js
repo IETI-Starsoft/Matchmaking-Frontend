@@ -3,15 +3,14 @@ import { ActividadCard } from './ActividadCard';
 import Grid from '@material-ui/core/Grid';
 import Menu from "../menu/NavBar";
 import Filtros from './Filtros'; 
-import ModalMasInfo from './ModalMasInfo'
 import axiosHeader from '../../api/axiosHeader';
 import CircularProgress from "@material-ui/core/CircularProgress";
-
+import NoActivities from "./NoActivitiesText";
 export class MisMatchesIndividual extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {activities: []};
+        this.state = {activities: null};
         this.getAllActivities = this.getAllActivities.bind(this);
         this.getAllActivities();
     }
@@ -37,14 +36,17 @@ export class MisMatchesIndividual extends React.Component {
            <Fragment>
                 <Menu />
                 <Filtros />  
-                {this.state.activities.length > 0  
-                ? <Grid container spacing={32} justify="center">
+                {this.state.activities  
+                ?  this.state.activities.length > 0 ? 
+                <Grid container spacing={32} justify="center">
                     {this.state.activities.map((actividad, i) => {
                         return (
                             <ActividadCard activity={actividad}/>
                         );
                     })}
                 </Grid>
+                :
+                <NoActivities/>
                  : <div style={{ textAlign: "center" , marginTop:"8%"}}>
                      <CircularProgress />
                      Cargando...

@@ -12,7 +12,7 @@ export class ListaDeActividades extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {activities: [],teams:[]};
+        this.state = {activities: null,teams:[]};
         this.getAllActivities = this.getAllActivities.bind(this);
         this.getAllActivities();
         this.fecthTeams = this.fecthTeams.bind(this);
@@ -45,14 +45,18 @@ export class ListaDeActividades extends React.Component {
            <Fragment>
                 <Menu />
                 <Filtros />  
-                {this.state.activities.length > 0  
-                ? <Grid container spacing={32} justify="center">
+                {this.state.activities  
+                ? this.state.activities.length > 0 ? 
+                <Grid container spacing={32} justify="center">
                     {this.state.activities.map((actividad, i) => {
                         return (
                             <ActividadCard activity={actividad} teams={this.state.teams} />
                         );
                     })}
                 </Grid>
+                
+                : 
+                <div> No hay actividades actualmente </div>
                 : <div style={{ textAlign: "center", marginTop:"8%" }}>
                     <CircularProgress />
                      Cargando...
