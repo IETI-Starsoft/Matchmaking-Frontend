@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function DialogAceptarActividadIndividual({ props }) {
+export default function DialogAceptarActividadIndividual(props) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const [expanded, setExpanded] = React.useState(false);
@@ -54,31 +54,31 @@ export default function DialogAceptarActividadIndividual({ props }) {
 
     const handleAccept = () => {
         setOpen(false)
-        validateIndividualActivity();
+        validateActivity();
     }
 
-    const validateIndividualActivity = () => {
-        if (props.bet != 0) {
-            validateCreditsUser(props.bet, JSON.parse(localStorage.getItem("user")).userId, makePaymentUserActivity)
+    const validateActivity = () => {
+        if (props.activity.bet != 0) {
+            validateCreditsUser(props.activity.bet, JSON.parse(localStorage.getItem("user")).userId, makePaymentUserActivity)
         }
         else {
-            matchIndividualActivity(); //Actualiza el player 2 de la actividad
-            updateActivitiesUser(props.id).then(() => {//Actualiza la lista de actividades del usuario
+            matchActivity(); //Actualiza el player 2 de la actividad
+            updateActivitiesUser(props.activity.id).then(() => {//Actualiza la lista de actividades del usuario
                 confirmActivity();                   
             });
         }
     }
 
-    const matchIndividualActivity = () =>{
-        props.idPlayer2 =  JSON.parse(localStorage.getItem("user")).userId;
-        updateIndividualActivity(props);//Actualiza el player2 de la actividad
+    const matchActivity = () =>{
+        props.activity.idPlayer2 =  JSON.parse(localStorage.getItem("user")).userId;
+        updateIndividualActivity(props.activity);//Actualiza el player2 de la actividad
     }
 
     const makePaymentUserActivity = userId => {
-        matchIndividualActivity();
-        betUserToActivity(props.bet, props.id).then//Realiza el pago 
+        matchActivity();
+        betUserToActivity(props.activity.bet, props.activity.id).then//Realiza el pago 
             (() => {
-                updateActivitiesUser(props.id).then(() => {//Actualiza la lista de actividades
+                updateActivitiesUser(props.activity.id).then(() => {//Actualiza la lista de actividades
                     confirmActivity();                   
                 });
             });
@@ -107,8 +107,8 @@ export default function DialogAceptarActividadIndividual({ props }) {
                 <DialogTitle id="alert-dialog-title">{"¿Esta seguro que desea aceptar este match?"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Descripcion:{props.description}<br />
-                Apuesta: {props.bet}
+                        Descripcion:{props.activity.description}<br />
+                Apuesta: {props.activity.bet}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>

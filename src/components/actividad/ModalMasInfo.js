@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function ModalMasInfo({ props, onwerPlayer }) {
+export default function ModalMasInfo(props) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const [fullWidth, setFullWidth] = React.useState(true);
@@ -46,17 +46,17 @@ export default function ModalMasInfo({ props, onwerPlayer }) {
                 onClose={handleClose}
                 aria-labelledby="max-width-dialog-title"
             >
-                <DialogTitle id="max-width-dialog-title"><b>{props.NombreActividad}</b></DialogTitle>
+                <DialogTitle id="max-width-dialog-title"><b>{props.activity.NombreActividad}</b></DialogTitle>
                 <DialogContent >
                     
                     <DialogContentText>
-                    <b>Retador:</b> {onwerPlayer} <br/>
-                    <b>Tipo De Actividad:</b>{props.type}<br/>
-                    <b>Descripcion:</b> {props.description}.<br/>
-                    <b>Lugar:</b>  {props.location}<br/>
-                    <b>Fecha:</b> {props.date}<br/>
-                    <b>Fecha De Publicacion:</b> {props.publicationDate}<br/>
-                    <b>Apuesta:</b> {props.bet}<br/>
+                    <b>Retador:</b> {props.onwerPlayer} <br/>
+                    <b>Tipo De Actividad:</b>{props.activity.type}<br/>
+                    <b>Descripcion:</b> {props.activity.description}.<br/>
+                    <b>Lugar:</b>  {props.activity.location}<br/>
+                    <b>Fecha:</b> {props.activity.date}<br/>
+                    <b>Fecha De Publicacion:</b> {props.activity.publicationDate}<br/>
+                    <b>Apuesta:</b> {props.activity.bet}<br/>
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>

@@ -41,7 +41,7 @@ export class MisMatchesIndividual extends React.Component {
                 ? <Grid container spacing={32} justify="center">
                     {this.state.activities.map((actividad, i) => {
                         return (
-                            <ActividadCard props={actividad} />
+                            <ActividadCard activity={actividad}/>
                         );
                     })}
                 </Grid>

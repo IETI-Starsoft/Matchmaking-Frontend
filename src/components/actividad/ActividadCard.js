@@ -41,7 +41,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export function ActividadCard({ props }) {
+export function ActividadCard(props) {
 
   const [onwerPlayer, setOnwerPlayer] = React.useState("");
   const owner = (userId,path) => {
@@ -55,16 +55,16 @@ export function ActividadCard({ props }) {
       .catch(function (error) {});
   }
   const classes = useStyles();
-  owner(props.idPlayer1 != undefined ? props.idPlayer1: props.idTeam1
-  ,props.idPlayer1 != undefined ? "/users/id/": "/team/");
+  owner(props.activity.idPlayer1 != undefined ? props.activity.idPlayer1: props.activity.idTeam1
+  ,props.activity.idPlayer1 != undefined ? "/users/id/": "/team/");
 
   return (
     <div>
       <Card className={classes.root}>
         <CardHeader
           avatar={
-            <Avatar aria-label="recipe" style={{backgroundColor: props.idTeam1 != null ? "red" : "green"}}>
-               {props.idTeam1 != null ? <GroupIcon/>  :<PersonIcon />}
+            <Avatar aria-label="recipe" style={{backgroundColor: props.activity.idTeam1 != null ? "red" : "green"}}>
+               {props.activity.idTeam1 != null ? <GroupIcon/>  :<PersonIcon />}
             </Avatar>
           }
           action={
@@ -73,7 +73,7 @@ export function ActividadCard({ props }) {
             </IconButton>
           }
           title="Activity"
-          subheader={props.date}
+          subheader={props.activity.date}
         />
         <CardMedia
           component="img"
@@ -86,14 +86,14 @@ export function ActividadCard({ props }) {
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">
           {onwerPlayer} <br />
-            Descripcion:{props.description}<br />
-            Apuesta: {props.bet}
+            Descripcion:{props.activity.description}<br />
+            Apuesta: {props.activity.bet}
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
-          {props.idTeam1 != null ? <DialogAceptarActividadGrupo props={props}/> 
-          : <DialogAceptarActividadIndividual props={props} />}
-          <ModalMasInfo props={props}  onwerPlayer = {onwerPlayer}/>
+          {props.activity.idTeam1 != null ? <DialogAceptarActividadGrupo activity={props.activity} teams={props.teams}/> 
+          : <DialogAceptarActividadIndividual activity={props.activity} />}
+          <ModalMasInfo activity={props.activity}  onwerPlayer = {onwerPlayer}/>
           <IconButton />
 
         </CardActions>

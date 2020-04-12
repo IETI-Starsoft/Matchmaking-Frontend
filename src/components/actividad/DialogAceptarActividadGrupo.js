@@ -12,7 +12,8 @@ import clsx from 'clsx';
 import { updateIndividualActivity } from "../../api/activity"
 import { updateActivitiesUser, validateCreditsUser } from "../../api/user"
 import { betUserToActivity } from "../../api/payments"
-import GroupIcon from '@material-ui/icons/Group';
+import { getTeams } from "../../api/team"
+import SeleccionarEquipo from "../crear_actividad/seleccionarEquipo"
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -38,12 +39,44 @@ const useStyles = makeStyles(theme => ({
     avatar: {
         backgroundColor: red[500],
     },
+    list: {
+        width: '100%',
+        maxWidth: 360,
+        backgroundColor: theme.palette.background.paper,
+        position: 'relative',
+        overflow: 'auto',
+        maxHeight: 230,
+    },
+    labelEquipo: {
+        marginLeft: "22%",
+        [theme.breakpoints.up(600)]: {
+            marginLeft: "18%"
+        },
+    },
 }));
 
-export default function DialogAceptarActividadIndividual({ props }) {
+
+export default function DialogAceptarActividadGrupo(props) {
+    let user = JSON.parse(localStorage.getItem("user"));
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const [expanded, setExpanded] = React.useState(false);
+    const [checked, setChecked] = React.useState([]);
+
+    const changeChecked = (value) => {
+        const currentIndex = checked.indexOf(value);
+        const newChecked = [...checked];
+        if (currentIndex === -1) {
+            if (checked.length === 0) {
+                newChecked.push(value);
+                setChecked(newChecked);
+            }   
+        }
+        else {
+            newChecked.splice(currentIndex, 1);
+            setChecked(newChecked);
+        }
+    }
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -55,37 +88,37 @@ export default function DialogAceptarActividadIndividual({ props }) {
 
     const handleAccept = () => {
         setOpen(false)
-        validateIndividualActivity();
+        validateActivity();
     }
-    
-    const validateIndividualActivity = () => {
-        if (props.bet != 0) {
-            validateCreditsUser(props.bet, JSON.parse(localStorage.getItem("user")).userId, makePaymentUserActivity)
+
+    const validateActivity = () => {
+        if (props.activity.bet != 0) {
+            validateCreditsUser(props.activity.bet, JSON.parse(localStorage.getItem("user")).userId, makePaymentUserActivity)
         }
         else {
-            matchIndividualActivity(); //Actualiza el player 2 de la actividad
-            updateActivitiesUser(props.id).then(() => {//Actualiza la lista de actividades del usuario
-                confirmActivity();                   
+            matchActivity(); //Actualiza el player 2 de la actividad
+            updateActivitiesUser(props.activity.id).then(() => {//Actualiza la lista de actividades del usuario
+                confirmActivity();
             });
         }
     }
 
-    const matchIndividualActivity = () =>{
-        props.idPlayer2 =  JSON.parse(localStorage.getItem("user")).userId;
-        updateIndividualActivity(props);//Actualiza el player2 de la actividad
+    const matchActivity = () => {
+        props.activity.idPlayer2 = JSON.parse(localStorage.getItem("user")).userId;
+        updateIndividualActivity(props.activity);//Actualiza el player2 de la actividad
     }
 
     const makePaymentUserActivity = userId => {
-        matchIndividualActivity();
-        betUserToActivity(props.bet, props.id).then//Realiza el pago 
+        matchActivity();
+        betUserToActivity(props.activity.bet, props.activity.id).then//Realiza el pago 
             (() => {
-                updateActivitiesUser(props.id).then(() => {//Actualiza la lista de actividades
-                    confirmActivity();                   
+                updateActivitiesUser(props.activity.id).then(() => {//Actualiza la lista de actividades
+                    confirmActivity();
                 });
             });
     }
 
-    const confirmActivity = () =>{
+    const confirmActivity = () => {
         alert("Ha aceptado el match con exito.");
         window.location.href = "/buscar-match";
     }
@@ -100,16 +133,17 @@ export default function DialogAceptarActividadIndividual({ props }) {
                 Aceptar
             </Button>
             <Dialog
-                open={open}
+                open={open}  
                 onClose={handleClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
+                <SeleccionarEquipo checked={checked} changeCheked={changeChecked} classes={classes} teams={props.teams} />
                 <DialogTitle id="alert-dialog-title">{"¿Esta seguro que desea aceptar este match?"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Descripcion:{props.description}<br />
-                Apuesta: {props.bet}
+                        Descripcion:{props.activity.description}<br />
+                Apuesta: {props.activity.bet}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
