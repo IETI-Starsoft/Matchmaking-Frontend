@@ -59,7 +59,7 @@ export default function DialogAceptarActividadIndividual(props) {
 
     const validateActivity = () => {
         if (props.activity.bet != 0) {
-            validateCreditsUser(props.activity.bet, JSON.parse(localStorage.getItem("user")).userId, makePaymentUserActivity)
+            validateCreditsUser(props.activity.bet, JSON.parse(localStorage.getItem("user")).userId, makePayment)
         }
         else {
             matchActivity(); //Actualiza el player 2 de la actividad
@@ -74,7 +74,7 @@ export default function DialogAceptarActividadIndividual(props) {
         updateIndividualActivity(props.activity);//Actualiza el player2 de la actividad
     }
 
-    const makePaymentUserActivity = userId => {
+    const makePayment = userId => {
         matchActivity();
         betUserToActivity(props.activity.bet, props.activity.id).then//Realiza el pago 
             (() => {

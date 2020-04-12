@@ -42,7 +42,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export function ActividadCard(props) {
-
   const [onwerPlayer, setOnwerPlayer] = React.useState("");
   const owner = (userId,path) => {
     axiosHeader.get(path + userId)
@@ -52,7 +51,9 @@ export function ActividadCard(props) {
         else player = response.data.name;
         setOnwerPlayer(player);
       })
-      .catch(function (error) {});
+      .catch(function (error) {
+        console.log(error);
+      });
   }
   const classes = useStyles();
   owner(props.activity.idPlayer1 != undefined ? props.activity.idPlayer1: props.activity.idTeam1

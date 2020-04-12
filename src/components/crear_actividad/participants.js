@@ -40,7 +40,9 @@ export class Participants extends React.Component {
 
             <FormControl margin="normal" fullWidth>
               {this.props.checkTeams ? 
-                <SeleccionarEquipo props={this.props} teams={this.state.teams} classes={this.props.classes}/> : null}
+                <SeleccionarEquipo changeChecked={this.props.changeChecked} 
+                teams={this.state.teams} classes={this.props.classes} checked={this.props.checked}
+                label="Seleccionar equipo"/> : null}
             </FormControl>
            
           </Grid>

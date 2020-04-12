@@ -20,10 +20,11 @@ export default function SeleccionarEquipo(props) {
       </Grid>
       <Grid item xs={12}  >
         <Typography variant="button" className={props.classes.labelEquipo} gutterBottom>
-          Seleccione un equipo
+          {props.label}
          </Typography>
       </Grid>
       <Divider />
+      <center>
       <List className={props.classes.list} >
 
         {props.teams.map(value => {
@@ -48,6 +49,7 @@ export default function SeleccionarEquipo(props) {
           );
         })}
       </List>
+      </center>
     </div>
   )
 }

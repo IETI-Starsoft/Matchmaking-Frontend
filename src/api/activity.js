@@ -56,6 +56,23 @@ const updateIndividualActivity = (activity) => {
     });
 }
 
+const updateGroupActivity = (activity) => {
+    return axiosHeader.put("/activities", {
+        typ: "GroupActivity",id: activity.id,date: activity.date,
+        publicationDate: activity.publicationDate, bet: activity.bet,
+        description: activity.description, type: activity.type,
+        location: activity.location, credits: activity.credits, 
+        state: "Aceppted", owner: activity.owner,
+        idTeam1: activity.idTeam1,
+        idTeam2:  activity.idTeam2
+    }).then(response => {
+        return response.data;
+    })
+    .catch(function (error) {
+        console.log(error);
+    });
+}
+
 const getActivity = (activityId) => {
     return axiosHeader.get("/activities/"+activityId)
         .then(response => {
@@ -71,5 +88,6 @@ export{
     postIndividual,
     postGroup,
     updateIndividualActivity,
-    getActivity
+    getActivity,
+    updateGroupActivity
 }

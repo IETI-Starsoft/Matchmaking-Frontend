@@ -1,18 +1,15 @@
 import React from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles'
 import { red } from '@material-ui/core/colors';
 import clsx from 'clsx';
-import { updateIndividualActivity } from "../../api/activity"
+import { updateGroupActivity } from "../../api/activity"
 import { updateActivitiesUser, validateCreditsUser } from "../../api/user"
-import { betUserToActivity } from "../../api/payments"
-import { getTeams } from "../../api/team"
+import {updateActivitiesTeam,validateCreditsTeam} from "../../api/team"
+import { betTeamToActivity } from "../../api/payments"
 import SeleccionarEquipo from "../crear_actividad/seleccionarEquipo"
 
 const useStyles = makeStyles(theme => ({
@@ -46,6 +43,8 @@ const useStyles = makeStyles(theme => ({
         position: 'relative',
         overflow: 'auto',
         maxHeight: 230,
+        border: 'groove',
+        borderRadius: '5px' 
     },
     labelEquipo: {
         marginLeft: "22%",
@@ -79,7 +78,8 @@ export default function DialogAceptarActividadGrupo(props) {
     }
 
     const handleClickOpen = () => {
-        setOpen(true);
+        if (props.teams.length == 0) alert("Debes tener al menos un team para poder aceptar esta actividad")
+        else setOpen(true);
     };
 
     const handleClose = () => {
@@ -87,32 +87,37 @@ export default function DialogAceptarActividadGrupo(props) {
     };
 
     const handleAccept = () => {
-        setOpen(false)
-        validateActivity();
+        if (checked.length==1) {
+            setOpen(false)
+            validateActivity();
+        }
+        else alert("Debes seleccionar un equipo para poder aceptar el match")
+        
     }
 
     const validateActivity = () => {
         if (props.activity.bet != 0) {
-            validateCreditsUser(props.activity.bet, JSON.parse(localStorage.getItem("user")).userId, makePaymentUserActivity)
+            validateCreditsTeam(props.activity.bet,checked[0].teamId, makePayment)
         }
         else {
-            matchActivity(); //Actualiza el player 2 de la actividad
-            updateActivitiesUser(props.activity.id).then(() => {//Actualiza la lista de actividades del usuario
+            matchActivity(); //Actualiza el team 2 de la actividad
+            updateActivitiesTeam(props.activity.id,checked[0]).then(() => {//Actualiza la lista de actividades del team
                 confirmActivity();
             });
         }
     }
 
     const matchActivity = () => {
-        props.activity.idPlayer2 = JSON.parse(localStorage.getItem("user")).userId;
-        updateIndividualActivity(props.activity);//Actualiza el player2 de la actividad
+        props.activity.idTeam2 = checked[0].teamId;
+        updateGroupActivity(props.activity);//Actualiza el team2 de la actividad
     }
 
-    const makePaymentUserActivity = userId => {
+    const makePayment = userId => {
         matchActivity();
-        betUserToActivity(props.activity.bet, props.activity.id).then//Realiza el pago 
+        betTeamToActivity(props.activity.bet, props.activity.id,checked[0].teamId).then//Realiza el pago 
             (() => {
-                updateActivitiesUser(props.activity.id).then(() => {//Actualiza la lista de actividades
+                checked[0].credits -= props.activity.bet;
+                updateActivitiesTeam(props.activity.id,checked[0]).then(() => {//Actualiza la lista de actividades
                     confirmActivity();
                 });
             });
@@ -138,14 +143,8 @@ export default function DialogAceptarActividadGrupo(props) {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <SeleccionarEquipo checked={checked} changeCheked={changeChecked} classes={classes} teams={props.teams} />
-                <DialogTitle id="alert-dialog-title">{"¿Esta seguro que desea aceptar este match?"}</DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        Descripcion:{props.activity.description}<br />
-                Apuesta: {props.activity.bet}
-                    </DialogContentText>
-                </DialogContent>
+                <SeleccionarEquipo checked={checked} changeChecked={changeChecked} classes={classes} teams={props.teams} label="Selecciona el equipo para el match" />
+               
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">
                         Cancelar
