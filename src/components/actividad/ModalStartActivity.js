@@ -13,7 +13,7 @@ export default function ModalStartActivity(props) {
 
   const handleSubmit = () => {
     let actividad = props.actividad;
-    actividad.state = "waiting";
+    actividad.state = "Waiting";
     if (actividad.idTeam1 != null) {
       updateGroupActivity(actividad).then(() => {
         alert("Actividad aceptada");
