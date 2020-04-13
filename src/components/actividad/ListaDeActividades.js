@@ -61,10 +61,12 @@ export class ListaDeActividades extends React.Component {
                         <DialogAceptarActividadGrupo
                           activity={actividad}
                           teams={this.state.teams}
+                          getAllActivities={this.getAllActivities}
                         />
                       ) : (
                         <DialogAceptarActividadIndividual
                           activity={actividad}
+                          getAllActivities={this.getAllActivities}
                         />
                       )
                     }

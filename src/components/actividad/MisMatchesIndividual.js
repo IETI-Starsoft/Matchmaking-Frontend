@@ -20,6 +20,7 @@ export class MisMatchesIndividual extends React.Component {
   }
 
   getAllActivities() {
+    console.log("entraaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
     var temp = [];
     let user = JSON.parse(localStorage.getItem("user"));
     axiosHeader
@@ -46,11 +47,24 @@ export class MisMatchesIndividual extends React.Component {
           </>
         );
         break;
-      case "Aceppted":
-        modal = <ModalStartActivity actividad={actividad} />;
+      case "Accepted":
+        modal = (
+          <ModalStartActivity
+            actividad={actividad}
+            callback={this.getAllActivities}
+          />
+        );
         break;
       case "Inprogress":
         modal = <ModalInproActivity />;
+        break;
+      case "Waiting":
+        modal = (
+          <>
+            <CircularProgress size={30} color="secondary" />
+            Esperando Aceptación
+          </>
+        );
         break;
     }
     return modal;
@@ -65,6 +79,7 @@ export class MisMatchesIndividual extends React.Component {
           this.state.activities.length > 0 ? (
             <Grid container spacing={10} justify="center">
               {this.state.activities.map((actividad, i) => {
+                console.log(actividad);
                 return (
                   <ActividadCard
                     activity={actividad}
