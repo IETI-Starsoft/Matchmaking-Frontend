@@ -10,8 +10,10 @@ import { ListaDeActividades } from "./components/actividad/ListaDeActividades";
 import PerfilEquipo from "./components/Perfil/equipo/PerfilEquipo";
 import TransferCredits from "./components/payments/TransferCredits";
 import EditarPerfil from "./components/Perfil/usuario/EditarPerfil";
-import {MisMatchesIndividual} from "./components/actividad/MisMatchesIndividual";
-import {MisMatchesEquipo} from "./components/actividad/MisMatchesEquipo";
+import { MisMatchesIndividual } from "./components/actividad/MisMatchesIndividual";
+import { MisMatchesEquipo } from "./components/actividad/MisMatchesEquipo";
+import MisAmigos from "./components/Perfil/mis-amigos/MisAmigos";
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -26,12 +28,14 @@ class App extends React.Component {
     const CrearMatchHomeView = () => <CreateActivity />;
     const CrearEquipoView = () => <CrearEquipo />;
     const BuscarMatchView = () => <ListaDeActividades />;
-    const MisMacthesIndividualView = () => <MisMatchesIndividual/>;
-    const MisMatchesEquipoView = () => <MisMatchesEquipo/>;
+    const MisMacthesIndividualView = () => <MisMatchesIndividual />;
+    const MisMatchesEquipoView = () => <MisMatchesEquipo />;
     const PerfilEquipoView = () => <PerfilEquipo />;
     const TransferirCreditos = () => <TransferCredits />;
-    const EditarPerfilUsuario = () => <EditarPerfil/>;
+    const EditarPerfilUsuario = () => <EditarPerfil />;
     //<Route exact path="/amigos" component={HomeView} />
+
+    const MisAmigosView = () => <MisAmigos />;
     //<Route exact path="/mis-equipos" component={HomeView} />
     //<Route exact path="/mis-matches" component={HomeView} />
     return (
@@ -46,11 +50,29 @@ class App extends React.Component {
             <Route exact path="/crear-equipo" component={CrearEquipoView} />
             <Route exact path="/buscar-match" component={BuscarMatchView} />
 
-            <Route exact path="/perfil-equipo/:props" component={PerfilEquipoView} />
+            <Route
+              exact
+              path="/perfil-equipo/:props"
+              component={PerfilEquipoView}
+            />
             <Route exact path="/transfer" component={TransferirCreditos} />
-            <Route exact path="/editar-perfil" component={EditarPerfilUsuario}/>
-            <Route exact path="/mis-matches-individual" component={MisMacthesIndividualView}/>
-            <Route exact path="/mis-matches-equipo" component={MisMatchesEquipoView}/>
+            <Route
+              exact
+              path="/editar-perfil"
+              component={EditarPerfilUsuario}
+            />
+            <Route
+              exact
+              path="/mis-matches-individual"
+              component={MisMacthesIndividualView}
+            />
+            <Route
+              exact
+              path="/mis-matches-equipo"
+              component={MisMatchesEquipoView}
+            />
+
+            <Route exact path="/amigos" component={MisAmigosView} />
           </div>
         </div>
       </Router>
