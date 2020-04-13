@@ -11,9 +11,12 @@ import Select from '@material-ui/core/Select';
 import { useState } from 'react';
 import InputLabel from '@material-ui/core/InputLabel';
 import Input from '@material-ui/core/Input';
+import { MenuList } from '@material-ui/core';
 import ListSubheader from '@material-ui/core/ListSubheader';
+import { Alert } from 'react-bootstrap';
+
 const useStyles = makeStyles(theme => ({
-    
+
     button: {
         display: 'block',
         marginTop: theme.spacing(2),
@@ -28,71 +31,160 @@ const useStyles = makeStyles(theme => ({
         minWidth: '35%',
         marginLeft: '30%',
     },
-    Select:{
+    Select: {
         marginLeft: '0%',
-        width:'100%'
+        width: '100%'
     }
 }));
-export default function Filtros() {
+
+export default function Filtros({ props }) {
     const classes = useStyles();
-    const [value, setValue] = useState(null);
+    const [value, setValue] = useState("Ninguno");
     const [barra, setbarra] = useState(null);
+
+    const [nameC, setName] = useState("participants");
+    const [userConsultingC, setUserConsulting] = useState(JSON.parse(localStorage.getItem("user")).userId);
+    const [labelsC, setLabels] = useState([]);
+    const [stateActivitiC, setStateActiviti] = useState("Available");
+    const [page, setPage] = React.useState(1);
+
+    const [filtro,setFiltro] = useState({
+        name: "participants",
+        userConsulting: JSON.parse(localStorage.getItem("user")).userId,
+        labels: [],
+        stateActiviti: "Available",
+        pag: 0
+    }); 
+    const handleOnSelectActividad = (event) => {
+        console.log(event.target.value);
+        let user = JSON.parse(localStorage.getItem("user"));
+        if (event.target.value != null) {
+            let Fil={
+                name: "activiti",
+                userConsulting: user.userId,
+                labels: [event.target.value],
+                stateActiviti: "Available",
+                participants: null,
+                rangeCredrits: null,
+                pag: page - 1
+            };
+            
+            props(Fil);
+        }
+    };
+    const handleOnSelectParticipantes = (event) => {
+
+        console.log(event.target.value);
+        let user = JSON.parse(localStorage.getItem("user"));
+        if (event.target.value != null) {
+            let Fil={
+                name: nameC,
+                labels:[],
+                userConsulting: userConsultingC,
+                participants: event.target.value,
+                stateActiviti: stateActivitiC,
+                rangeCredrits: null,
+                pag: page -1
+            };
+            
+            props(Fil);
+
+        };
+    };
+    const handleOnSelectApuesta = (event) => {
+        console.log(event.target.value);
+        let user = JSON.parse(localStorage.getItem("user"));
+
+        if (event.target.value != null) {
+            let range = event.target.value.split("/");
+            let arry = [parseInt(range[0]), parseInt(range[1])];
+            let Fil={
+                name: "rangeCredrits",
+                userConsulting: user.userId,
+                labels: [],
+                rangeCredrits: arry,
+                stateActiviti: "Available",
+                participants:null,
+                pag: page - 1
+            };
+            props(Fil);
+        };
+    }
+    const handleOnSelectNinguno = (event) => {
+        
+        let user = JSON.parse(localStorage.getItem("user"));
+        
+            let Fil={
+                name: "none",
+                userConsulting: user.userId,
+                labels: [],
+                rangeCredrits:null,
+                stateActiviti: "Available",
+                participants:null,
+                pag: page - 1
+            };
+            props(Fil);
+        
+    }
+
     const handleChange = event => {
         setValue(event.target.value);
         if (event.target.value === "Actividad") {
-
             setbarra(<div> <FormControl className={classes.formControlS}>
                 <InputLabel htmlFor="grouped-select">Actividad</InputLabel>
-                <Select defaultValue="" input={<Input id="grouped-select" />}>
+                <Select defaultValue="" onClick={handleOnSelectActividad} input={<Input id="grouped-select" />}>
                     <ListSubheader>Deportes</ListSubheader>
-                    <MenuItem value="Futbol">Futbol</MenuItem>
-                    <MenuItem value="Balonsesto">Balonsesto</MenuItem>
-                    <MenuItem value="Voleybol">Voleybol</MenuItem>
+
+                    <MenuItem value="futbol">Futbol</MenuItem>
+                    <MenuItem value="basketball">Balonsesto</MenuItem>
+                    <MenuItem value="volleyball">Voleybol</MenuItem>
+
                 </Select>
             </FormControl>
             </div>
             );
         }
-        else if(event.target.value === "Apuesta") {
+        else if (event.target.value === "Apuesta") {
             setbarra(<div> <FormControl className={classes.formControlS}>
                 <InputLabel htmlFor="grouped-select">Apuesta</InputLabel>
-                <Select defaultValue="" input={<Input id="grouped-select" />}>
+                <Select onClick={handleOnSelectApuesta} defaultValue="" input={<Input id="grouped-select" />}>
                     <ListSubheader>Monto</ListSubheader>
-                    <MenuItem value="Menor50">Menor que 50.000$</MenuItem>
-                    <MenuItem value="Entre50Y100">Entre 50.000$-100.000$</MenuItem>
-                    <MenuItem value="MayorQue100">Mayor que 100.000$</MenuItem>
+                    <MenuItem value="-1/50">Menor que 50.000$</MenuItem>
+                    <MenuItem value="50/101">Entre 50.000$-100.000$</MenuItem>
+                    <MenuItem value="101/1000">Mayor que 100.000$</MenuItem>
                 </Select>
             </FormControl>
             </div>
             );
-        }else if(event.target.value === "Participantes"){
+        } else if (event.target.value === "Participantes") {
+
             setbarra(<div> <FormControl className={classes.formControlS}>
                 <InputLabel htmlFor="grouped-select">Participantes</InputLabel>
-                <Select defaultValue="" className={classes.Select} input={<Input id="grouped-select" />}>
+                <Select onClick={handleOnSelectParticipantes} defaultValue="" className={classes.Select} input={<Input id="grouped-select" />}>
                     <ListSubheader>Cantidad de participantes</ListSubheader>
-                    <MenuItem value="Equipos">Solo</MenuItem>
-                    <MenuItem value="Parejas">Parejas</MenuItem>
-                    <MenuItem value="Solo">Equipos</MenuItem>
+                    <MenuItem value="IndividualActivity">Solo</MenuItem>
+                    <MenuItem value="GroupActivity">Equipos</MenuItem>
                 </Select>
             </FormControl>
             </div>);
-        }else{
+        } else {
+            handleOnSelectNinguno();
             setbarra(<div></div>)
         }
     };
-    
+
     return (
         <div>
             <br></br>
             <FormControl component="fieldset" className={classes.formControl}>
                 <FormLabel component="legend" className={classes.FormLabel}>Filtrar Actividades Por:</FormLabel>
                 <br></br>
-                <RadioGroup aria-label="gender" name="gender1" value={value} onChange={handleChange} hidden="">
-                    <Grid container spacing={32} justify="flex-start">
+                <RadioGroup aria-label="gender" name="gender1" value={value} onChange={handleChange}>
+                    <Grid container spacing={32} justify="flex-start" >
                         <FormControlLabel value="Actividad" control={<Radio />} label="Actividad" />
                         <FormControlLabel value="Apuesta" control={<Radio />} label="Apuesta" />
                         <FormControlLabel value="Participantes" control={<Radio />} label="Participantes" />
-                        <FormControlLabel value="None" control={<Radio />} label="Ninguno" />
+                        <FormControlLabel value="Ninguno" control={<Radio />} label="Ninguno" />
                     </Grid>
                 </RadioGroup>
             </FormControl>
