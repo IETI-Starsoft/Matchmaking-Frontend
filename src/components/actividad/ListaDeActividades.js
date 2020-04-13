@@ -50,7 +50,7 @@ export class ListaDeActividades extends React.Component {
                 <Grid container spacing={32} justify="center">
                     {this.state.activities.map((actividad, i) => {
                         return (
-                            <ActividadCard activity={actividad} teams={this.state.teams} />
+                            <ActividadCard getAllActivities={this.getAllActivities} activity={actividad} teams={this.state.teams} />
                         );
                     })}
                 </Grid>

@@ -92,8 +92,8 @@ export function ActividadCard(props) {
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
-          {props.activity.idTeam1 != null ? <DialogAceptarActividadGrupo activity={props.activity} teams={props.teams}/> 
-          : <DialogAceptarActividadIndividual activity={props.activity} />}
+          {props.activity.idTeam1 != null ? <DialogAceptarActividadGrupo  getAllActivities={props.getAllActivities} activity={props.activity} teams={props.teams}/> 
+          : <DialogAceptarActividadIndividual  getAllActivities={props.getAllActivities} activity={props.activity} />}
           <ModalMasInfo activity={props.activity}  onwerPlayer = {onwerPlayer}/>
           <IconButton />
 

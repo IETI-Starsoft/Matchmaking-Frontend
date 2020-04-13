@@ -71,6 +71,7 @@ export default function DialogAceptarActividadIndividual(props) {
 
     const matchActivity = () =>{
         props.activity.idPlayer2 =  JSON.parse(localStorage.getItem("user")).userId;
+        props.activity.state = "Aceppted";
         updateIndividualActivity(props.activity);//Actualiza el player2 de la actividad
     }
 
@@ -85,8 +86,8 @@ export default function DialogAceptarActividadIndividual(props) {
     }
 
     const confirmActivity = () =>{
+        props.getAllActivities();
         alert("Ha aceptado el match con exito.");
-        window.location.href = "/buscar-match";
     }
 
     const handleExpandClick = () => {

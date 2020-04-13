@@ -109,6 +109,7 @@ export default function DialogAceptarActividadGrupo(props) {
 
     const matchActivity = () => {
         props.activity.idTeam2 = checked[0].teamId;
+        props.activity.state = "Aceppted"
         updateGroupActivity(props.activity);//Actualiza el team2 de la actividad
     }
 
@@ -124,8 +125,8 @@ export default function DialogAceptarActividadGrupo(props) {
     }
 
     const confirmActivity = () => {
+        props.getAllActivities();
         alert("Ha aceptado el match con exito.");
-        window.location.href = "/buscar-match";
     }
 
     const handleExpandClick = () => {
