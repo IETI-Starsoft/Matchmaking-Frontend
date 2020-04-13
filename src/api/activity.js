@@ -45,7 +45,7 @@ const updateIndividualActivity = (activity) => {
         publicationDate: activity.publicationDate, bet: activity.bet,
         description: activity.description, type: activity.type,
         location: activity.location, credits: activity.credits, 
-        state: "Aceppted", owner: activity.owner,
+        state: activity.state, owner: activity.owner,
         idPlayer1: activity.idPlayer1,
         idPlayer2:  activity.idPlayer2
     }).then(response => {
@@ -62,7 +62,7 @@ const updateGroupActivity = (activity) => {
         publicationDate: activity.publicationDate, bet: activity.bet,
         description: activity.description, type: activity.type,
         location: activity.location, credits: activity.credits, 
-        state: "Aceppted", owner: activity.owner,
+        state: activity.state, owner: activity.owner,
         idTeam1: activity.idTeam1,
         idTeam2:  activity.idTeam2
     }).then(response => {
