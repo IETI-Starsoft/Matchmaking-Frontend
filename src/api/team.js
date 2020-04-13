@@ -42,8 +42,21 @@ const validateCreditsTeam = (bet,teamId,callback) => {
         });
 }
 
+const getTeams = (userId) => {
+    return axiosHeader.get("/team/captain/" + userId)
+      .then(response => {
+        return response.data;
+      })
+      .catch(function (error) {
+        console.log("usuario que esta cagando todo " +userId)  
+        console.log(error);
+      });
+  }
+
+
 export {
     getTeamById,
     updateActivitiesTeam,
-    validateCreditsTeam
+    validateCreditsTeam,
+    getTeams
 } 

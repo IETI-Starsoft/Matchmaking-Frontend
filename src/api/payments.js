@@ -11,7 +11,7 @@ const betTeamToActivity = (credits, activityId, teamId) => {
         });
 }
 
-const betUserToActivity = (credits, activityId, callback) => {
+const betUserToActivity = (credits, activityId) => {
     let user = JSON.parse(localStorage.getItem("user"))
     return axiosHeader.put("/payments/user/" + user.userId
         + "/activity/" + activityId + "/amount/" + credits)

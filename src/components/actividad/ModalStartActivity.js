@@ -7,6 +7,8 @@ export default function ModalStartActivity(props) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const handleSubmit = () => {};
+
   return (
     <>
       <Button variant="info" onClick={handleShow}>

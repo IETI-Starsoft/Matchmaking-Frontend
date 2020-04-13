@@ -14,6 +14,8 @@ import vs from "./vs.jpg";
 import ModalMasInfo from "./ModalMasInfo";
 //import DialogAceptarActividad from "./DialogAceptarActividad";
 import axiosHeader from "../../api/axiosHeader";
+import PersonIcon from "@material-ui/icons/Person";
+import GroupIcon from "@material-ui/icons/Group";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,22 +38,14 @@ const useStyles = makeStyles((theme) => ({
   expandOpen: {
     transform: "rotate(180deg)",
   },
-  avatar: {
-    backgroundColor: red[500],
-  },
-}));
-const useStyless = makeStyles({
   item: {
     minWidth: "350px",
     margin: "1em",
     boxSizing: "border-box",
   },
-  media: {
-    minWidth: "200px",
-  },
-});
+}));
 
-export function ActividadCard({ props, ModalAceptar }) {
+export function ActividadCard(props) {
   const [onwerPlayer, setOnwerPlayer] = React.useState("");
   const owner = (userId, path) => {
     axiosHeader
@@ -65,13 +59,14 @@ export function ActividadCard({ props, ModalAceptar }) {
       })
       .catch(function (error) {
         console.log(error);
-        return null;
       });
   };
   const classes = useStyles();
   owner(
-    props.idPlayer1 != undefined ? props.idPlayer1 : props.idTeam1,
-    props.idPlayer1 != undefined ? "/users/id/" : "/team/"
+    props.activity.idPlayer1 != undefined
+      ? props.activity.idPlayer1
+      : props.activity.idTeam1,
+    props.activity.idPlayer1 != undefined ? "/users/id/" : "/team/"
   );
 
   return (
@@ -79,8 +74,14 @@ export function ActividadCard({ props, ModalAceptar }) {
       <Card className={classes.root}>
         <CardHeader
           avatar={
-            <Avatar aria-label="recipe" className={classes.avatar}>
-              {onwerPlayer[0]}
+            <Avatar
+              aria-label="recipe"
+              style={{
+                backgroundColor:
+                  props.activity.idTeam1 != null ? "red" : "green",
+              }}
+            >
+              {props.activity.idTeam1 != null ? <GroupIcon /> : <PersonIcon />}
             </Avatar>
           }
           action={
@@ -89,7 +90,7 @@ export function ActividadCard({ props, ModalAceptar }) {
             </IconButton>
           }
           title="Activity"
-          subheader={props.date}
+          subheader={props.activity.date}
         />
         <CardMedia
           component="img"
@@ -102,14 +103,14 @@ export function ActividadCard({ props, ModalAceptar }) {
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">
             {onwerPlayer} <br />
-            Descripcion:{props.description}
+            Descripcion:{props.activity.description}
             <br />
-            Apuesta: {props.bet}
+            Apuesta: {props.activity.bet}
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
-          {ModalAceptar}
-          <ModalMasInfo props={props} onwerPlayer={onwerPlayer} />
+          {props.ModalAceptar}
+          <ModalMasInfo activity={props.activity} onwerPlayer={onwerPlayer} />
           <IconButton />
         </CardActions>
       </Card>

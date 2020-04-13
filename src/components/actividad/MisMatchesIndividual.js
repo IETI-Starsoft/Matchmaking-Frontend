@@ -6,14 +6,15 @@ import Filtros from "./Filtros";
 import ModalMasInfo from "./ModalMasInfo";
 import axiosHeader from "../../api/axiosHeader";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import DialogAceptarActividad from "./DialogAceptarActividad";
 import ModalStartActivity from "./ModalStartActivity";
 import ModalInproActivity from "./ModalInprogressActivity";
+import NoActivities from "./NoActivitiesText";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 export class MisMatchesIndividual extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { activities: [] };
+    this.state = { activities: null };
     this.getAllActivities = this.getAllActivities.bind(this);
     this.getAllActivities();
   }
@@ -34,23 +35,48 @@ export class MisMatchesIndividual extends React.Component {
       });
   }
 
+  getModalButton(actividad) {
+    let modal;
+    switch (actividad.state) {
+      case "Available":
+        modal = (
+          <>
+            <CircularProgress size={30} color="secondary" />
+            Esperando Rival
+          </>
+        );
+        break;
+      case "Aceppted":
+        modal = <ModalStartActivity actividad={actividad} />;
+        break;
+      case "Inprogress":
+        modal = <ModalInproActivity />;
+        break;
+    }
+    return modal;
+  }
+
   render() {
     return (
       <Fragment>
         <Menu />
         <Filtros />
-        {this.state.activities.length > 0 ? (
-          <Grid container spacing={10} justify="center">
-            {this.state.activities.map((actividad, i) => {
-              return (
-                <ActividadCard
-                  key={i}
-                  props={actividad}
-                  ModalAceptar={<ModalStartActivity />}
-                />
-              );
-            })}
-          </Grid>
+        {this.state.activities ? (
+          this.state.activities.length > 0 ? (
+            <Grid container spacing={10} justify="center">
+              {this.state.activities.map((actividad, i) => {
+                return (
+                  <ActividadCard
+                    activity={actividad}
+                    key={i}
+                    ModalAceptar={this.getModalButton(actividad)}
+                  />
+                );
+              })}
+            </Grid>
+          ) : (
+            <NoActivities />
+          )
         ) : (
           <div style={{ textAlign: "center", marginTop: "8%" }}>
             <CircularProgress />

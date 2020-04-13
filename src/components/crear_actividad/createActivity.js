@@ -240,13 +240,12 @@ class CreateActivity extends React.Component {
   updateActivitiesTeam = (activity) =>{
     if (this.state.stateBet) betTeamToActivity(this.state.bet,activity.id,this.state.checked[0].teamId)
     .then(() => { 
-      getTeamById(this.state.checked[0].teamId).then(response =>{ //Se consulta el equipo para poder actualizar la lista  
-      updateActivitiesTeam(activity.id,response.data).then(() => {this.nextStep()})});
+      this.state.checked[0].credits-=this.state.bet;
+      updateActivitiesTeam(activity.id,this.state.checked[0]).then(() => {this.nextStep()});
     });
     else {
-      getTeamById(this.state.checked[0].teamId).then(response =>{
-        updateActivitiesTeam(activity.id,response.data).then(() => {this.nextStep()} ); 
-      })} 
+      updateActivitiesTeam(activity.id,this.state.checked[0]).then(() => {this.nextStep()});
+    } 
   }
   
   nextStep() {

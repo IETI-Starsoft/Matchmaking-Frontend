@@ -6,14 +6,25 @@ import Filtros from "./Filtros";
 import ModalMasInfo from "./ModalMasInfo";
 import axiosHeader from "../../api/axiosHeader";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import DialogAceptarActividad from "./DialogAceptarActividad";
+import { getTeams } from "../../api/team";
+import DialogAceptarActividadIndividual from "./DialogAceptarActividadIndividual";
+import DialogAceptarActividadGrupo from "./DialogAceptarActividadGrupo";
 
 export class ListaDeActividades extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { activities: [] };
+    this.state = { activities: null, teams: [] };
     this.getAllActivities = this.getAllActivities.bind(this);
     this.getAllActivities();
+    this.fecthTeams = this.fecthTeams.bind(this);
+    this.fecthTeams();
+  }
+
+  fecthTeams() {
+    let user = JSON.parse(localStorage.getItem("user"));
+    getTeams(user.userId).then((response) => {
+      this.setState({ teams: response });
+    });
   }
 
   getAllActivities() {
@@ -37,18 +48,33 @@ export class ListaDeActividades extends React.Component {
       <Fragment>
         <Menu />
         <Filtros />
-        {this.state.activities.length > 0 ? (
-          <Grid container spacing={10} justify="center">
-            {this.state.activities.map((actividad, i) => {
-              return (
-                <ActividadCard
-                  key={i}
-                  props={actividad}
-                  ModalAceptar={<DialogAceptarActividad props={actividad} />}
-                />
-              );
-            })}
-          </Grid>
+        {this.state.activities ? (
+          this.state.activities.length > 0 ? (
+            <Grid container spacing={10} justify="center">
+              {this.state.activities.map((actividad, i) => {
+                return (
+                  <ActividadCard
+                    key={i}
+                    activity={actividad}
+                    ModalAceptar={
+                      actividad.idTeam1 != null ? (
+                        <DialogAceptarActividadGrupo
+                          activity={actividad}
+                          teams={this.state.teams}
+                        />
+                      ) : (
+                        <DialogAceptarActividadIndividual
+                          activity={actividad}
+                        />
+                      )
+                    }
+                  />
+                );
+              })}
+            </Grid>
+          ) : (
+            <div> No hay actividades actualmente </div>
+          )
         ) : (
           <div style={{ textAlign: "center", marginTop: "8%" }}>
             <CircularProgress />
