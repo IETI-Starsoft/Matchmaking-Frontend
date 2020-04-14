@@ -6,40 +6,22 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControl from '@material-ui/core/FormControl';
 import 'react-datepicker/dist/react-datepicker.css';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import Avatar from '@material-ui/core/Avatar';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import './participants.css'
-import axiosHeader from '../../api/axiosHeader';
-import Divider from '@material-ui/core/Divider';
-import teamIcon from "../../resources/teamIcon.webp";
-
+import SeleccionarEquipo from "./seleccionarEquipo";
+import {getTeams} from "../../api/team"
 
 export class Participants extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = { teams: []}
-    this.getTeams = this.getTeams.bind(this);
-    this.getTeams();
+    this.fecthTeams = this.fecthTeams.bind(this);
+    this.fecthTeams();
   }
 
-  getTeams(){
-    var temp = []
+  fecthTeams(){
     let user = JSON.parse(localStorage.getItem("user"));
-    axiosHeader.get("/team/captain/" + user.userId)
-      .then(response => {
-        response.data.map(value => {
-          temp.push(value);
-        })
-        this.setState({teams:temp})
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    getTeams(user.userId).then(response => {this.setState({teams:response})})
   }
 
   render() {
@@ -58,42 +40,9 @@ export class Participants extends React.Component {
 
             <FormControl margin="normal" fullWidth>
               {this.props.checkTeams ? 
-                 <div className={this.props.classes.divTeams}>
-                 <Grid item xs={12} >
-                 <img src={teamIcon} className={this.props.classes.teamIcon} />               
-                </Grid>
-                  <Grid item xs={12}  >
-                  <Typography variant="button"  className={this.props.classes.labelEquipo} gutterBottom>
-                    Seleccione un equipo 
-                  </Typography>
-                  </Grid>
-                  <Divider  /> 
-                <List className={this.props.classes.list} >
-                  
-                  {this.state.teams.map(value => {
-                    const labelId = `checkbox-list-secondary-label--`;
-                    return (
-                    <ListItem key={value.userId} >
-                        <ListItemAvatar>
-                          <Avatar
-                            alt={`Avatar`}
-                            src={`/static/images/avatar/5.jpg`}
-                          />
-                        </ListItemAvatar>
-                        <ListItemText id={labelId} primary={`${value.name}`} />
-                        <ListItemSecondaryAction>
-                          <Checkbox
-                            edge="end"
-                            onChange={() => this.props.changeChecked(value)}
-                            checked={this.props.checked.indexOf(value) !== -1}
-                          />
-                        </ListItemSecondaryAction>
-                      </ListItem>
-                    );
-                  })}
-                </List>
-                </div> 
-                : null}
+                <SeleccionarEquipo changeChecked={this.props.changeChecked} 
+                teams={this.state.teams} classes={this.props.classes} checked={this.props.checked}
+                label="Seleccionar equipo"/> : null}
             </FormControl>
            
           </Grid>

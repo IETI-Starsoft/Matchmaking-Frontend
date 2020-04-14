@@ -12,18 +12,18 @@ export default function ModalTransfer(props) {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const handleAmount = e => {
+  const handleAmount = (e) => {
     setAmount(e.target.value);
   };
 
-  const handleCredit = value => {
+  const handleCredit = (value) => {
     let user = JSON.parse(localStorage.getItem("user"));
     let creditosAct = user.credits;
     user.credits = creditosAct - value;
     localStorage.setItem("user", JSON.stringify(user));
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     const userId = JSON.parse(localStorage.getItem("user")).userId;
     const id = props.id;
     switch (props.type) {
@@ -31,13 +31,13 @@ export default function ModalTransfer(props) {
         axiosHeader
           .put("/payments/user/" + userId + "/team/" + id + "/amount/" + amount)
           .then(
-            function(response) {
+            function (response) {
               alert("Envio Exitoso");
               handleCredit(amount);
               window.location.reload(false);
             }.bind(this)
           )
-          .catch(function(error) {
+          .catch(function (error) {
             console.log(error);
             alert("Envio Fallido");
           });
@@ -46,13 +46,13 @@ export default function ModalTransfer(props) {
         axiosHeader
           .put("/payments/user/" + userId + "/user/" + id + "/amount/" + amount)
           .then(
-            function(response) {
+            function (response) {
               alert("Envio Exitoso");
               handleCredit(amount);
               window.location.reload(false);
             }.bind(this)
           )
-          .catch(function(error) {
+          .catch(function (error) {
             console.log(error);
           });
         break;
@@ -67,12 +67,12 @@ export default function ModalTransfer(props) {
               amount
           )
           .then(
-            function(response) {
+            function (response) {
               alert("Envio Exitoso");
               window.location.reload(false);
             }.bind(this)
           )
-          .catch(function(error) {
+          .catch(function (error) {
             alert("Envio Fallido");
             console.log(error);
           });
@@ -88,7 +88,7 @@ export default function ModalTransfer(props) {
         <AttachMoneyIcon />
       </IconButton>
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose} centered="true">
         <Modal.Header closeButton>
           <Modal.Title>Enviar Creditos a {props.name}</Modal.Title>
         </Modal.Header>

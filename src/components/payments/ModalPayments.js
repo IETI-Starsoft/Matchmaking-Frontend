@@ -10,7 +10,7 @@ export default function Example(props) {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const handleAmount = e => {
+  const handleAmount = (e) => {
     setAmount(e.target.value);
   };
 
@@ -20,7 +20,7 @@ export default function Example(props) {
         Recargar Creditos
       </Button>
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose} centered="true">
         <Modal.Header closeButton>
           <Modal.Title>Recargar Creditos</Modal.Title>
         </Modal.Header>
