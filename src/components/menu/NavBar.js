@@ -25,6 +25,7 @@ import PaymentModal from "../payments/ModalPayments";
 import Notification from "./Notification";
 import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
 import EditIcon from "@material-ui/icons/Edit";
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -113,11 +114,17 @@ export default function DenseAppBar() {
             <ListItemText primary={array[0]} />
           </ListItem>
         ))}
+        <ListItem button key="add-friend" component={Link} to={"/agregar-amigos"}>
+          <ListItemIcon>
+            <PersonAddIcon />
+          </ListItemIcon>
+          <ListItemText primary="Añadir amigos" />
+        </ListItem>
         <ListItem button key="transfer" component={Link} to={"/transfer"}>
           <ListItemIcon>
             <MonetizationOnIcon />
           </ListItemIcon>
-          <ListItemText primary="Transferir Creditos" />
+          <ListItemText primary="Transferir Créditos" />
         </ListItem>
       </List>
 
