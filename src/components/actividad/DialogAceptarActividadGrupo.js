@@ -129,7 +129,7 @@ export default function DialogAceptarActividadGrupo(props) {
   };
 
   const confirmActivity = () => {
-    props.getAllActivities();
+    props.handleChangeFiltros(props.filtro);
     alert("Ha aceptado el match con exito.");
   };
 
