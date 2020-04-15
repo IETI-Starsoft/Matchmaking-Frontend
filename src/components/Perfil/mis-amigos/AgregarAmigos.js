@@ -13,23 +13,22 @@ import axiosHeader from "../../../api/axiosHeader";
 export default function AgregarAmigos() {
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState([]);
-  const [searchStr, setSearchStr] = useState("");
+  const [searchStr, setSearchStr] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
-  const loading = open && options.length === 0;
+  const [loading, setLoading] = useState(open && options.length === 0);
 
   useEffect(() => {
     let active = true;
-
-    if (!loading) {
-      return undefined;
-    }
 
     axiosHeader
       .get(`/autocomplete/users?searchstr=${searchStr}`)
       .then((response) => {
         if (active) {
           const emails = response.data;
+          
           setOptions(Object.keys(emails).map((key) => emails[key]));
+          
+          setLoading(false);
         }
       })
       .catch((error) => {
@@ -39,7 +38,7 @@ export default function AgregarAmigos() {
     return () => {
       active = false;
     };
-  }, [loading]);
+  }, [loading, searchStr]);
 
   useEffect(() => {
     if (!open) {
@@ -48,6 +47,7 @@ export default function AgregarAmigos() {
   }, [open]);
 
   const handleSearchStr = () => (event) => {
+    setLoading(true);
     setSearchStr(event.target.value);
   };
 
