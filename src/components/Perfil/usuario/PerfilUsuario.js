@@ -217,7 +217,13 @@ export default function PerfilUsuario() {
                     </Grid>
                     <Grid item xs={8}>
                       Aún no tienes amigos, ¡agrega algunos!
-                      <Button variant="contained" color="primary" fullWidth>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        href="/agregar-amigos"
+                        style={{ color: "white", textDecoration: "none" }}
+                        fullWidth
+                      >
                         Agregar amigos
                       </Button>
                     </Grid>
@@ -230,7 +236,13 @@ export default function PerfilUsuario() {
                     <Grid item xs={8}>
                       Algunos de tus amigos ...
                       <AmigoList friends={friends.slice(0, 3)} />
-                      <Button variant="contained" color="primary" href="/amigos" fullWidth style={{ color: "white", textDecoration: "none" }}>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        href="/amigos"
+                        fullWidth
+                        style={{ color: "white", textDecoration: "none" }}
+                      >
                         Ver más ...
                       </Button>
                     </Grid>

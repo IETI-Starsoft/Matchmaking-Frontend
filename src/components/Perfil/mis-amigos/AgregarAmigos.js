@@ -8,6 +8,8 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import FormControl from "@material-ui/core/FormControl";
 import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
+import "../../../resources/css/animation.css";
 import axiosHeader from "../../../api/axiosHeader";
 
 export default function AgregarAmigos() {
@@ -16,18 +18,19 @@ export default function AgregarAmigos() {
   const [searchStr, setSearchStr] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
   const [loading, setLoading] = useState(open && options.length === 0);
+  const userId = JSON.parse(localStorage.getItem("user")).userId;
 
   useEffect(() => {
     let active = true;
 
     axiosHeader
-      .get(`/autocomplete/users?searchstr=${searchStr}`)
+      .get(`/autocomplete/users/id/${userId}?searchstr=${searchStr}`)
       .then((response) => {
         if (active) {
           const emails = response.data;
-          
+
           setOptions(Object.keys(emails).map((key) => emails[key]));
-          
+
           setLoading(false);
         }
       })
@@ -53,7 +56,15 @@ export default function AgregarAmigos() {
 
   const handleSubmit = () => (event) => {
     event.preventDefault();
-    console.log(selectedUser);
+    const user = JSON.parse(localStorage.getItem("user"));
+    axiosHeader
+      .post(`/users/id/${user.userId}/friends/${selectedUser}`)
+      .then((response) => {
+        alert(`¡${selectedUser} ahora es un amigo!`);
+      })
+      .catch((error) => {
+        alert(error);
+      });
   };
 
   return (
@@ -61,59 +72,69 @@ export default function AgregarAmigos() {
       <Navbar />
       <Container>
         <Box p={2}>
-          <div style={{ textAlign: "center" }}>
+          <div className="animated fadeIn fast" style={{ textAlign: "center" }}>
             <Typography variant="h2">Agregar Amigos</Typography>
             <hr />
           </div>
-          <form onSubmit={handleSubmit()}>
-            <Autocomplete
-              id="search-users"
-              open={open}
-              onOpen={() => {
-                setOpen(true);
-              }}
-              onClose={() => {
-                setOpen(false);
-              }}
-              getOptionSelected={(option, value) => option === value}
-              getOptionLabel={(option) => option}
-              options={options}
-              loading={loading}
-              onChange={(event, value) => {
-                setSelectedUser(value);
-              }}
-              renderInput={(params) => (
-                <FormControl fullWidth>
-                  <TextField
-                    {...params}
-                    label="Buscar"
-                    variant="outlined"
-                    value={searchStr}
-                    onChange={handleSearchStr()}
-                    InputProps={{
-                      ...params.InputProps,
-                      endAdornment: (
-                        <>
-                          {loading ? (
-                            <CircularProgress color="inherit" size={20} />
-                          ) : null}
-                          {params.InputProps.endAdornment}
-                        </>
-                      ),
+          <div className="animated fadeIn fast">
+            <form onSubmit={handleSubmit()}>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <Autocomplete
+                    id="search-users"
+                    open={open}
+                    onOpen={() => {
+                      setOpen(true);
                     }}
+                    onClose={() => {
+                      setOpen(false);
+                    }}
+                    getOptionSelected={(option, value) => option === value}
+                    getOptionLabel={(option) => option}
+                    options={options}
+                    loading={loading}
+                    onChange={(event, value) => {
+                      setSelectedUser(value);
+                    }}
+                    renderInput={(params) => (
+                      <FormControl fullWidth>
+                        <TextField
+                          {...params}
+                          label="Buscar"
+                          variant="outlined"
+                          value={searchStr}
+                          onChange={handleSearchStr()}
+                          InputProps={{
+                            ...params.InputProps,
+                            endAdornment: (
+                              <>
+                                {loading ? (
+                                  <CircularProgress color="inherit" size={20} />
+                                ) : null}
+                                {params.InputProps.endAdornment}
+                              </>
+                            ),
+                          }}
+                        />
+                      </FormControl>
+                    )}
                   />
-                </FormControl>
-              )}
-            />
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              className="submit"
-            >
-              Guardar
-            </Button>
-          </form>
+                </Grid>
+                <Grid item xs={12}>
+                  <div style={{ margin: "auto", textAlign: "center" }}>
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                      className="submit"
+                    >
+                      Agregar amigo
+                    </Button>
+                  </div>
+                </Grid>
+              </Grid>
+            </form>
+          </div>
         </Box>
       </Container>
     </>
