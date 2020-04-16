@@ -96,36 +96,37 @@ export default function DialogAceptarActividadGrupo(props) {
     if (props.activity.bet != 0) {
       validateCreditsTeam(props.activity.bet, checked[0].teamId, makePayment);
     } else {
-      matchActivity(); //Actualiza el team 2 de la actividad
-      updateActivitiesTeam(props.activity.id, checked[0]).then(() => {
-        //Actualiza la lista de actividades del team
-        confirmActivity();
-      });
+      matchActivity().then(() => {
+        updateActivitiesTeam(props.activity.id, checked[0]).then(() => {
+          //Actualiza la lista de actividades del team
+          confirmActivity();
+        });
+      }); //Actualiza el team 2 de la actividad
     }
   };
 
-  const matchActivity = () => {
+  const matchActivity = async () => {
     props.activity.idTeam2 = checked[0].teamId;
     props.activity.state = "Accepted";
-    updateGroupActivity(props.activity); //Actualiza el team2 de la actividad
+    return updateGroupActivity(props.activity); //Actualiza el team2 de la actividad
   };
 
   const makePayment = (userId) => {
-    matchActivity();
-    betTeamToActivity(
-      props.activity.bet,
-      props.activity.id,
-      checked[0].teamId
-    ).then(
-      //Realiza el pago
-      () => {
-        checked[0].credits -= props.activity.bet;
-        updateActivitiesTeam(props.activity.id, checked[0]).then(() => {
-          //Actualiza la lista de actividades
-          confirmActivity();
-        });
-      }
-    );
+    matchActivity().then(() => {
+      betTeamToActivity( //Realiza el pago
+        props.activity.bet,
+        props.activity.id,
+        checked[0].teamId
+      ).then(
+        () => {
+          checked[0].credits -= props.activity.bet;
+          updateActivitiesTeam(props.activity.id, checked[0]).then(() => {
+            //Actualiza la lista de actividades
+            confirmActivity();
+          });
+        }
+      );
+    });
   };
 
   const confirmActivity = () => {
