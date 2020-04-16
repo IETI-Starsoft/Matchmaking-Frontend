@@ -75,7 +75,12 @@ export class MisMatchesEquipo extends React.Component {
         );
         break;
       case "Inprogress":
-        modal = <ModalInproActivity />;
+        modal = (
+          <ModalInproActivity
+            actividad={actividad}
+            callback={this.getAllActivities}
+          />
+        );
         break;
       case "Waiting":
         modal = (
