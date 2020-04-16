@@ -65,31 +65,33 @@ export default function DialogAceptarActividadIndividual(props) {
         makePayment
       );
     } else {
-      matchActivity(); //Actualiza el player 2 de la actividad
-      updateActivitiesUser(props.activity.id).then(() => {
-        //Actualiza la lista de actividades del usuario
-        confirmActivity();
-      });
+      matchActivity().then(() => {
+        updateActivitiesUser(props.activity.id).then(() => {
+          //Actualiza la lista de actividades del usuario
+          confirmActivity();
+        });  
+      }); //Actualiza el player 2 de la actividad
     }
   };
 
-  const matchActivity = () => {
+  const matchActivity = async () => {
     props.activity.idPlayer2 = JSON.parse(localStorage.getItem("user")).userId;
     props.activity.state = "Accepted";
-    updateIndividualActivity(props.activity); //Actualiza el player2 de la actividad
+    return updateIndividualActivity(props.activity); //Actualiza el player2 de la actividad
   };
 
   const makePayment = (userId) => {
-    matchActivity();
-    betUserToActivity(props.activity.bet, props.activity.id).then(
-      //Realiza el pago
-      () => {
-        updateActivitiesUser(props.activity.id).then(() => {
-          //Actualiza la lista de actividades
-          confirmActivity();
-        });
-      }
-    );
+    matchActivity().then(() => {
+      betUserToActivity(props.activity.bet, props.activity.id).then(
+        //Realiza el pago
+        () => {
+          updateActivitiesUser(props.activity.id).then(() => {
+            //Actualiza la lista de actividades
+            confirmActivity();
+          });
+        }
+      );
+    });
   };
 
   const confirmActivity = () => {
