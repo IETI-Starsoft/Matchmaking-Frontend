@@ -44,16 +44,27 @@ export default function MisAmigos() {
           <div
             style={{ margin: "auto", width: "70%", justifyContent: "center" }}
           >
-            
-            <Pagination showFirstButton showLastButton count={length} page={page} onChange={handleChange} />
-            
+            <Pagination
+              showFirstButton
+              showLastButton
+              count={length}
+              page={page}
+              onChange={handleChange}
+            />
+
             {friends ? (
-              <AmigoList friends={friends}></AmigoList>
+              friends.length > 0 ? (
+                <AmigoList friends={friends}></AmigoList>
+              ) : (
+                <div style={{ textAlign: "center", paddingTop: "30px" }}>
+                    <Typography variant="h6">Aún no tienes amigos, agrega algunos en "Añadir amigos" desde el menú.</Typography>
+                </div>
+              )
             ) : (
-              <div style={{ textAlign: "center" }}>
-                <CircularProgress />
-                Cargando...
-              </div>
+                <div style={{ textAlign: "center" }}>
+                  <CircularProgress />
+                  Cargando...
+                </div>
             )}
           </div>
         </Box>
