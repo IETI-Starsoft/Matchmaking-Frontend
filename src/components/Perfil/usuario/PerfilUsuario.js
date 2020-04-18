@@ -285,7 +285,13 @@ export default function PerfilUsuario() {
                     <Grid item xs={8}>
                       Algunos de tus equipos ...
                       <EquipoList teams={teams.slice(0, 3)} />
-                      <Button variant="contained" color="primary" fullWidth>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        href="/equipos"
+                        style={{ color: "white", textDecoration: "none" }}
+                        fullWidth
+                      >
                         Ver más ...
                       </Button>
                     </Grid>
