@@ -92,7 +92,7 @@ export default function DenseAppBar() {
       <List>
         {[
           ["Amigos", "/amigos"],
-          ["Mis Equipos", "/mis-equipos"],
+          ["Mis Equipos", "/equipos"],
           ["Mis Matches Individual", "/mis-matches-individual"],
           ["Mis Matches Equipo", "/mis-matches-equipo"],
         ].map((array, index) => (

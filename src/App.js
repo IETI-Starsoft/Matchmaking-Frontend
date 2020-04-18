@@ -14,6 +14,7 @@ import { MisMatchesIndividual } from "./components/actividad/MisMatchesIndividua
 import { MisMatchesEquipo } from "./components/actividad/MisMatchesEquipo";
 import MisAmigos from "./components/Perfil/mis-amigos/MisAmigos";
 import AgregarAmigos from "./components/Perfil/mis-amigos/AgregarAmigos";
+import MisEquipos from "./components/Perfil/mis-equipos/MisEquipos";
 
 class App extends React.Component {
   constructor(props) {
@@ -38,6 +39,7 @@ class App extends React.Component {
 
     const MisAmigosView = () => <MisAmigos />;
     const AgregarAmigosView = () => <AgregarAmigos/>
+    const MisEquiposView = () => <MisEquipos />;
     //<Route exact path="/mis-equipos" component={HomeView} />
     //<Route exact path="/mis-matches" component={HomeView} />
     return (
@@ -75,6 +77,7 @@ class App extends React.Component {
             />
 
             <Route exact path="/amigos" component={MisAmigosView} />
+            <Route exact path="/equipos" component={MisEquiposView} />
             <Route exact path="/agregar-amigos" component={AgregarAmigosView} />
           </div>
         </div>
