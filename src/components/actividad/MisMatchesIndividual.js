@@ -3,13 +3,11 @@ import { ActividadCard } from "./ActividadCard";
 import Grid from "@material-ui/core/Grid";
 import Menu from "../menu/NavBar";
 import Filtros from "./Filtros";
-import ModalMasInfo from "./ModalMasInfo";
 import axiosHeader from "../../api/axiosHeader";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import ModalStartActivity from "./ModalStartActivity";
 import ModalInproActivity from "./ModalInprogressActivity";
 import NoActivities from "./NoActivitiesText";
-import LinearProgress from "@material-ui/core/LinearProgress";
 
 export class MisMatchesIndividual extends React.Component {
   constructor(props) {
@@ -20,7 +18,6 @@ export class MisMatchesIndividual extends React.Component {
   }
 
   getAllActivities() {
-    console.log("entraaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
     var temp = [];
     let user = JSON.parse(localStorage.getItem("user"));
     axiosHeader
@@ -56,7 +53,12 @@ export class MisMatchesIndividual extends React.Component {
         );
         break;
       case "Inprogress":
-        modal = <ModalInproActivity />;
+        modal = (
+          <ModalInproActivity
+            actividad={actividad}
+            callback={this.getAllActivities}
+          />
+        );
         break;
       case "Waiting":
         modal = (
