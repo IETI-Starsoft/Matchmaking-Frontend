@@ -105,7 +105,9 @@ export class ListaDeActividades extends React.Component {
         }
         <Menu />
         <Filtros props={this.handleChangeFiltros} />
-        <Pagination style={{ position: "relative", left: "43%",top:"90%" }} count={this.state.count} page={this.state.filtro.pag + 1} onChange={this.handleChangePaginator} color="primary" />
+        <div style={{ position: "relative", left: "0%",top:"90%",with:"30%"}}>       
+          <Pagination size="small" style={{ position: "relative", "margin-left": "40%",top:"90%",}} count={this.state.count} page={this.state.filtro.pag + 1} onChange={this.handleChangePaginator} color="primary" />
+        </div>
 
         {this.state.activities ? (
           this.state.activities.length > 0 ? (

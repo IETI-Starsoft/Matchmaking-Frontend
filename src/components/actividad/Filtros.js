@@ -134,11 +134,9 @@ export default function Filtros({ props }) {
                 <InputLabel htmlFor="grouped-select">Actividad</InputLabel>
                 <Select defaultValue="" onClick={handleOnSelectActividad} input={<Input id="grouped-select" />}>
                     <ListSubheader>Deportes</ListSubheader>
-
                     <MenuItem value="futbol">Futbol</MenuItem>
-                    <MenuItem value="basketball">Balonsesto</MenuItem>
+                    <MenuItem value="basketball">Basketball</MenuItem>
                     <MenuItem value="volleyball">Voleybol</MenuItem>
-
                 </Select>
             </FormControl>
             </div>
@@ -148,10 +146,10 @@ export default function Filtros({ props }) {
             setbarra(<div> <FormControl className={classes.formControlS}>
                 <InputLabel htmlFor="grouped-select">Apuesta</InputLabel>
                 <Select onClick={handleOnSelectApuesta} defaultValue="" input={<Input id="grouped-select" />}>
-                    <ListSubheader>Monto</ListSubheader>
-                    <MenuItem value="-1/50">Menor que 50.000$</MenuItem>
-                    <MenuItem value="50/101">Entre 50.000$-100.000$</MenuItem>
-                    <MenuItem value="101/1000">Mayor que 100.000$</MenuItem>
+                    <ListSubheader>Creditos</ListSubheader>
+                    <MenuItem value="-1/50">Menor que 50</MenuItem>
+                    <MenuItem value="50/101">Entre 50-100</MenuItem>
+                    <MenuItem value="101/1000">Mayor que 100</MenuItem>
                 </Select>
             </FormControl>
             </div>
