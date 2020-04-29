@@ -37,6 +37,12 @@ const useStyles = makeStyles(theme => ({
         marginLeft: '15%',
         marginTop: '30px'
     },
+    formControlC: {
+        margin: theme.spacing(1),
+        minWidth: '50%',
+        marginLeft: '15%',
+        marginTop: '30px'
+    },
     Select: {
         marginLeft: '0%',
         width: '100%'
@@ -53,18 +59,19 @@ const MenuProps = {
     },
 };
 
-export default function FiltrosEstados({ props }) {
+export default function FiltrosEstados({ props, typeActivity }) {
     const classes = useStyles();
     const [value, setValue] = useState("Ninguno");
     const [barra, setbarra] = useState(null);
     const [page, setPage] = React.useState(1);
     const [teamId, setTeamId] = React.useState("All");
-    const [status, setStatus]=React.useState("Finished");
+    const [status, setStatus] = React.useState("Finished");
     const userId = JSON.parse(localStorage.getItem("user")).userId;
     const [teams, setTeams] = React.useState([]);
-    const [rangeCredits,setRangeCredits]=React.useState(null);
-    const [tag,setTag]=React.useState([]);
-    const [name,setName]=React.useState("none");
+    const [rangeCredits, setRangeCredits] = React.useState(null);
+    const [tag, setTag] = React.useState([]);
+    const [name, setName] = React.useState("none");
+    const [typeActivites, setTypeActivites] = React.useState(typeActivity);
     useEffect(() => {
         axiosHeader.get(`/users/id/${userId}/teams`)
             .then(response => {
@@ -72,15 +79,15 @@ export default function FiltrosEstados({ props }) {
                 try {
                     setTeamId(response.data[0].teamId);
                 }
-                catch(error){
+                catch (error) {
                     alert("Usted no se encuentra dentro de ningun equipo");
                 };
-                
+
             }
             ).catch(error => {
                 alert(error);
             });
-        
+
 
     }, []);
     const handleOnSelectActividad = (event) => {
@@ -94,8 +101,8 @@ export default function FiltrosEstados({ props }) {
                 name: "activiti",
                 userConsulting: user.userId,
                 labels: [event.target.value],
-                stateActiviti:status,
-                team:teamId,
+                stateActiviti: status,
+                team: teamId,
                 participants: null,
                 rangeCredrits: null,
                 pag: page - 1
@@ -120,7 +127,7 @@ export default function FiltrosEstados({ props }) {
                 rangeCredrits: array,
                 stateActiviti: status,
                 participants: null,
-                team:teamId,
+                team: teamId,
                 pag: page - 1
             };
             props(Fil);
@@ -140,7 +147,7 @@ export default function FiltrosEstados({ props }) {
                 stateActiviti: status,
                 participants: null,
                 pag: page - 1,
-                team:teamId
+                team: teamId
             };
             props(Fil);
 
@@ -179,7 +186,7 @@ export default function FiltrosEstados({ props }) {
             setbarra(<div></div>);
         }
     };
-    
+
     const handleChangeTeam = event => {
         console.log(event.target.value)
         let user = JSON.parse(localStorage.getItem("user"));
@@ -192,11 +199,11 @@ export default function FiltrosEstados({ props }) {
             stateActiviti: status,
             participants: null,
             pag: page - 1,
-            team:event.target.value
+            team: event.target.value
         };
         props(Fil);
     }
-    const handleChangeStatus =event=> {
+    const handleChangeStatus = event => {
         console.log(event.target.value)
         let user = JSON.parse(localStorage.getItem("user"));
         setStatus(event.target.value);
@@ -208,9 +215,9 @@ export default function FiltrosEstados({ props }) {
             stateActiviti: event.target.value,
             participants: null,
             pag: page - 1,
-            team:teamId
+            team: teamId
         };
-        
+
         props(Fil);
     }
     return (
@@ -220,10 +227,10 @@ export default function FiltrosEstados({ props }) {
                 <Grid item xs={12} sm={6}>
                     <FormControl className={classes.formControlB}>
                         <InputLabel htmlFor="grouped-select-2">Seleccionar Estado De La Actividad</InputLabel>
-                        <Select 
-                        value={status} 
-                        onChange={handleChangeStatus}
-                        input={<Input id="grouped-select-2" />}>
+                        <Select
+                            value={status}
+                            onChange={handleChangeStatus}
+                            input={<Input id="grouped-select-2" />}>
                             <MenuItem value="Available">Disponible</MenuItem>
                             <MenuItem value="Accepted">Aceptado</MenuItem>
                             <MenuItem value="Waiting">En Espera</MenuItem>
@@ -232,34 +239,33 @@ export default function FiltrosEstados({ props }) {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                    <FormControl className={classes.formControlB}>
-                        <InputLabel id="demo-mutiple-name-label">Seleccione El Equipo</InputLabel>
-                        <Select
-                            labelId="demo-mutiple-name-label"
-                            id="demo-mutiple-name"
-                            displayEmpty
-                            onChange={handleChangeTeam}
-                            value={teamId}
-                            input={<Input id="demo-mutiple-name-label"/>}
-                            MenuProps={MenuProps}
-                        >
-                            <MenuItem key="Todos" value="All">
+                {typeActivites == "GroupActivity" ? (
+                    <Grid item xs={12} sm={6}>
+                        <FormControl className={classes.formControlB}>
+                            <InputLabel id="demo-mutiple-name-label">Seleccione El Equipo</InputLabel>
+                            <Select
+                                labelId="demo-mutiple-name-label"
+                                id="demo-mutiple-name"
+                                displayEmpty
+                                onChange={handleChangeTeam}
+                                value={teamId}
+                                input={<Input id="demo-mutiple-name-label" />}
+                                MenuProps={MenuProps}
+                            >
+                                <MenuItem key="Todos" value="All">
                                     Todos
                                 </MenuItem>
-                            {teams.map((team) => (
-                                <MenuItem key={team.teamId} value={team.teamId}>
-                                    {team.name}
-                                </MenuItem>
-                                
-                            ))}
-                            
-                            
-                        </Select>
-                    </FormControl>
-                </Grid>
+                                {teams.map((team) => (
+                                    <MenuItem key={team.teamId} value={team.teamId}>
+                                        {team.name}
+                                    </MenuItem>
+
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </Grid>) : (<div>  </div>)}
             </Grid>
-                            
+
             <br></br>
             <FormControl component="fieldset" className={classes.formControl}>
                 <FormLabel component="legend" className={classes.FormLabel}>Filtrar Actividades Por:</FormLabel>

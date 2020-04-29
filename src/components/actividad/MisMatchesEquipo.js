@@ -109,7 +109,8 @@ export class MisMatchesEquipo extends React.Component {
         modal = (
           <ModalStartActivity
             actividad={actividad}
-            callback={this.handleChangeFiltros(this.state.filtro)}
+            callback={this.handleChangeFiltros}
+            filtro = {this.state.filtro}
           />
         );
         break;
@@ -117,7 +118,8 @@ export class MisMatchesEquipo extends React.Component {
         modal = (
           <ModalInproActivity
             actividad={actividad}
-            callback={this.handleChangeFiltros(this.state.filtro)}
+            callback={this.handleChangeFiltros}
+            filtro = {this.state.filtro}
           />
         );
         break;
@@ -184,7 +186,7 @@ export class MisMatchesEquipo extends React.Component {
       <Fragment>
         
         <Menu />
-        <FiltrosEstados props={this.handleChangeFiltros} />
+        <FiltrosEstados props={this.handleChangeFiltros} typeActivity="GroupActivity"/>
         <div style={{ position: "relative", left: "0%",top:"90%",with:"30%"}}>       
           <Pagination size="small" style={{ position: "relative", "margin-left": "40%",top:"90%",}} count={this.state.count} page={this.state.filtro.pag + 1} onChange={this.handleChangePaginator} color="primary" />
         </div>

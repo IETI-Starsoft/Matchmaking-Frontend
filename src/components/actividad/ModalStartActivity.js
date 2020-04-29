@@ -17,12 +17,12 @@ export default function ModalStartActivity(props) {
     if (actividad.idTeam1 != null) {
       updateGroupActivity(actividad).then(() => {
         alert("Actividad aceptada");
-        props.callback();
+        props.callback(props.filtro);
       });
     } else {
       updateIndividualActivity(actividad).then(() => {
         alert("Actividad aceptada");
-        props.callback();
+        props.callback(props.filtro);
       });
     }
     handleClose();
