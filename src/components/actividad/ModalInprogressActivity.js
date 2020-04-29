@@ -26,7 +26,7 @@ export default function ModalInprogressActivity(props) {
       }
     }
     updateWinner(actividad.id, winner).then(() => {
-      props.callback();
+      props.callback(props.filtro);
     });
   };
   const handleSubmitLoser = () => {
@@ -48,7 +48,7 @@ export default function ModalInprogressActivity(props) {
       }
     }
     updateLoser(actividad.id, loser).then(() => {
-      props.callback();
+      props.callback(props.filtro);
     });
   };
 
