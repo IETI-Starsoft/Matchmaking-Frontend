@@ -76,13 +76,15 @@ export default function FiltrosEstados({ props, typeActivity }) {
         axiosHeader.get(`/users/id/${userId}/teams`)
             .then(response => {
                 setTeams(response.data)
-                try {
-                    setTeamId(response.data[0].teamId);
-                }
-                catch (error) {
-                    alert("Usted no se encuentra dentro de ningun equipo");
-                };
 
+                if (typeActivity == "GroupActivity") {
+                    try {
+                        setTeamId(response.data[0].teamId);
+                    }
+                    catch (error) {
+                        alert("Usted no se encuentra dentro de ningun equipo");
+                    };
+                }
             }
             ).catch(error => {
                 alert(error);
@@ -96,9 +98,9 @@ export default function FiltrosEstados({ props, typeActivity }) {
         if (event.target.value != null) {
             setRangeCredits(null);
             setTag([event.target.value]);
-            setName("activiti");
+            setName("activity");
             let Fil = {
-                name: "activiti",
+                name: "activity",
                 userConsulting: user.userId,
                 labels: [event.target.value],
                 stateActiviti: status,

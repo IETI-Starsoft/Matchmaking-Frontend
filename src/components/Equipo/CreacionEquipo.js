@@ -111,7 +111,7 @@ export default function Checkout() {
 
     if (activeStep == 1) {
       console.log(JSON.parse(localStorage.getItem("user")).userId)
-      axiosHeader.post("http://localhost:8080/api/team", {
+      axiosHeader.post("/team", {
         members: team.members,
         captainId: JSON.parse(localStorage.getItem("user")).userId,
         credits: 0,
@@ -121,6 +121,9 @@ export default function Checkout() {
         .then(function (response) {
           console.log(response.data);
           setActiveStep(activeStep + 1);
+          let user=JSON.parse(localStorage.getItem("user"));
+          user.teams.push(response.data.teamId);
+          localStorage.setItem("user",JSON.stringify(user));
 
         })
         .catch(function (error) {

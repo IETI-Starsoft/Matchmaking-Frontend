@@ -49,7 +49,7 @@ export default function PerfilEquipo(props) {
   const [teamMembers, setTeamMembers] = React.useState([]);
   useEffect(() => {
     axiosHeader
-      .get("http://localhost:8080/api/team/" + teamId)
+      .get("/team/" + teamId)
       .then(function(response) {
         setTeam(response.data);
       })
@@ -57,7 +57,7 @@ export default function PerfilEquipo(props) {
         console.log(error);
       });
     axiosHeader
-      .get(`http://localhost:8080/api/team/${teamId}/members`)
+      .get(`/team/${teamId}/members`)
       .then(function(response) {
         setTeamMembers(response.data);
         console.log(response.data);

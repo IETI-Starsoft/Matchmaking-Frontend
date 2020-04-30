@@ -60,7 +60,7 @@ export default function Filtros({ props }) {
         let user = JSON.parse(localStorage.getItem("user"));
         if (event.target.value != null) {
             let Fil={
-                name: "activiti",
+                name: "activity",
                 userConsulting: user.userId,
                 labels: [event.target.value],
                 stateActiviti: "Available",
