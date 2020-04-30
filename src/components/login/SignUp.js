@@ -56,7 +56,7 @@ export default function SignUp() {
   const handleSubmit = e => {
     e.preventDefault();
     
-    axios.post("http://localhost:8080/users/register",{
+    axios.post("https://matchmaking-iback.herokuapp.com/users/register",{
         firstName: e.target.firstName.value,
         lastName:  e.target.lastName.value,
         email: e.target.email.value,
