@@ -25,7 +25,7 @@ import PaymentModal from "../payments/ModalPayments";
 import Notification from "./Notification";
 import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
 import EditIcon from "@material-ui/icons/Edit";
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import PersonAddIcon from "@material-ui/icons/PersonAdd";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,12 +42,18 @@ const useStyles = makeStyles((theme) => ({
   },
   perfilButton: {
     fontSize: 40,
+    color: "#71db77",
   },
   title: {
     flexGrow: 1,
   },
   credits: {
-    marginLeft: 5,
+    marginRight: 7,
+    color: "white",
+  },
+  navBar: {
+    color: "#71db77",
+    backgroundColor: "black",
   },
 }));
 
@@ -114,7 +120,12 @@ export default function DenseAppBar() {
             <ListItemText primary={array[0]} />
           </ListItem>
         ))}
-        <ListItem button key="add-friend" component={Link} to={"/agregar-amigos"}>
+        <ListItem
+          button
+          key="add-friend"
+          component={Link}
+          to={"/agregar-amigos"}
+        >
           <ListItemIcon>
             <PersonAddIcon />
           </ListItemIcon>
@@ -150,7 +161,7 @@ export default function DenseAppBar() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="static" className={classes.navBar}>
         <Toolbar variant="dense">
           <IconButton
             edge="start"
@@ -173,11 +184,12 @@ export default function DenseAppBar() {
             MatchMaking
           </Typography>
 
-          <PaymentModal setCredits={handleCredits} />
-
           <Typography color="inherit" className={classes.credits}>
             Creditos {state.credits}
           </Typography>
+
+          <PaymentModal setCredits={handleCredits} />
+
           <Hidden smDown>
             <Notification mobile={false} />
           </Hidden>
