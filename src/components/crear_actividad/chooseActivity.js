@@ -33,28 +33,23 @@ export class ChooseActivity extends React.Component {
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>
             <FormControl required fullWidth>
-            <InputLabel htmlFor="age-native-helper">Actividad</InputLabel>
-            {this.props.activity === ""  ? 
-            <NativeSelect error
-            value={this.props.activity}
-            onChange={this.props.changeActivity}
-              >  <option value="" />
-              <option value={"futbol"}>futbol</option>
-              <option value={"basketball"}>basketball</option>
-              <option value={"volleyball"}>volleyball</option>
-            </NativeSelect> :
-             <NativeSelect 
-                value={this.props.activity}
-                onChange={this.props.changeActivity}
-                >  <option value="" />
-                <option value={"futbol"}>futbol</option>
-                <option value={"basketball"}>basketball</option>
-                <option value={"volleyball"}>volleyball</option>
-            </NativeSelect>
-            }
-            <FormHelperText>Elija la actividad que desea crear</FormHelperText>
+            {this.props.activity === "" ? 
+            <TextField error
+              id="activity"
+              name="activity"
+              label="Ingrese la actividad"
+              value={this.props.activity}
+              onChange={this.props.changeActivity}
+            />: <TextField 
+                  id="activity"
+                  name="activity"
+                  label="Ingrese la actividad"
+                  value={this.props.activity}
+                  onChange={this.props.changeActivity}
+            />}
+            <FormHelperText>Este sera el titulo principal de su actividad</FormHelperText>
             </FormControl>
-
+            
             </Grid>
             <Grid item xs={12} sm={6}>
             <FormControl required fullWidth>

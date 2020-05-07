@@ -48,7 +48,6 @@ const getTeams = (userId) => {
         return response.data;
       })
       .catch(function (error) {
-        console.log("usuario que esta cagando todo " +userId)  
         console.log(error);
       });
   }
