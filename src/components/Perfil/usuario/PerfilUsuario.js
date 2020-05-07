@@ -27,7 +27,8 @@ import DarkBackground from "../../../resources/images/dark.jpg";
 const userProfileStyles = makeStyles((theme) => ({
   top: {
     //backgroundImage: `url(${DarkBackground})`,
-    backgroundColor: "#a0bceb",
+    //backgroundColor: "#82838c",
+    backgroundColor: "#333333",
     borderColor: "black",
     borderBottomWidth: "1px",
   },
@@ -49,17 +50,24 @@ const userProfileStyles = makeStyles((theme) => ({
   centerContainer: {
     textAlign: "center",
     paddingBottom: "10px",
+    color: "white",
   },
   tabs: {
     flexGrow: 1,
     width: "65%",
-    backgroundColor: theme.palette.background.paper,
+    //backgroundColor: "#52c05777",
     paddingTop: "20px",
     margin: "auto",
   },
   center: {
     justifyContent: "center",
     textAlign: "center",
+  },
+  appbar: {
+    backgroundColor: "#282828",
+  },
+  tab: {
+    color: "#b3b3b3",
   },
 }));
 
@@ -99,8 +107,7 @@ export default function PerfilUsuario() {
     setName(`${user.firstName.toUpperCase()} ${user.lastName.toUpperCase()}`);
     setRating(user.rating);
     setBio(user.bio);
-    axiosHeader.get(`/users/id/${user.userId}`)
-    .then(function (response) {
+    axiosHeader.get(`/users/id/${user.userId}`).then(function (response) {
       if (
         response.data.imageFileURL != "" ||
         response.data.imageFileURL != null
@@ -160,7 +167,7 @@ export default function PerfilUsuario() {
       <Container>
         <div className={classes.tabs}>
           <AppBar
-            className="animated fadeIn fast"
+            className={"animated fadeIn fast"}
             position="static"
             color="default"
           >
@@ -169,17 +176,31 @@ export default function PerfilUsuario() {
               onChange={handleChange}
               variant="scrollable"
               scrollButtons="on"
-              indicatorColor="primary"
-              textColor="primary"
             >
-              <Tab label="Bio" icon={<PermIdentityIcon />} {...a11yProps(0)} />
               <Tab
+                //className={classes.tab}
+                label="Bio"
+                icon={<PermIdentityIcon />}
+                {...a11yProps(0)}
+              />
+              <Tab
+                //className={classes.tab}
                 label="Mi Calificación"
                 icon={<GradeIcon />}
                 {...a11yProps(1)}
               />
-              <Tab label="Amigos" icon={<ContactsIcon />} {...a11yProps(2)} />
-              <Tab label="Equipos" icon={<GroupWorkIcon />} {...a11yProps(3)} />
+              <Tab
+                //className={classes.tab}
+                label="Amigos"
+                icon={<ContactsIcon />}
+                {...a11yProps(2)}
+              />
+              <Tab
+                //className={classes.tab}
+                label="Equipos"
+                icon={<GroupWorkIcon />}
+                {...a11yProps(3)}
+              />
             </Tabs>
           </AppBar>
           <TabPanel className="animated fadeIn fast" value={value} index={0}>
@@ -221,7 +242,11 @@ export default function PerfilUsuario() {
                         variant="contained"
                         color="primary"
                         href="/agregar-amigos"
-                        style={{ color: "white", textDecoration: "none" }}
+                        style={{
+                          color: "white",
+                          textDecoration: "none",
+                          backgroundColor: "#3eb846",
+                        }}
                         fullWidth
                       >
                         Agregar amigos
@@ -241,7 +266,11 @@ export default function PerfilUsuario() {
                         color="primary"
                         href="/amigos"
                         fullWidth
-                        style={{ color: "white", textDecoration: "none" }}
+                        style={{
+                          color: "white",
+                          textDecoration: "none",
+                          backgroundColor: "#3eb846",
+                        }}
                       >
                         Ver más ...
                       </Button>
@@ -271,7 +300,11 @@ export default function PerfilUsuario() {
                         color="primary"
                         href="/crear-equipo"
                         fullWidth
-                        style={{ color: "white", textDecoration: "none" }}
+                        style={{
+                          color: "white",
+                          textDecoration: "none",
+                          backgroundColor: "#3eb846",
+                        }}
                       >
                         Crear equipo
                       </Button>
@@ -289,7 +322,11 @@ export default function PerfilUsuario() {
                         variant="contained"
                         color="primary"
                         href="/equipos"
-                        style={{ color: "white", textDecoration: "none" }}
+                        style={{
+                          color: "#white",
+                          textDecoration: "none",
+                          backgroundColor: "#3eb846",
+                        }}
                         fullWidth
                       >
                         Ver más ...
