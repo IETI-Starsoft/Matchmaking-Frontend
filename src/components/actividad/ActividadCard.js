@@ -89,7 +89,7 @@ export function ActividadCard(props) {
               <MoreVertIcon />
             </IconButton>
           }
-          title="Activity"
+          title={props.activity.type} 
           subheader={props.activity.date}
         />
         <CardMedia
@@ -102,7 +102,7 @@ export function ActividadCard(props) {
 
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">
-            {onwerPlayer} <br />
+            Retador: {onwerPlayer} <br />
             Descripcion:{props.activity.description}
             <br />
             Apuesta: {props.activity.bet}
