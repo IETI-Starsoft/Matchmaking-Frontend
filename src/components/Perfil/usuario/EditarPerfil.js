@@ -19,6 +19,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import axiosHeader from "../../../api/axiosHeader";
 import '../../../resources/css/animation.css';
 import TextField from '@material-ui/core/TextField';
+import axios from "axios";
+import BACKEND_URL from '../../../api/URL';
 
 const useStyles = makeStyles((theme) => ({
     layout: {
@@ -101,7 +103,7 @@ export default function EditarPerfil() {
                 data.append("file", state.file);
                 data.append("userId", user.userId);
             
-                axiosHeader.post("/files", data)
+                axios.post(`${BACKEND_URL}/files`, data)
                     .then(response => {
                         user.imageFileURL = state.file.name;
                         updateUser(user);
