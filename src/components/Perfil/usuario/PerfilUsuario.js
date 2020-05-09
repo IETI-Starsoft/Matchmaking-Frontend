@@ -22,11 +22,10 @@ import ContactsIcon from "@material-ui/icons/Contacts";
 import GroupWorkIcon from "@material-ui/icons/GroupWork";
 import GradeIcon from "@material-ui/icons/Grade";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import DarkBackground from "../../../resources/images/dark.jpg";
+import BACKEND_URL from "../../../api/URL";
 
 const userProfileStyles = makeStyles((theme) => ({
   top: {
-    //backgroundImage: `url(${DarkBackground})`,
     //backgroundColor: "#82838c",
     backgroundColor: "#333333",
     borderColor: "black",
@@ -112,16 +111,7 @@ export default function PerfilUsuario() {
         response.data.imageFileURL != "" ||
         response.data.imageFileURL != null
       ) {
-        axiosHeader
-          .get(`/files/${user.userId}/${response.data.imageFileURL}`, {
-            responseType: "arraybuffer",
-          })
-          .then((response) => {
-            let data = new Uint8Array(response.data);
-            let raw = String.fromCharCode.apply(null, data);
-            let base64 = btoa(raw);
-            setImage("data:image;base64," + base64);
-          });
+        setImage(`${BACKEND_URL}/files/${user.userId}/${response.data.imageFileURL}`);
       }
     });
 
