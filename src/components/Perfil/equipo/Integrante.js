@@ -23,7 +23,7 @@ export default function Integrante(props) {
       .catch(error => {
         alert(error);
       });
-  })
+  }, [])
 
   return (
     <Container>
