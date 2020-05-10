@@ -18,7 +18,7 @@ const teamImage =
 
 const teamProfileStyles = makeStyles(theme => ({
   top: {
-    backgroundColor: "#a0bceb",
+    backgroundColor: "#333333",
     borderColor: "black",
     borderBottomWidth: "1px"
   },
@@ -34,7 +34,7 @@ const teamProfileStyles = makeStyles(theme => ({
   },
   nameTop: {
     fontSize: 20,
-    color: "#212121",
+    color: "#FFFFFF",
     fontWeight: "600"
   },
   centerContainer: {
@@ -49,7 +49,7 @@ export default function PerfilEquipo(props) {
   const [teamMembers, setTeamMembers] = React.useState([]);
   useEffect(() => {
     axiosHeader
-      .get("/team/" + teamId)
+      .get(`/team/${teamId}`)
       .then(function(response) {
         setTeam(response.data);
       })
@@ -76,9 +76,8 @@ export default function PerfilEquipo(props) {
         </Box>
         <Box className={classes.centerContainer}>
           <Typography className={classes.nameTop}>{team.name}</Typography>
-          <Typography variant="body1">RATING</Typography>
           <Rating value={team.stars} readOnly />
-          <Typography variant="body1">Creditos:{team.credits} </Typography>
+          <Typography variant="body1" style={{color: "#FFFFFF"}}>Créditos: {team.credits}</Typography>
         </Box>
       </Box>
       <Container>
