@@ -14,7 +14,7 @@ import Input from '@material-ui/core/Input';
 import { MenuList } from '@material-ui/core';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import { Alert } from 'react-bootstrap';
-
+import TextField from '@material-ui/core/TextField';
 const useStyles = makeStyles(theme => ({
 
     button: {
@@ -48,18 +48,18 @@ export default function Filtros({ props }) {
     const [stateActivitiC, setStateActiviti] = useState("Available");
     const [page, setPage] = React.useState(1);
 
-    const [filtro,setFiltro] = useState({
+    const [filtro, setFiltro] = useState({
         name: "participants",
         userConsulting: JSON.parse(localStorage.getItem("user")).userId,
         labels: [],
         stateActiviti: "Available",
         pag: 0
-    }); 
+    });
     const handleOnSelectActividad = (event) => {
         console.log(event.target.value);
         let user = JSON.parse(localStorage.getItem("user"));
         if (event.target.value != null) {
-            let Fil={
+            let Fil = {
                 name: "activity",
                 userConsulting: user.userId,
                 labels: [event.target.value],
@@ -68,7 +68,7 @@ export default function Filtros({ props }) {
                 rangeCredrits: null,
                 pag: page - 1
             };
-            
+
             props(Fil);
         }
     };
@@ -77,16 +77,16 @@ export default function Filtros({ props }) {
         console.log(event.target.value);
         let user = JSON.parse(localStorage.getItem("user"));
         if (event.target.value != null) {
-            let Fil={
+            let Fil = {
                 name: nameC,
-                labels:[],
+                labels: [],
                 userConsulting: userConsultingC,
                 participants: event.target.value,
                 stateActiviti: stateActivitiC,
                 rangeCredrits: null,
-                pag: page -1
+                pag: page - 1
             };
-            
+
             props(Fil);
 
         };
@@ -98,47 +98,49 @@ export default function Filtros({ props }) {
         if (event.target.value != null) {
             let range = event.target.value.split("/");
             let arry = [parseInt(range[0]), parseInt(range[1])];
-            let Fil={
+            let Fil = {
                 name: "rangeCredrits",
                 userConsulting: user.userId,
                 labels: [],
                 rangeCredrits: arry,
                 stateActiviti: "Available",
-                participants:null,
+                participants: null,
                 pag: page - 1
             };
             props(Fil);
         };
     }
     const handleOnSelectNinguno = (event) => {
-        
+
         let user = JSON.parse(localStorage.getItem("user"));
-        
-            let Fil={
-                name: "none",
-                userConsulting: user.userId,
-                labels: [],
-                rangeCredrits:null,
-                stateActiviti: "Available",
-                participants:null,
-                pag: page - 1
-            };
-            props(Fil);
-        
+
+        let Fil = {
+            name: "none",
+            userConsulting: user.userId,
+            labels: [],
+            rangeCredrits: null,
+            stateActiviti: "Available",
+            participants: null,
+            pag: page - 1
+        };
+        props(Fil);
+
     }
 
     const handleChange = event => {
         setValue(event.target.value);
         if (event.target.value === "Actividad") {
-            setbarra(<div> <FormControl className={classes.formControlS}>
-                <InputLabel htmlFor="grouped-select">Actividad</InputLabel>
-                <Select defaultValue="" onClick={handleOnSelectActividad} input={<Input id="grouped-select" />}>
-                    <ListSubheader>Deportes</ListSubheader>
-                    <MenuItem value="futbol">Futbol</MenuItem>
-                    <MenuItem value="basketball">Basketball</MenuItem>
-                    <MenuItem value="volleyball">Voleybol</MenuItem>
-                </Select>
-            </FormControl>
+            setbarra(<div>
+
+
+                <TextField
+                    className={classes.formControlS}
+                    id="standard-search"
+                    label="Actividad"
+                    onChange={handleOnSelectActividad}
+                    defaultValue=""
+
+                />
             </div>
             );
         }
