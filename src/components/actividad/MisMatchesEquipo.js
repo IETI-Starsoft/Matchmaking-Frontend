@@ -89,7 +89,7 @@ export class MisMatchesEquipo extends React.Component {
     let user = JSON.parse(localStorage.getItem("user"));
     getTeams(user.userId).then((response) => {
         this.setState({ teams: response });
-        this.load(); 
+        //this.load(); 
     });
 
   }

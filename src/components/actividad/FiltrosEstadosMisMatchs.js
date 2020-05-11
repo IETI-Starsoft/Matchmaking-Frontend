@@ -15,6 +15,7 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import clsx from 'clsx';
 import Pagination from "@material-ui/lab/Pagination";
 import axiosHeader from "../../api/axiosHeader";
+import TextField from '@material-ui/core/TextField';
 const useStyles = makeStyles(theme => ({
 
     button: {
@@ -79,7 +80,19 @@ export default function FiltrosEstados({ props, typeActivity }) {
 
                 if (typeActivity == "GroupActivity") {
                     try {
+                        let user = JSON.parse(localStorage.getItem("user"));
+                        let Fil = {
+                            name: "none",
+                            userConsulting: user.userId,
+                            labels: [],
+                            rangeCredrits: null,
+                            stateActiviti: status,
+                            participants: null,
+                            pag: page - 1,
+                            team: response.data[0].teamId
+                        };
                         setTeamId(response.data[0].teamId);
+                        props(Fil);
                     }
                     catch (error) {
                         alert("Usted no se encuentra dentro de ningun equipo");
@@ -159,15 +172,15 @@ export default function FiltrosEstados({ props, typeActivity }) {
     const handleChange = event => {
         setValue(event.target.value);
         if (event.target.value === "Actividad") {
-            setbarra(<div> <FormControl className={classes.formControlS}>
-                <InputLabel htmlFor="grouped-select">Actividad</InputLabel>
-                <Select defaultValue="" onClick={handleOnSelectActividad} input={<Input id="grouped-select" />}>
-                    <ListSubheader>Deportes</ListSubheader>
-                    <MenuItem value="futbol">Futbol</MenuItem>
-                    <MenuItem value="basketball">Basketball</MenuItem>
-                    <MenuItem value="volleyball">Voleybol</MenuItem>
-                </Select>
-            </FormControl>
+            setbarra(<div>
+                <TextField
+                    className={classes.formControlS}
+                    id="standard-search"
+                    label="Actividad"
+                    onChange={handleOnSelectActividad}
+                    defaultValue=""
+
+                />
             </div>
             );
         }
