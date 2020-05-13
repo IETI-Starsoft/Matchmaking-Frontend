@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -26,6 +26,7 @@ import Notification from "./Notification";
 import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
 import EditIcon from "@material-ui/icons/Edit";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
+import axiosHeader from "../../api/axiosHeader";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -87,6 +88,18 @@ export default function DenseAppBar() {
 
     setState({ ...state, [side]: open });
   };
+
+  useEffect(() => {
+    axiosHeader
+      .get(`/users/id/${JSON.parse(localStorage.getItem("user")).userId}`)
+      .then(function (response) {
+        //console.log("okkkkkkkkkk " + JSON.stringify(response.data));
+        setState({ ...state, credits: response.data.credits });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
 
   const sideList = (side) => (
     <div
