@@ -211,7 +211,7 @@ export default function PerfilUsuario() {
             <div className={classes.center}>
               <Rating
                 name="hover-feedback"
-                value={rating}
+                value={JSON.parse(localStorage.getItem("user")).rating}
                 readOnly
                 size="large"
               />

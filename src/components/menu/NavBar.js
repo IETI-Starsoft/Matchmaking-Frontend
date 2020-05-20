@@ -94,6 +94,7 @@ export default function DenseAppBar() {
       .get(`/users/id/${JSON.parse(localStorage.getItem("user")).userId}`)
       .then(function (response) {
         //console.log("okkkkkkkkkk " + JSON.stringify(response.data));
+        localStorage.setItem("user",JSON.stringify(response.data));
         setState({ ...state, credits: response.data.credits });
       })
       .catch(function (error) {
