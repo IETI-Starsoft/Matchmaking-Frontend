@@ -140,7 +140,7 @@ export class ChooseActivity extends React.Component {
           
             <FormControlLabel className="checkbox"
                 control={<Checkbox size="medium" checked={this.props.stateBet} color="secondary" onChange={this.props.changeStateBet} name="saveAddress" value="yes" />}
-                label="¿Desea apostar?" labelPlacement ="start" 
+                label="¿Con Inscripcion?" labelPlacement ="start" 
             />
             </Grid>
           </Grid>

@@ -146,7 +146,7 @@ export default function Filtros({ props }) {
         }
         else if (event.target.value === "Apuesta") {
             setbarra(<div> <FormControl className={classes.formControlS}>
-                <InputLabel htmlFor="grouped-select">Apuesta</InputLabel>
+                <InputLabel htmlFor="grouped-select">Monto Inscripcion</InputLabel>
                 <Select onClick={handleOnSelectApuesta} defaultValue="" input={<Input id="grouped-select" />}>
                     <ListSubheader>Creditos</ListSubheader>
                     <MenuItem value="-1/50">Menor que 50</MenuItem>
@@ -182,7 +182,7 @@ export default function Filtros({ props }) {
                 <RadioGroup aria-label="gender" name="gender1" value={value} onChange={handleChange}>
                     <Grid container spacing={32} justify="flex-start" >
                         <FormControlLabel value="Actividad" control={<Radio />} label="Actividad" />
-                        <FormControlLabel value="Apuesta" control={<Radio />} label="Apuesta" />
+                        <FormControlLabel value="Apuesta" control={<Radio />} label="Monto Inscripcion" />
                         <FormControlLabel value="Participantes" control={<Radio />} label="Participantes" />
                         <FormControlLabel value="Ninguno" control={<Radio />} label="Ninguno" />
                     </Grid>

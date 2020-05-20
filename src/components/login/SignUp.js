@@ -61,13 +61,14 @@ export default function SignUp() {
         lastName:  e.target.lastName.value,
         email: e.target.email.value,
         password: e.target.password.value,
-        rating: 0,
+        rating: 0.0,
         credits: 0,
         bio: "",
         friends: [],
         teams: [],
         activities: [],
-        imageFileURL: ""
+        imageFileURL: "",
+        nRating:0,
     })
     .then(function(response){
       alert("Registered!");

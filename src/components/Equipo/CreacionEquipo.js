@@ -117,6 +117,8 @@ export default function Checkout() {
         credits: 0,
         name: team.name,
         activities: [],
+        nRating:0,
+        rating:0.0
       })
         .then(function (response) {
           console.log(response.data);
@@ -186,7 +188,7 @@ export default function Checkout() {
                       onClick={handleNext}
                       className={classes.button}
                     >
-                      {activeStep === steps.length - 1 ? "Place order" : "Next"}
+                      {activeStep === steps.length - 1 ? "Crear Equipo" : "Next"}
                     </Button>
                   </div>
                 </React.Fragment>

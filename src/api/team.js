@@ -20,7 +20,9 @@ const updateActivitiesTeam = async (idActivity,team) => {
         captainId: team.captainId,
         credits: team.credits,
         activities: act,
-        name: team.name
+        name: team.name,
+        rating:team.rating,
+        nRating:team.nRating
     }).then(response => {
         return response;
     }).catch(error => {
@@ -52,10 +54,19 @@ const getTeams = (userId) => {
       });
   }
 
-
+const upDateRatingTeams=(idTeam,Rating)=>{
+    axiosHeader.put(`team/id/${idTeam}/ranking/${Rating}`).then((response) => {
+        alert(response);
+    }).catch(function (error) {
+        console.log(error);
+        alert("Error al mandar calificacion");
+      });
+}
 export {
     getTeamById,
     updateActivitiesTeam,
     validateCreditsTeam,
-    getTeams
+    getTeams,
+    upDateRatingTeams
 } 
+

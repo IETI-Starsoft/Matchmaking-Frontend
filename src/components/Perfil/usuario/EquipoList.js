@@ -18,7 +18,7 @@ export class EquipoList extends React.Component {
           teamId={team.teamId}
           image={team.image}
           name={team.name}
-          stars={team.stars}
+          stars={team.rating}
         />
       );
     });

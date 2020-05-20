@@ -10,7 +10,9 @@ const updateActivitiesUser = (idActivity) => {
         password: user.password, imageFileURL: user.imageFileURL,
         rating: user.rating, credits: user.credits,
         friends: user.friends, teams: user.teams,
-        activities: act
+        nRating:user.nRating,
+        activities: act,
+
     }).then(response => {
         localStorage.setItem("user", JSON.stringify(response.data));
         return response;
@@ -32,8 +34,15 @@ const validateCreditsUser = (bet, userId, callback) => {
             console.log(error);
         });
 }
-
+const upDateRatingUser=(idUser,Rating)=>{
+    axiosHeader.put(`/users/id/${idUser}/ranking/${Rating}`).then((response) => {
+        console.log(response);
+    }).catch(function (error) {
+        console.log(error);
+      });
+}
 export {
     updateActivitiesUser,
-    validateCreditsUser
+    validateCreditsUser,
+    upDateRatingUser
 } 

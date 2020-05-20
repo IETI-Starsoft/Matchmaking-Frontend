@@ -47,11 +47,14 @@ export default function PerfilEquipo(props) {
   const [team, setTeam] = React.useState({});
   const teamId = window.location.pathname.split("/")[2];
   const [teamMembers, setTeamMembers] = React.useState([]);
+  const [rating,setRating]=React.useState(0);
   useEffect(() => {
     axiosHeader
       .get(`/team/${teamId}`)
       .then(function(response) {
+        console.log(response.data.rating);
         setTeam(response.data);
+        setRating(response.data.rating);
       })
       .catch(function(error) {
         console.log(error);
@@ -76,7 +79,7 @@ export default function PerfilEquipo(props) {
         </Box>
         <Box className={classes.centerContainer}>
           <Typography className={classes.nameTop}>{team.name}</Typography>
-          <Rating value={team.stars} readOnly />
+          <Rating value={rating} readOnly />
           <Typography variant="body1" style={{color: "#FFFFFF"}}>Créditos: {team.credits}</Typography>
         </Box>
       </Box>
