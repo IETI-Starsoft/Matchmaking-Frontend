@@ -29,7 +29,7 @@ class Payments extends Component {
 
     return (
       <StripeCheckout
-        name="apuesta"
+        name="Pago"
         amount={this.props.value * 100}
         stripeKey="pk_test_cRbI1U70fihYILXixJy9ruoy00pQpdGHZq"
         email="info@vidhub.co"
